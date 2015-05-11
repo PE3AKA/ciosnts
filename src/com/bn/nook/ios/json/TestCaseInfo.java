@@ -112,7 +112,7 @@ public class TestCaseInfo {
  
     public Object getJsonObject() {
         JSONObject jsonObject = new JSONObject();
- 
+
         try {
             jsonObject.put("name", getName());
             jsonObject.put("id", getId());

@@ -8,7 +8,10 @@ import com.sofment.testhelper.TestHelper;
 import com.sofment.testhelper.driver.ios.models.IDevice;
 import com.sofment.testhelper.property.PropertiesManager;
 
+import java.awt.*;
+import java.awt.image.PixelGrabber;
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by avsupport on 4/13/15.
@@ -153,5 +156,45 @@ public class TestManager {
 
     public String getDrpMagazine() {
         return drpMagazine;
+    }
+
+    /*** comparing 2 images
+     *  method arguments should be string value of the file path
+     *  that should consist of /data/local/tmp/filename.png
+     *  where filename.png is the name of your screenshot image
+     ***/
+    public boolean compareTwoImages(String img1path, String img2path) throws TestException {
+        if(!new File(img1path).exists() || !new File(img2path).exists())
+            testManager.retest("Some of screenshots not found");
+        Image image1 = Toolkit.getDefaultToolkit().getImage(img1path);
+        Image image2 = Toolkit.getDefaultToolkit().getImage(img2path);
+
+        try {
+            PixelGrabber grab1 = new PixelGrabber(image1, 0, 0, -1, -1, false);
+            PixelGrabber grab2 = new PixelGrabber(image2, 0, 0, -1, -1, false);
+            int[] data1 = null;
+
+            if (grab1.grabPixels()) {
+                int width = grab1.getWidth();
+                int height = grab1.getHeight();
+                data1 = new int[width * height];
+                data1 = (int[]) grab1.getPixels();
+            }
+
+            int[] data2 = null;
+
+            if (grab2.grabPixels()) {
+                int width = grab2.getWidth();
+                int height = grab2.getHeight();
+                data2 = new int[width * height];
+                data2 = (int[]) grab2.getPixels();
+            }
+            iDevice.i("Pixels equal: " + java.util.Arrays.equals(data1, data2));
+            return java.util.Arrays.equals(data1, data2);
+
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        }
+        throw new TestException("Error in compare image").retest();
     }
 }
