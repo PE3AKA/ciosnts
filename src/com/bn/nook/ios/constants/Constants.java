@@ -157,6 +157,15 @@ public class Constants {
                 public static final String MOCHA = "Mocha";
                 public static final String SEPIA = "Sepia";
             }
+            public static class LineSpacing{
+                public static final String LEADING_1_BUTTON = "leading1Button";
+                public static final String LEADING_2_BUTTON = "leading2Button";
+                public static final String LEADING_3_BUTTON = "leading3Button";
+            }
+            public static class Margins{
+                public static final String MARGIN_1_BUTTON = "margin1Button";
+                public static final String MARGIN_2_BUTTON = "margin2Button";
+            }
         }
     }
 

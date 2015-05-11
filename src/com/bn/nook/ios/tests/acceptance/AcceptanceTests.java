@@ -3,7 +3,6 @@ package com.bn.nook.ios.tests.acceptance;
 import com.bn.nook.ios.BaseTestRunner;
 import com.bn.nook.ios.annotation.Condition;
 import com.bn.nook.ios.annotation.PreCondition;
-import com.bn.nook.ios.assistant.Preparer;
 import com.bn.nook.ios.constants.Constants;
 import com.bn.nook.ios.exception.TestException;
 import com.bn.nook.ios.json.Status;
@@ -11,7 +10,6 @@ import com.bn.nook.ios.manager.TestManager;
 import com.bn.nook.ios.param.ConfigParam;
 import com.bn.nook.ios.screen.*;
 import com.bn.nook.ios.screen.reader.DrpReaderScreen;
-import com.sofment.testhelper.driver.ios.config.IAlertConfig;
 import com.sofment.testhelper.driver.ios.config.IConfig;
 import com.sofment.testhelper.driver.ios.config.IWaiterConfig;
 import com.sofment.testhelper.driver.ios.elements.Element;
@@ -904,13 +902,20 @@ public class AcceptanceTests extends BaseTestRunner{
     }
 
 
-    @PreCondition(preConditions = {Condition.OPEN_PRODUCT},
+    @PreCondition(preConditions = {Condition.NONE},
             productName = ConfigParam.DRP_MAGAZINE,
             productType = ScreenModel.DRP_READER,
             testId = 123456,
             testTitle = "demo")
     public void testCase123456() throws TestException {
-//        new Preparer(iDevice, nookUtil).openHamburgerMenuFromAnyScreen();
+        iDevice.sleep(15000);
+        iDevice.takeScreenShot("123");
+        iDevice.sleep(1000);
+        iDevice.takeScreenShot("321");
+        iDevice.sleep(5000);
+        String image1 = "/Volumes/VMware Shared Folders/iOSCISystem/CI/result/123.png";
+        String image2 = "/Volumes/VMware Shared Folders/iOSCISystem/CI/result/321.png";
+        testManager.compareTwoImages(image1, image2);
         iDevice.i("#######FINISH###########");
     }
 }
