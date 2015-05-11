@@ -31,8 +31,8 @@ public abstract class ReaderScreen extends BaseScreen {
     public abstract boolean changeTheme(int sizeIndex) throws TestException;
     public abstract boolean changeLineSpacing(int sizeIndex) throws TestException;
     public abstract boolean changeMargin(int sizeIndex) throws TestException;
-    public abstract boolean openInformation();
-    public abstract boolean closeInformation();
+    public abstract boolean openInformation() throws TestException;
+    public abstract boolean closeInformation() throws TestException;
     public abstract boolean isInformationOpened();
     public abstract boolean openBrightness();
     public abstract boolean closeBrightness();

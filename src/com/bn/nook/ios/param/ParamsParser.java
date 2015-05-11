@@ -49,6 +49,7 @@ public class ParamsParser {
         implementedTests.add("436004");
         implementedTests.add("439472");
         implementedTests.add("436005");
+        implementedTests.add("436007");
     }
 
     private String deviceUuid;

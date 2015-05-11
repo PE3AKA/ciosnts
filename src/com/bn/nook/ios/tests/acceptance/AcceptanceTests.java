@@ -545,6 +545,25 @@ public class AcceptanceTests extends BaseTestRunner{
         TestManager.testCaseInfo.setStatusId(1);
     }
 
+    @PreCondition(preConditions = {Condition.LOGIN},
+            testId = 436007,
+            testTitle = "ePUB:View details [bnauto]")
+    public void testCase436007() throws TestException {
+
+        testCase435999();
+        initEbubReaderScreen();
+
+        readerScreen.openInformation();
+
+        readerScreen.closeInformation();
+
+        if(!nookUtil.waitForScreenModel(ScreenModel.EPUB_READER, 10000, false)) {
+            testManager.failTest("after click back on product information screen the reader wa not loaded");
+        }
+
+        TestManager.testCaseInfo.setStatusId(1);
+    }
+
     private void prepareTextOptions() throws TestException {
         readerScreen.changeFontSize(EpubReaderScreen.FontSize.SMALL_FONT);
         readerScreen.changeFont(EpubReaderScreen.Font.GEORGIA);
@@ -827,7 +846,7 @@ public class AcceptanceTests extends BaseTestRunner{
                 iDevice.i("############Handle Alert");
                 for (Element element : arrayList) {
                     iDevice.i("Alert Element name:" + element.getName());
-                    if(element.getName().toLowerCase().equals(Constants.My_Shelves.ALERT_TITLE_CREATE_SHELF.toLowerCase())) {
+                    if (element.getName().toLowerCase().equals(Constants.My_Shelves.ALERT_TITLE_CREATE_SHELF.toLowerCase())) {
                         iDevice.i("Alert Element exist");
                         alertState[0] = 1;
                         break;

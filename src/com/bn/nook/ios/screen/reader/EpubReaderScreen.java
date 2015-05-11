@@ -271,18 +271,27 @@ public class EpubReaderScreen extends ReaderScreen {
     }
 
     @Override
-    public boolean openInformation() {
-        return false;
+    public boolean openInformation() throws TestException {
+        if(isInformationOpened()) return  true;
+        openReaderMenu();
+        Element infoButton = waiter.waitForElementByNameVisible(Constants.Reader.Epub.INFORMATION, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(infoButton == null) testManager.retest(String.format("button to open product information is not found [%s]", Constants.Reader.Epub.INFORMATION));
+        TestManager.addStep("click to open product information");
+        return clicker.clickOnElement(infoButton) && isInformationOpened();
     }
 
     @Override
-    public boolean closeInformation() {
-        return false;
+    public boolean closeInformation() throws TestException {
+        if(!isInformationOpened()) return  true;
+        Element infoButton = waiter.waitForElementByNameVisible(Constants.ProductDetails.BACK_BUTTON, 1, new IConfig().setMaxLevelOfElementsTree(3));
+        if(infoButton == null) testManager.retest(String.format("button to back to book from product information screen is not found [%s]", Constants.ProductDetails.BACK_BUTTON));
+        TestManager.addStep("click to open product information");
+        return clicker.clickOnElement(infoButton) && !isInformationOpened();
     }
 
     @Override
     public boolean isInformationOpened() {
-        return false;
+        return waiter.waitForElementByNameVisible(Constants.ProductDetails.MANAGE_BUTTON, 1, new IConfig().setMaxLevelOfElementsTree(3)) != null;
     }
 
     @Override
