@@ -47,6 +47,7 @@ public class BaseTestRunner extends Base{
     protected OobeScreen oobeScreen;
     protected DrpReaderScreen drpReaderScreen;
     protected LibraryScreen libraryScreen;
+    protected MyShelvesScreen myShelvesScreen;
     protected ReaderScreen readerScreen;
     protected SettingsScreen settingsScreen;
     protected SearchScreen searchScreen;
@@ -168,6 +169,9 @@ public class BaseTestRunner extends Base{
                String product = TestManager.getTestProperty(mPreCondition.productName().name());
                 preparer.openProduct(product, mPreCondition.productType());
                break;
+           case OPEN_SCREEN:
+               preparer.openScreen(mPreCondition.screenTitle(), mPreCondition.screenModel());
+               break;
            case UNARCHIVE_PRODUCT:
                preparer.unArchiveProduct(nookUtil, TestManager.getTestProperty(mPreCondition.productName().name()));
                break;
@@ -224,6 +228,15 @@ public class BaseTestRunner extends Base{
         } else if(baseScreen instanceof DrpReaderScreen) {
             readerScreen = (DrpReaderScreen) baseScreen;
         }
+    }
+
+    public void initMyShelvesScreen() throws TestException {
+        nookUtil.waitForScreenModel(ScreenModel.MY_SHELVES, Constants.DEFAULT_TIMEOUT);
+        baseScreen = nookUtil.getCurrentScreen(false);
+        if(nookUtil.screenModel != ScreenModel.MY_SHELVES)
+            testManager.retest("Necessary screen is not found. Expected: " + ScreenModel.MY_SHELVES.name() +
+                    ", actual : " + nookUtil.screenModel.name());
+        myShelvesScreen = ((MyShelvesScreen) baseScreen);
     }
 
     public void initSearchScreen() throws TestException {

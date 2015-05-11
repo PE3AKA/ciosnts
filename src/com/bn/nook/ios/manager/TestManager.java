@@ -1,5 +1,6 @@
 package com.bn.nook.ios.manager;
 
+import com.bn.nook.ios.constants.Constants;
 import com.bn.nook.ios.exception.TestException;
 import com.bn.nook.ios.json.TestCaseInfo;
 import com.bn.nook.ios.param.ParamsParser;
@@ -11,6 +12,8 @@ import com.sofment.testhelper.property.PropertiesManager;
 import java.awt.*;
 import java.awt.image.PixelGrabber;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by avsupport on 4/13/15.
@@ -30,6 +33,7 @@ public class TestManager {
     private String searchProduct;
     private String epubProduct;
     private String drpMagazine;
+    private static String randomShelfName = null;
 
     private TestManager () {
         testHelper = new TestHelper();
@@ -51,6 +55,23 @@ public class TestManager {
         searchProduct = propertiesManager.getProperty("SEARCH_PRODUCT");
         epubProduct = propertiesManager.getProperty("EPUB_PRODUCT");
         drpMagazine = propertiesManager.getProperty("DRP_MAGAZINE");
+    }
+
+    public static String getRandomString(int length) {
+        Random rnd = new Random();
+        StringBuilder sb = new StringBuilder( length );
+        for(int i = 0; i < length; i++) {
+            sb.append(Constants.AB.charAt(rnd.nextInt(Constants.AB.length())));
+        }
+        return sb.toString();
+    }
+
+    public static String getRandomShelfName() {
+        return randomShelfName;
+    }
+
+    public static void setRandomShelfName(String randomShelfName){
+        TestManager.randomShelfName = randomShelfName;
     }
 
     public static String getTestProperty(String key) {

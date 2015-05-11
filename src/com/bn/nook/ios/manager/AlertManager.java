@@ -22,6 +22,41 @@ public class AlertManager {
         paramsParser = ParamsParser.getInstance();
     }
 
+    public void inputShelfHandler() {
+        TestManager.setRandomShelfName(TestManager.getRandomString(5));
+        final IDevice iDevice = testManager.getIDevice(paramsParser.getDeviceUuid());
+        final AlertHandler alertHandler = new AlertHandler();
+        alertHandler.logMessage("alert appeared");
+        AlertItem title = alertHandler.waitForElementByNameVisible(Constants.My_Shelves.ALERT_TITLE_CREATE_SHELF, 1,
+                new IAlertConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.EqualsIgnoreCase));
+
+        alertHandler.createElementNotNullCondition(title, new AlertCondition.ConditionResults() {
+            @Override
+            public void positiveResult() {
+                final AlertItem buttonOk = alertHandler.waitForElementByNameVisible(Constants.My_Shelves.SAVE_BUTTON, 1,
+                        new IAlertConfig().setMatcher(Matcher.EqualsIgnoreCase).setMaxLevelOfElementsTree(4));
+                alertHandler.createElementNotNullCondition(buttonOk, new AlertCondition.ConditionResults() {
+                    @Override
+                    public void positiveResult() {
+                        alertHandler.inputText(TestManager.getRandomShelfName());
+                        alertHandler.clickOnElement(buttonOk);
+                        alertHandler.returnBoolean(true);
+                    }
+
+                    @Override
+                    public void negativeResult() {}
+                });
+            }
+
+            @Override
+            public void negativeResult() {
+
+            }
+        });
+        alertHandler.returnBoolean(false);
+        alertHandler.push(iDevice);
+    }
+
     public void archiveHandler() {
         final IDevice iDevice = testManager.getIDevice(paramsParser.getDeviceUuid());
         final AlertHandler alertHandler = new AlertHandler();

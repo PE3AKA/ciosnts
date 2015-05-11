@@ -9,5 +9,6 @@ public enum Condition {
     SIGN_OUT,
     UNARCHIVE_PRODUCT,
     ARCHIVE_PRODUCT,
-    OPEN_PRODUCT
+    OPEN_PRODUCT,
+    OPEN_SCREEN
 }

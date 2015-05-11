@@ -1,5 +1,6 @@
 package com.bn.nook.ios.annotation;
 
+import com.bn.nook.ios.constants.Constants;
 import com.bn.nook.ios.param.ConfigParam;
 import com.bn.nook.ios.screen.ScreenModel;
 
@@ -29,6 +30,11 @@ public @interface PreCondition {
     // Product
     ConfigParam productName() default ConfigParam.UNKNOWN_PRODUCT;
     ScreenModel productType () default ScreenModel.EPUB_READER;
+
+    // open screen
+    ScreenModel screenModel() default ScreenModel.LIBRARY;
+    String screenTitle() default Constants.Library.Menu.LIBRARY;
+
 //    String libreryCategoyOfProduct() default Constants.Library.Text.BOOKS;
 //    boolean isCloseTutorial() default false;
 //    int productType() default Constants.ProductType.EPUB;

@@ -35,6 +35,8 @@ public class ParamsParser {
         implementedTests.add("435998");
         implementedTests.add("436026");
         implementedTests.add("436027");
+        implementedTests.add("436028");
+        implementedTests.add("436029");
         implementedTests.add("435999");
         implementedTests.add("436012");
         implementedTests.add("436013");

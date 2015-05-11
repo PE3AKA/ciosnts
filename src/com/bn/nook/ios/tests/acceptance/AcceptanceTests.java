@@ -16,6 +16,7 @@ import com.bn.nook.ios.screen.reader.EpubReaderScreen;
 import com.sofment.testhelper.driver.ios.config.IConfig;
 import com.sofment.testhelper.driver.ios.config.IWaiterConfig;
 import com.sofment.testhelper.driver.ios.elements.Element;
+import com.sofment.testhelper.driver.ios.elements.ElementQuery;
 import com.sofment.testhelper.driver.ios.enams.SearchCondition;
 import com.sofment.testhelper.driver.ios.enams.UIAElementType;
 import com.sofment.testhelper.driver.ios.interfaces.AlertCallBack;
@@ -635,7 +636,7 @@ public class AcceptanceTests extends BaseTestRunner{
             }
         });
 
-        if(!productDetailsScreen.pressOnArchive())
+        if(!productDetailsScreen.pressOnManageItem(Constants.ProductDetails.ARCHIVE_BUTTON))
             testManager.retest("Archive button doesn't exist");
 
         iDevice.i("waiting for alert Archive title");
@@ -685,37 +686,40 @@ public class AcceptanceTests extends BaseTestRunner{
             testId = 436027,
             testTitle = "Unarchive a book [bnauto]")
     public void testCase436027() throws TestException {
-        initLibraryScreen();
-        libraryScreen.openMenu(LibraryScreen.MenuItems.LIBRARY);
-        libraryScreen.changeFilter(LibraryScreen.FilterItems.ARCHIVED);
         String productName = TestManager.getTestProperty(ConfigParam.ARCHIVE_PRODUCT.name());
 
-        ArrayList<Element> products = libraryScreen.getProducts(1, Constants.DEFAULT_TIMEOUT);
-        Element archiveProduct = null;
-        for(Element element : products) {
-            iDevice.i("###########################Product:" + element.toString());
-            if(element != null && element.getName().toLowerCase().contains(productName.toLowerCase())){
-                archiveProduct = element;
-                break;
+        if(!nookUtil.waitForScreenModel(ScreenModel.PRODUCT_DETAILS, 5000, false)) {
+            initLibraryScreen();
+            libraryScreen.openMenu(LibraryScreen.MenuItems.LIBRARY);
+            libraryScreen.changeFilter(LibraryScreen.FilterItems.ARCHIVED);
+
+            ArrayList<Element> products = libraryScreen.getProducts(1, Constants.DEFAULT_TIMEOUT);
+            Element archiveProduct = null;
+            for (Element element : products) {
+                iDevice.i("###########################Product:" + element.toString());
+                if (element != null && element.getName().toLowerCase().contains(productName.toLowerCase())) {
+                    archiveProduct = element;
+                    break;
+                }
             }
-        }
 
-        if(archiveProduct == null)
-            testManager.retest("Product '" + productName + "' was not archivated");
+            if (archiveProduct == null)
+                testManager.retest("Product '" + productName + "' was not archivated");
 
-        if(!scroller.scrollToVisible(archiveProduct)) {
-            throw new TestException("Can not scrollable to product '" + productName + "'").retest();
-        }
+            if (!scroller.scrollToVisible(archiveProduct)) {
+                throw new TestException("Can not scrollable to product '" + productName + "'").retest();
+            }
 
-        TestManager.addStep("Long click on product '" + productName + "'");
-        clicker.longClickOnElement(archiveProduct, 5);
+            TestManager.addStep("Long click on product '" + productName + "'");
+            clicker.longClickOnElement(archiveProduct, 5);
 
-        if(!nookUtil.waitForScreenModel(ScreenModel.PRODUCT_DETAILS, Constants.DEFAULT_TIMEOUT)){
-            testManager.retest("Product details screen was not loaded");
+            if (!nookUtil.waitForScreenModel(ScreenModel.PRODUCT_DETAILS, Constants.DEFAULT_TIMEOUT)) {
+                testManager.retest("Product details screen was not loaded");
+            }
         }
         initProductDetailsScreen();
 
-        if(!productDetailsScreen.pressOnUnArchive())
+        if(!productDetailsScreen.pressOnManageItem(Constants.ProductDetails.UNARCHIVE_BUTTON))
             testManager.retest("Unarchive button doesn't exist");
 
         if(!nookUtil.waitForScreenModel(ScreenModel.LIBRARY, Constants.DEFAULT_TIMEOUT)){
@@ -747,6 +751,105 @@ public class AcceptanceTests extends BaseTestRunner{
         else if(!product.getName().toLowerCase().contains("not downloaded"))
             testManager.failTest("Product '" + productName + "' don't consist download icon");
         else TestManager.testCaseInfo.setStatusId(Status.PASSED);
+    }
+
+    @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_SCREEN},
+            screenModel = ScreenModel.MY_SHELVES,
+            screenTitle = Constants.Library.Menu.MY_SHELVES,
+            testId = 436028,
+            testTitle = "Create a Shelf [bnauto] ")
+    public void testCase436028() throws TestException {
+        if(!nookUtil.waitForScreenModel(ScreenModel.MY_SHELVES, Constants.DEFAULT_TIMEOUT)) {
+            testManager.retest("My Shelves screen was not loaded");
+        }
+        initMyShelvesScreen();
+        myShelvesScreen.pressOnAdd();
+
+        Element nextBtn = waiter.waitForElementVisible(Constants.DEFAULT_TIMEOUT, new ElementQuery()
+                .addElement(UIAElementType.UIAWindow, 0)
+                .addElement(UIAElementType.UIANavigationBar, 0)
+                .addElement(UIAElementType.UIAStaticText, Constants.My_Shelves.TITLE_CREATE_NEW_SHELF));
+        if(nextBtn == null)
+            testManager.retest("Cannot detect screen " + Constants.My_Shelves.TITLE_CREATE_NEW_SHELF);
+
+        ArrayList<Element> products = myShelvesScreen.getProducts(1, 5000);
+        if(products == null || products.size() == 0 )
+            testManager.retest("Products were not found");
+        Element firstElement = products.get(0);
+        if(!scroller.scrollToVisible(firstElement))
+            testManager.retest("Can not scrollable to product '" + firstElement.getName() + "'");
+
+        iDevice.i("Select product " + firstElement.getName());
+        TestManager.addStep("Select product " + firstElement.getName());
+        clicker.clickOnElement(firstElement);
+
+        final int[] alertState = new int[1];
+        alertState[0] = 0;
+        iDevice.setAlertHandler(new AlertCallBack() {
+            @Override
+            public void handleAlert(ArrayList<Element> arrayList) {
+                iDevice.i("############Handle Alert");
+                for (Element element : arrayList) {
+                    iDevice.i("Alert Element name:" + element.getName());
+                    if(element.getName().toLowerCase().equals(Constants.My_Shelves.ALERT_TITLE_CREATE_SHELF.toLowerCase())) {
+                        iDevice.i("Alert Element exist");
+                        alertState[0] = 1;
+                        break;
+                    }
+                }
+            }
+        });
+
+        if(!myShelvesScreen.pressOnNext())
+            testManager.retest("Can not click on Next");
+
+        iDevice.i("waiting for alert Create Shelf");
+        long startTimer = System.currentTimeMillis();
+        while (System.currentTimeMillis() - startTimer < 20000) {
+            if(alertState[0] != 0) {
+                iDevice.i("Alert is visible");
+                break;
+            }
+        }
+        iDevice.sleep(1000);
+        if(alertState[0] == 0)
+            testManager.retest("Alert '" + Constants.My_Shelves.ALERT_TITLE_CREATE_SHELF + "' was not found");
+
+//        if(!myShelvesScreen.pressOnCancel())
+//            testManager.retest("Can not click on Cancel");
+
+        if(!nookUtil.waitForScreenModel(ScreenModel.MY_SHELVES, Constants.DEFAULT_TIMEOUT)) {
+            testManager.retest("My Shelves screen was not loaded");
+        }
+
+        String newShelfName = TestManager.getRandomShelfName();
+        initMyShelvesScreen();
+
+        ArrayList<Element> shelves = myShelvesScreen.getProducts(1, Constants.DEFAULT_TIMEOUT);
+        if(shelves == null || shelves.size() == 0 )
+            testManager.retest("Shelf '" + newShelfName + "' was not found");
+        Element shelf = null;
+        for(Element element : shelves) {
+            iDevice.i("Element: " + element.getName());
+            if(element.getName().toLowerCase().contains(newShelfName.toLowerCase())) {
+                shelf = element;
+                break;
+            }
+        }
+
+        if(shelf == null)
+            testManager.failTest("New Shelf with name '" + newShelfName + "' is not created");
+
+        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+    }
+
+    @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_SCREEN},
+            screenModel = ScreenModel.MY_SHELVES,
+            screenTitle = Constants.Library.Menu.MY_SHELVES,
+            testId = 436029,
+            testTitle = "Edit/remove a Stack [bnauto]")
+    public void testCase436029() throws TestException {
+
     }
 
     private void expectedResult435993() throws TestException {

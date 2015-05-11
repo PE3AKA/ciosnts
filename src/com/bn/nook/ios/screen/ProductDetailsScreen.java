@@ -40,12 +40,27 @@ public class ProductDetailsScreen extends BaseScreen {
         return clicker.clickOnElement(element);
     }
 
-    public boolean pressOnArchive() {
-        ElementQuery elementQuery  = new ElementQuery()
-                .addElement(UIAElementType.UIAActionSheet, 0)
-                .addElement(UIAElementType.UIACollectionView, 0)
-                .addElement(UIAElementType.UIACollectionCell, Constants.ProductDetails.ARCHIVE_BUTTON);
+    public boolean pressOnManageItem(String label) {
+        ElementQuery elementQuery = null;
+        switch (label) {
+            case Constants.ProductDetails.CANCEL_BUTTON:
+                elementQuery  = new ElementQuery()
+                        .addElement(UIAElementType.UIAActionSheet, 0)
+                        .addElement(UIAElementType.UIAButton, label);
+                break;
+            case Constants.ProductDetails.UNARCHIVE_BUTTON:
+            case Constants.ProductDetails.ARCHIVE_BUTTON:
+                elementQuery  = new ElementQuery()
+                        .addElement(UIAElementType.UIAActionSheet, 0)
+                        .addElement(UIAElementType.UIACollectionView, 0)
+                        .addElement(UIAElementType.UIACollectionCell, label);
+                break;
+        }
 
+        if(elementQuery == null) {
+            iDevice.i("Label '" + label + "' was not found ");
+            return false;
+        }
         Element element = getter.getElement(elementQuery);
         if(element == null) {
             pressOnManage();
@@ -55,26 +70,7 @@ public class ProductDetailsScreen extends BaseScreen {
         if(element == null)
             return false;
 
-        TestManager.addStep("Press on 'Archive'");
-        return clicker.clickByXY(element.getX(), element.getY());
-    }
-
-    public boolean pressOnUnArchive() {
-        ElementQuery elementQuery  = new ElementQuery()
-                .addElement(UIAElementType.UIAActionSheet, 0)
-                .addElement(UIAElementType.UIACollectionView, 0)
-                .addElement(UIAElementType.UIACollectionCell, Constants.ProductDetails.UNARCHIVE_BUTTON);
-
-        Element element = getter.getElement(elementQuery);
-        if(element == null) {
-            pressOnManage();
-            element = waiter.waitForElementVisible(10000, elementQuery);
-        }
-
-        if(element == null)
-            return false;
-
-        TestManager.addStep("Press on 'Unarchive'");
+        TestManager.addStep("Press on '" + label + "'");
         return clicker.clickByXY(element.getX(), element.getY());
     }
 }

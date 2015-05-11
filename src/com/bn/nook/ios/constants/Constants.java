@@ -8,6 +8,7 @@ import com.bn.nook.ios.screen.OobeScreen;
 public class Constants {
     public static final long DEFAULT_TIMEOUT = 30000;
     public static final long DOWNLOAD_PRODUCT_TIMEOUT = 600000;
+    public static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     public static class CommonElements{
         public static final String DONE_BTN = "Done";
@@ -22,6 +23,16 @@ public class Constants {
         public static final String MESSAGES = "Messages";
         public static final String SETTINGS = "Settings";
         public static final String NOOK_LOGO = "com.bn.NookApplication.NookLogo.png";
+    }
+
+    public static class My_Shelves {
+        public static final String ALERT_TITLE_CREATE_SHELF = "Please enter shelf name";
+        public static final String ADD_BUTTON = "Add";
+        public static final String NEXT_BUTTON = "Next";
+        public static final String TITLE_CREATE_NEW_SHELF = "Create New Shelf";
+        public static final String CANCEL_BUTTON = "Cancel";
+        public static final String SAVE_BUTTON = "Save";
+        public static final String TITLE_ACTION_BAR = "My Shelves";
     }
 
     public static class Library {
@@ -71,10 +82,10 @@ public class Constants {
             public static final String LIBRARY_SCREEN = "LibraryScreen";
             public static final String READER_SCREEN = "ReaderScreen";
             public static final String EPUB_READER_SCREEN = "EpubReaderScreen";
+            public static final String MY_SHELVES_SCREEN = "MyShelvesScreen";
             public static final String DRP_READER_SCREEN = "DrpReaderScreen";
             public static final String SEARCH_SCREEN = "SearchScreen";
             public static final String SETTINGS_SCREEN = "SettingsScreen";
-
         }
     }
 
@@ -238,6 +249,7 @@ public class Constants {
     public static class ProductDetails {
         public static final String MANAGE_BUTTON = "Manage";
         public static final String ARCHIVE_BUTTON = "Archive";
+        public static final String CANCEL_BUTTON = "Cancel";
         public static final String UNARCHIVE_BUTTON = "Unarchive";
         public static final String DELETE_BUTTON = "Delete";
         public static final String ARCHIVE_TITLE = "Archive Title";

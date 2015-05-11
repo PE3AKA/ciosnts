@@ -7,6 +7,7 @@ public enum ScreenModel {
     NON,
     OOBE,
     LIBRARY,
+    MY_SHELVES,
     SETTINGS,
     EPUB_READER,
     DRP_READER,

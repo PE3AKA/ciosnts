@@ -166,8 +166,12 @@ public class Preparer {
             }
         });
 
-        if(!productDetailsScreen.pressOnArchive())
-            testManager.retest("Archive button doesn't exist");
+        if(!productDetailsScreen.pressOnManageItem(Constants.ProductDetails.ARCHIVE_BUTTON)) {
+            TestManager.addStep("Archive button doesn't exist");
+            iDevice.takeScreenShot("product_details_not_archive_btn");
+            productDetailsScreen.pressOnManageItem(Constants.ProductDetails.CANCEL_BUTTON);
+            return;
+        }
 
         iDevice.i("waiting for alert Archive title");
         long startTimer = System.currentTimeMillis();
@@ -227,7 +231,7 @@ public class Preparer {
                     nookUtil.screenModel.name());
         productDetailsScreen = ((ProductDetailsScreen) baseScreen);
 
-        if(!productDetailsScreen.pressOnUnArchive())
+        if(!productDetailsScreen.pressOnManageItem(Constants.ProductDetails.UNARCHIVE_BUTTON))
             throw new TestException("Unarchive button doesn't exist").retest();
     }
 
@@ -326,6 +330,8 @@ public class Preparer {
                 return;
             case Constants.Screens.Classes.EPUB_READER_SCREEN:
                 //todo logic for epub
+                break;
+            case Constants.Screens.Classes.MY_SHELVES_SCREEN:
                 break;
         }
         if(waiter.waitForElementByNameExists(Constants.CommonElements.MENU_BTN, 10000, new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase)) == null)

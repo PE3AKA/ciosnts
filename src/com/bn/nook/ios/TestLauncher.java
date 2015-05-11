@@ -178,6 +178,22 @@ public class TestLauncher {
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436027();
                 break;
+            case "436028":
+                alertManager.inputShelfHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(436028L);
+                testCaseInfo.setTitle("Create a Shelf [bnauto]");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase436028();
+                break;
+            case "436029":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(436029L);
+                testCaseInfo.setTitle("Edit/remove a Stack [bnauto]");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase436029();
+                break;
             case "436012":
                 alertManager.defaultHandler();
                 acceptanceTests = new AcceptanceTests();

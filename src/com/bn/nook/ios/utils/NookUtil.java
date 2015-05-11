@@ -55,6 +55,7 @@ public class NookUtil {
                 new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAButton, Constants.Screens.SEARCH_SCREEN),
                 new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAButton, Constants.Screens.EPUB_READER),
                 new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAToolBar, 0).addElement(UIAElementType.UIAButton, Constants.Reader.Drp.LIBRARY_BTN),
+                new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAStaticText, Constants.My_Shelves.TITLE_ACTION_BAR),
                 new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAStaticText, Constants.SideMenu.LIBRARY),
 //                new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAToolBar, 0).addElement(UIAElementType.UIAButton, Constants.Screens.LIBRARY_SCREEN),
 //                new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAToolBar, 0).addElement(UIAElementType.UIAButton, Constants.Screens.LIBRARY_SCREEN2),
@@ -104,6 +105,11 @@ public class NookUtil {
                 screenModel = ScreenModel.DRP_READER;
                 iDevice.i("####### CurrentScreen is " + screenModel.name());
                 baseScreen = new DrpReaderScreen(testManager, testHelper, paramsParser, iDevice);
+                return baseScreen;
+            case Constants.My_Shelves.TITLE_ACTION_BAR:
+                screenModel = ScreenModel.MY_SHELVES;
+                iDevice.i("####### CurrentScreen is " + screenModel.name());
+                baseScreen = new MyShelvesScreen(testManager, testHelper, paramsParser, iDevice);
                 return baseScreen;
         }
         return null;
