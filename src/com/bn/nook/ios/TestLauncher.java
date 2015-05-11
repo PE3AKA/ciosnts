@@ -219,6 +219,14 @@ public class TestLauncher {
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436014();
                 break;
+            case "436015":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(436015L);
+                testCaseInfo.setTitle("DRP: Article view");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase436015();
+                break;
 
             case "123456":
                 alertManager.defaultHandler();

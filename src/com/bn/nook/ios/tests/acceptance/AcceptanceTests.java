@@ -877,15 +877,29 @@ public class AcceptanceTests extends BaseTestRunner{
         Element articleViewBtn = waiter.waitForElementByNameVisible(Constants.Reader.Drp.ARTICLE_VIEW, Constants.DEFAULT_TIMEOUT,
                 new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
         if(articleViewBtn == null){
-            testManager.retest("Article View was not found");
+            testManager.retest("Article View button was not found");
         }
         clicker.clickOnElement(articleViewBtn);
-        TestManager.addStep("Click ");
-        if (waiter.waitForElementByNameVisible(Constants.Reader.Drp.ARTICLE_VIEW_PAGE, 1,
-                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)) == null)
+        TestManager.addStep("Click on article view button");
+        if (waiter.waitForElementByNameVisible(Constants.Reader.Drp.ARTICLE_VIEW_PAGE, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase)) == null)
             testManager.failTest("Article View page was not opened");
+        TestManager.addStep("Article view page opened");
+        iDevice.takeScreenShot("Article view page opened");
+        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+    }
 
-
+    /*
+    C439472	DRP: Article view -- Change font style
+     */
+    @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_PRODUCT},
+            productName = ConfigParam.DRP_MAGAZINE,
+            productType = ScreenModel.DRP_READER,
+            testId = 439472,
+            testTitle = "DRP: Article view -- Change font style")
+    public void testCase439472() throws TestException {
+        drpReaderScreen = new DrpReaderScreen(testManager, testHelper, paramsParser, iDevice);
+        drpReaderScreen.openArticleView();
 
     }
 

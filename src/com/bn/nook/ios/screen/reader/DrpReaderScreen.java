@@ -113,8 +113,37 @@ public class DrpReaderScreen extends ReaderScreen {
         return waiter.waitForElementByNameVisible(Constants.Reader.Drp.ARTICLE_VIEW_PAGE, 1, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)) != null;
     }
 
+    public void openArticleView() throws TestException {
+        Element articleViewBtn = waiter.waitForElementByNameVisible(Constants.Reader.Drp.ARTICLE_VIEW, 5000,
+                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
+        if(articleViewBtn == null){
+            if(!openReaderMenu())
+                testManager.retest("Reader menu was not opened");
+            if(!openContents())
+                testManager.retest("Contents was not opened");
+            openContentByNumber(2);
+            articleViewBtn = waiter.waitForElementByNameVisible(Constants.Reader.Drp.ARTICLE_VIEW, Constants.DEFAULT_TIMEOUT,
+                    new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
+        }
+        if (articleViewBtn == null)
+            testManager.retest("articleViewBtn is null");
+        clicker.clickOnElement(articleViewBtn);
+        TestManager.addStep("Click on article view button");
+        if (waiter.waitForElementByNameVisible(Constants.Reader.Drp.ARTICLE_VIEW_PAGE, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase)) == null)
+            testManager.retest("Article View page was not opened");
+    }
+
     @Override
-    public boolean openFontSettings() {
+    public boolean openFontSettings() throws TestException {
+        Element textMenuBtn = waiter.waitForElementByNameVisible(Constants.Reader.Drp.TEXT, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
+        if (textMenuBtn == null)
+            testManager.retest("Text button was not found");
+        clicker.clickOnElement(textMenuBtn);
+        TestManager.addStep("Click on Text button");
+
+
         return false;
     }
 

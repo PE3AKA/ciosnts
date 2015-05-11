@@ -121,7 +121,7 @@ public class Constants {
                 public static final String CLOSE_BUTTON = "closeButton";
             }
         }
-        public class Drp{
+        public static class Drp{
             public static final String COMICS_SETTINGS_BTN = "Comics Settings";
             public static final String CONTENTS_BOOKMARKS = "Contents, bookmarks";
             public static final String BRIGHTNESS = "Brightness";
@@ -129,7 +129,34 @@ public class Constants {
             public static final String CONTENTS_TAB = "Contents tab";
             public static final String PAGE_SLIDER = "pageSlider";
             public static final String ARTICLE_VIEW = "Article View";
+            public static final String TEXT = "Text";
             public static final String ARTICLE_VIEW_PAGE = "com.bn.DRPReader.WebviewBackground.png";
+
+        }
+        public static class TextOptions{
+            public static class Size{
+                public static final String EXTRA_SMALL_FONT_BUTTON = "extraSmallFontButton";
+                public static final String SMALL_FONT_BUTTON = "extraSmallFontButton";
+                public static final String MEDIUM_SMALL_FONT_BUTTON = "mediumSmallFontButton";
+                public static final String MEDIUM_LARGE_FONT_BUTTON = "mediumLargeFontButton";
+                public static final String LARGE_FONT_BUTTON = "largeFontButton";
+            }
+            public static class Font{
+                public static final String ASCENDER_SANS = "Ascender Sans";
+                public static final String CENTURY_SCHOOLBOOK = "Century Schoolbook";
+                public static final String DUTCH = "Dutch";
+                public static final String GEORGIA = "Georgia";
+                public static final String GILL_SANS = "GillSans";
+                public static final String TREBUCHET = "Trebuchet";
+            }
+            public static class Theme{
+                public static final String DAY = "Day";
+                public static final String NIGHT = "Night";
+                public static final String GRAY = "Gray";
+                public static final String BUTTER = "Butter";
+                public static final String MOCHA = "Mocha";
+                public static final String SEPIA = "Sepia";
+            }
         }
     }
 
