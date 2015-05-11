@@ -480,6 +480,34 @@ public class AcceptanceTests extends BaseTestRunner{
         TestManager.testCaseInfo.setStatusId(1);
     }
 
+    @PreCondition(preConditions = {Condition.LOGIN},
+            testId = 436004,
+            testTitle = "ePUB:more options [bnauto]")
+    public void testCase436004() throws TestException {
+
+        testCase435999();
+        initEbubReaderScreen();
+
+        readerScreen.openTextOptions();
+
+        Element moreOptions = waiter.waitForElementByNameVisible(Constants.Reader.Epub.TextOptions.MORE_OPTIONS, 1, new IConfig().setMaxLevelOfElementsTree(2));
+
+        if(moreOptions == null) testManager.failTest(String.format("the button to open more options is not found [%s]", Constants.Reader.Epub.TextOptions.MORE_OPTIONS));
+
+        clicker.clickOnElement(moreOptions);
+
+        moreOptions = waiter.waitForElementByNameVisible(Constants.Reader.Epub.TextOptions.MoreOptions.StaticText.JUSTIFICATION, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(moreOptions == null) testManager.failTest(String.format("%s is not found", Constants.Reader.Epub.TextOptions.MoreOptions.StaticText.JUSTIFICATION));
+        moreOptions = waiter.waitForElementByNameVisible(Constants.Reader.Epub.TextOptions.MoreOptions.StaticText.PUBLISHER_DEFAULTS, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(moreOptions == null) testManager.failTest(String.format("%s is not found", Constants.Reader.Epub.TextOptions.MoreOptions.StaticText.PUBLISHER_DEFAULTS));
+        moreOptions = waiter.waitForElementByNameVisible(Constants.Reader.Epub.TextOptions.MoreOptions.StaticText.LOCK_ROTATION, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(moreOptions == null) testManager.failTest(String.format("%s is not found", Constants.Reader.Epub.TextOptions.MoreOptions.StaticText.LOCK_ROTATION));
+        moreOptions = waiter.waitForElementByNameVisible(Constants.Reader.Epub.TextOptions.MoreOptions.StaticText.ANIMATE_PAGE_TURNS, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(moreOptions == null) testManager.failTest(String.format("%s is not found", Constants.Reader.Epub.TextOptions.MoreOptions.StaticText.ANIMATE_PAGE_TURNS));
+
+        TestManager.testCaseInfo.setStatusId(1);
+    }
+
     private void prepareTextOptions() throws TestException {
         readerScreen.changeFontSize(EpubReaderScreen.FontSize.SMALL_FONT);
         readerScreen.changeFont(EpubReaderScreen.Font.GEORGIA);

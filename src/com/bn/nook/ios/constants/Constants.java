@@ -124,6 +124,28 @@ public class Constants {
             public static class TextOptions {
 
                 public static final String CLOSE = "Close";
+                public static final String MORE_OPTIONS = "More options";
+
+                public static class MoreOptions {
+
+                    public static final String TITLE = "More option";
+
+                    public static class StaticText {
+                        public static final String JUSTIFICATION = "JUSTIFICATION";
+                        public static final String PUBLISHER_DEFAULTS = "PUBLISHER DEFAULTS";
+                        public static final String LOCK_ROTATION = "LOCK ROTATION";
+                        public static final String TWO_PAGE_LANDSCAPE = "TWO PAGE LANDSCAPE";
+                        public static final String ANIMATE_PAGE_TURNS = "ANIMATE PAGE TURNS";
+                    }
+
+                    public static class Switcher {
+                        public static final String JUSTIFICATION = "Justification";
+                        public static final String PUBLISHER_DEFAULTS = "Publisher Defaults";
+                        public static final String LOCK_ROTATION = "Lock Rotation";
+                        public static final String TWO_PAGE_LANDSCAPE = "Two Page Landscape";
+                        public static final String ANIMATE_PAGE_TURNS = "Animate Page Turns";
+                    }
+                }
 
                 public static class Size {
                     public static final String EXTRA_SMALL_FONT = "extraSmallFont";
