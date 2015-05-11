@@ -76,6 +76,21 @@ public class EpubReaderScreen extends ReaderScreen {
     }
 
     @Override
+    public boolean openFontSettings() throws TestException {
+        return false;
+    }
+
+    @Override
+    public boolean closeFontSettings() throws TestException {
+        return false;
+    }
+
+    @Override
+    public boolean isFontSettingsOpened() {
+        return false;
+    }
+
+    @Override
     public boolean openTextOptions() throws TestException {
         if(isTextOptionsOpened()) {
             return true;

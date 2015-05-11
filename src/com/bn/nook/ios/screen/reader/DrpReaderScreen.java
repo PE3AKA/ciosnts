@@ -109,11 +109,26 @@ public class DrpReaderScreen extends ReaderScreen {
         return waiter.waitForElementByNameVisible(Constants.Reader.Drp.CONTENTS_TAB, 1, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)) != null;
     }
 
+    @Override
+    public boolean openFontSettings() throws TestException {
+        return false;
+    }
+
+    @Override
+    public boolean closeFontSettings() throws TestException {
+        return false;
+    }
+
+    @Override
+    public boolean isFontSettingsOpened() {
+        return false;
+    }
+
     public boolean isArticleViewPageOpened(){
         return waiter.waitForElementByNameVisible(Constants.Reader.Drp.ARTICLE_VIEW_PAGE, 1, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)) != null;
     }
 
-    public void openArticleView() throws TestException {
+    public boolean openArticleView() throws TestException {
         Element articleViewBtn = waiter.waitForElementByNameVisible(Constants.Reader.Drp.ARTICLE_VIEW, 5000,
                 new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
         if(articleViewBtn == null){
@@ -131,7 +146,9 @@ public class DrpReaderScreen extends ReaderScreen {
         TestManager.addStep("Click on article view button");
         if (waiter.waitForElementByNameVisible(Constants.Reader.Drp.ARTICLE_VIEW_PAGE, Constants.DEFAULT_TIMEOUT,
                 new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase)) == null)
-            testManager.retest("Article View page was not opened");
+            return false;
+        return true;
+
     }
 
     @Override
@@ -142,20 +159,40 @@ public class DrpReaderScreen extends ReaderScreen {
             testManager.retest("Text button was not found");
         clicker.clickOnElement(textMenuBtn);
         TestManager.addStep("Click on Text button");
-        return false;
+        return waiter.waitForElementByNameVisible(Constants.Reader.TextOptions.Size.EXTRA_SMALL_FONT_BUTTON, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMatcher(Matcher.ContainsIgnoreCase).setMaxLevelOfElementsTree(2)) != null;
     }
 
     @Override
-    public boolean closeTextOptions() {
-        return false;
+    public boolean closeTextOptions() throws TestException {
+        Element smallBtn = waiter.waitForElementByNameVisible(Constants.Reader.TextOptions.Size.EXTRA_SMALL_FONT_BUTTON, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
+        if (smallBtn == null)
+            testManager.retest("Text options page was not opened");
+        clicker.clickByXY(iDevice.getScreenSize()[0] / 2, smallBtn.getY() - 100);
+        TestManager.addStep("Click on screen");
+        return waiter.waitForElementByNameGone(Constants.Reader.TextOptions.Size.EXTRA_SMALL_FONT_BUTTON, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMatcher(Matcher.ContainsIgnoreCase).setMaxLevelOfElementsTree(2));
     }
 
     @Override
     public boolean isTextOptionsOpened() {
-        return false;
+        return waiter.waitForElementByNameVisible(Constants.Reader.TextOptions.Size.EXTRA_SMALL_FONT_BUTTON, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMatcher(Matcher.ContainsIgnoreCase).setMaxLevelOfElementsTree(2)) != null;
     }
 
-    @Override
+    public void chooseSize(String sizeName) throws TestException {
+        if(!openTextOptions())
+            testManager.retest("Text options not opened");
+        Element sizeChoice = getter.getElementByName(sizeName, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
+        if (sizeChoice == null)
+            testManager.retest(sizeName + " wan not found");
+        clicker.clickOnElement(sizeChoice);
+        TestManager.addStep("Select " + sizeName);
+        if(!closeTextOptions())
+            testManager.retest("Text options not closed");
+    }
+
     public boolean changeFontSize(int sizeIndex) {
         return false;
     }
@@ -165,19 +202,94 @@ public class DrpReaderScreen extends ReaderScreen {
         return false;
     }
 
+    public void chooseFont(String font)throws TestException{
+        if(!openTextOptions())
+            testManager.retest("Text options not opened");
+        Element element = waiter.waitForElementByNameExists(font, 1, new IConfig().setMaxLevelOfElementsTree(3));
+        if(element == null) testManager.retest("Button " + font + " is not found");
+        TestManager.addStep("change font to " + font);
+        clicker.clickOnElement(element);
+        if(!closeTextOptions())
+            testManager.retest("Text options not closed");
+    }
     @Override
     public boolean changeTheme(int sizeIndex) throws TestException {
         return false;
     }
 
+    public void chooseTheme(String theme) throws TestException {
+        if(!openTextOptions())
+            testManager.retest("Text options not opened");
+        Element element = waiter.waitForElementByNameExists(theme, 1, new IConfig().setMaxLevelOfElementsTree(3));
+        if(element == null) testManager.retest("Button " + theme + " is not found");
+        TestManager.addStep("change theme to " + theme);
+        clicker.clickOnElement(element);
+        TestManager.addStep("Select theme" + theme);
+        if(!closeTextOptions())
+            testManager.retest("Text options not closed");
+    }
+
     @Override
     public boolean changeLineSpacing(int sizeIndex) throws TestException {
-        return false;
+        if(!openTextOptions())
+            testManager.retest("Text options not opened");
+        String lineSpacing = "";
+        switch (sizeIndex) {
+            case EpubReaderScreen.LineSpacing.SINGLE_LINE_SPACING:
+                lineSpacing = Constants.Reader.TextOptions.LineSpacing.LEADING_1_BUTTON;
+                break;
+            case EpubReaderScreen.LineSpacing.ONE_AND_HALF_LINES_SPACING:
+                lineSpacing = Constants.Reader.TextOptions.LineSpacing.LEADING_2_BUTTON;
+                break;
+            case EpubReaderScreen.LineSpacing.MULTIPLE_LINES_SPACING:
+                lineSpacing = Constants.Reader.TextOptions.LineSpacing.LEADING_3_BUTTON;
+                break;
+            default:
+                lineSpacing = Constants.Reader.Epub.TextOptions.LineSpacing.ONE_AND_HALF_LINES_SPACING;
+                break;
+        }
+
+        Element element = waiter.waitForElementByNameExists(lineSpacing, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(element == null) testManager.retest("Button " + lineSpacing + " is not found");
+        TestManager.addStep("change line spacing to " + lineSpacing);
+        clicker.clickOnElement(element);
+        return closeTextOptions();
     }
 
     @Override
     public boolean changeMargin(int sizeIndex) throws TestException {
-        return false;
+        if(!openTextOptions())
+            testManager.retest("Text options not opened");
+        String margin = "";
+        switch (sizeIndex) {
+            case EpubReaderScreen.Margin.SMALL_MARGIN:
+                margin = Constants.Reader.Epub.TextOptions.Margin.SMALL_MARGIN;
+                break;
+            case EpubReaderScreen.Margin.MEDIUM_MARGIN:
+                margin = Constants.Reader.Epub.TextOptions.Margin.MEDIUM_MARGIN;
+                break;
+            case EpubReaderScreen.Margin.LARGE_MARGIN:
+                margin = Constants.Reader.Epub.TextOptions.Margin.LARGE_MARGIN;
+                break;
+            default:
+                margin = Constants.Reader.Epub.TextOptions.Margin.MEDIUM_MARGIN;
+                break;
+        }
+
+        Element element = waiter.waitForElementByNameExists(margin, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(element == null) testManager.retest("Button " + margin + " is not found");
+        TestManager.addStep("change line margin to " + margin);
+        return closeTextOptions();
+    }
+
+    public void chooseMargin(String margin) throws TestException {
+        if(!openTextOptions())
+            testManager.retest("Text options not opened");
+        Element element = waiter.waitForElementByNameExists(margin, 2, new IConfig().setMaxLevelOfElementsTree(3));
+        if(element == null) testManager.retest("Button " + margin + " is not found");
+        TestManager.addStep("change line margin to " + margin);
+        if(!closeTextOptions())
+            testManager.retest("Text options not closed");
     }
 
     @Override

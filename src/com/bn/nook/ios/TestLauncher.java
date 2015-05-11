@@ -226,6 +226,14 @@ public class TestLauncher {
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436015();
                 break;
+            case "439472":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(439472L);
+                testCaseInfo.setTitle("DRP: Article view -- Change font style");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase439472();
+                break;
 
             case "123456":
                 alertManager.defaultHandler();
@@ -250,6 +258,14 @@ public class TestLauncher {
                 testCaseInfo.setTitle("ePUB:text options [bnauto]");
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436003();
+                break;
+            case "436004":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(436004L);
+                testCaseInfo.setTitle("ePUB:more options [bnauto]");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase436004();
                 break;
 
         }
