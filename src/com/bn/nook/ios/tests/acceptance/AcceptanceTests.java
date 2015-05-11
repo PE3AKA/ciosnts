@@ -3,6 +3,7 @@ package com.bn.nook.ios.tests.acceptance;
 import com.bn.nook.ios.BaseTestRunner;
 import com.bn.nook.ios.annotation.Condition;
 import com.bn.nook.ios.annotation.PreCondition;
+import com.bn.nook.ios.assistant.Preparer;
 import com.bn.nook.ios.constants.Constants;
 import com.bn.nook.ios.exception.TestException;
 import com.bn.nook.ios.json.Status;
@@ -10,6 +11,7 @@ import com.bn.nook.ios.manager.TestManager;
 import com.bn.nook.ios.param.ConfigParam;
 import com.bn.nook.ios.screen.*;
 import com.bn.nook.ios.screen.reader.DrpReaderScreen;
+import com.bn.nook.ios.screen.reader.EpubReaderScreen;
 import com.sofment.testhelper.driver.ios.config.IConfig;
 import com.sofment.testhelper.driver.ios.config.IWaiterConfig;
 import com.sofment.testhelper.driver.ios.elements.Element;
@@ -407,6 +409,40 @@ public class AcceptanceTests extends BaseTestRunner{
         }
 
         TestManager.testCaseInfo.setStatusId(1);
+    }
+
+    @PreCondition(preConditions = {Condition.LOGIN},
+            testId = 436003,
+            testTitle = "ePUB:text options [bnauto]")
+    public void testCase436003() throws TestException {
+
+        testCase435999();
+        initEbubReaderScreen();
+
+        prepareTextOptions();
+
+        iDevice.takeScreenShot("before_changing_font_size");
+        readerScreen.changeFontSize(EpubReaderScreen.FontSize.EXTRA_LARGE_FONT);
+        iDevice.takeScreenShot("after_changing_font_size");
+        readerScreen.changeFont(EpubReaderScreen.Font.TREBUCHET);
+        iDevice.takeScreenShot("after_changing_font");
+        readerScreen.changeTheme(EpubReaderScreen.Theme.MOCHA);
+        iDevice.takeScreenShot("after_changing_theme");
+        readerScreen.changeLineSpacing(EpubReaderScreen.LineSpacing.SINGLE_LINE_SPACING);
+        iDevice.takeScreenShot("after_changing_line_spacing");
+        readerScreen.changeMargin(EpubReaderScreen.Margin.LARGE_MARGIN);
+        iDevice.takeScreenShot("after_changing_margin");
+
+        TestManager.testCaseInfo.setStatusId(1);
+    }
+
+    private void prepareTextOptions() throws TestException {
+        readerScreen.changeFontSize(EpubReaderScreen.FontSize.SMALL_FONT);
+        readerScreen.changeFont(EpubReaderScreen.Font.GEORGIA);
+        readerScreen.changeTheme(EpubReaderScreen.Theme.DAY);
+        readerScreen.changeLineSpacing(EpubReaderScreen.LineSpacing.ONE_AND_HALF_LINES_SPACING);
+        readerScreen.changeMargin(EpubReaderScreen.Margin.MEDIUM_MARGIN);
+        readerScreen.closeTextOptions();
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},

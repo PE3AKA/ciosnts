@@ -1,6 +1,5 @@
 package com.bn.nook.ios;
 
-import com.bn.nook.ios.assistant.Preparer;
 import com.bn.nook.ios.exception.TestException;
 import com.bn.nook.ios.json.TestCaseInfo;
 import com.bn.nook.ios.manager.AlertManager;
@@ -243,6 +242,14 @@ public class TestLauncher {
                 testCaseInfo.setTitle("ePUB:bookmark [bnauto]");
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436002();
+                break;
+            case "436003":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(436003L);
+                testCaseInfo.setTitle("ePUB:text options [bnauto]");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase436003();
                 break;
 
         }

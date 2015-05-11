@@ -120,6 +120,50 @@ public class Constants {
                 public static final String GO_TO_PAGE = "Go To Page";
                 public static final String CLOSE_BUTTON = "closeButton";
             }
+
+            public static class TextOptions {
+
+                public static final String CLOSE = "Close";
+
+                public static class Size {
+                    public static final String EXTRA_SMALL_FONT = "extraSmallFont";
+                    public static final String SMALL_FONT = "smallFont";
+                    public static final String MEDIUM_SMALL_FONT = "mediumSmallFont";
+                    public static final String MEDIUM_LARGE_FONT = "mediumLargeFont";
+                    public static final String LARGE_FONT = "largeFont";
+                    public static final String EXTRA_LARGE_FONT = "extraLargeFont";
+                }
+
+                public static class Font {
+                    public static final String CENTURY_SCHOOLBOOK = "Century Schoolbook";
+                    public static final String GEORGIA = "Georgia";
+                    public static final String ASCENDER_SANS = "Ascender Sans";
+                    public static final String GILL_SANS = "Gill Sans";
+                    public static final String TREBUCHET = "Trebuchet";
+                    public static final String DUTCH = "Dutch";
+                }
+
+                public static class Theme {
+                    public static final String DAY = "Day";
+                    public static final String NIGHT = "Night";
+                    public static final String GRAY = "Gray";
+                    public static final String BUTTER = "Butter";
+                    public static final String MOCHA = "Mocha";
+                    public static final String SEPIA = "Sepia";
+                }
+
+                public static class LineSpacing {
+                    public static final String SINGLE_LINE_SPACING = "SingleLineSpacing";
+                    public static final String ONE_AND_HALF_LINES_SPACING = "OneAndHalfLinesSpacing";
+                    public static final String MULTIPLE_LINES_SPACING = "MultipleLinesSpacing";
+                }
+
+                public static class Margin {
+                    public static final String SMALL_MARGIN = "SmallMargin";
+                    public static final String MEDIUM_MARGIN = "MediumMargin";
+                    public static final String LARGE_MARGIN = "LargeMargin";
+                }
+            }
         }
         public static class Drp{
             public static final String COMICS_SETTINGS_BTN = "Comics Settings";
