@@ -15,29 +15,21 @@ import com.bn.nook.ios.screen.reader.EpubReaderScreen;
 import com.bn.nook.ios.utils.LoggerUtil;
 import com.bn.nook.ios.utils.NookUtil;
 import com.sofment.testhelper.TestHelper;
-import com.sofment.testhelper.driver.ios.config.IConfig;
-import com.sofment.testhelper.driver.ios.elements.Element;
-import com.sofment.testhelper.driver.ios.elements.ElementQuery;
-import com.sofment.testhelper.driver.ios.enams.UIAElementType;
 import com.sofment.testhelper.driver.ios.helpers.Clicker;
 import com.sofment.testhelper.driver.ios.helpers.Getter;
 import com.sofment.testhelper.driver.ios.helpers.Scroller;
 import com.sofment.testhelper.driver.ios.helpers.Waiter;
 import com.sofment.testhelper.driver.ios.models.IDevice;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 import static com.bn.nook.ios.utils.LoggerUtil.i;
 
 /**
  * Created by automation on 4/16/15.
  */
-public class BaseTestRunner {
+public class BaseTestRunner extends Base{
 
     protected PreCondition mPreCondition = null;
     protected PostCondition mPostCondition = null;
@@ -258,6 +250,5 @@ public class BaseTestRunner {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }

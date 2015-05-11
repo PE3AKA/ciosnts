@@ -11,7 +11,6 @@ import com.sofment.testhelper.property.PropertiesManager;
 import java.awt.*;
 import java.awt.image.PixelGrabber;
 import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Created by avsupport on 4/13/15.
@@ -165,7 +164,9 @@ public class TestManager {
      ***/
     public boolean compareTwoImages(String img1path, String img2path) throws TestException {
         if(!new File(img1path).exists() || !new File(img2path).exists())
-            testManager.retest("Some of screenshots not found");
+            testManager.retest("Some of screenshots not found:\n" +
+                    img1path + "\n" +
+                    img2path);
         Image image1 = Toolkit.getDefaultToolkit().getImage(img1path);
         Image image2 = Toolkit.getDefaultToolkit().getImage(img2path);
 

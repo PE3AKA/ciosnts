@@ -75,7 +75,7 @@ public class DrpReaderScreen extends ReaderScreen {
             iDevice.i("Contents menu was not opened");
             return false;
         }
-        iDevice.takeScreenShot("Contents menu opened");
+        takeScreenShot("Contents menu opened");
         return true;
     }
 
@@ -100,7 +100,7 @@ public class DrpReaderScreen extends ReaderScreen {
             iDevice.i("Contents menu was not gone");
             return false;
         }
-        iDevice.takeScreenShot("Contents menu closed");
+        takeScreenShot("Contents menu closed");
         return true;
     }
 

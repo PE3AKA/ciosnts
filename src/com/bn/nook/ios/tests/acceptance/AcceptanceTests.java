@@ -64,7 +64,7 @@ public class AcceptanceTests extends BaseTestRunner{
         oobeScreen.inputCredentials();
         oobeScreen.waitForSignInButton(Constants.DEFAULT_TIMEOUT);
         oobeScreen.waitForCollection();
-        iDevice.takeScreenShot("UIACollection_appeared");
+        takeScreenShot("UIACollection_appeared");
         TestManager.testCaseInfo.setStatusId(1);
     }
 
@@ -79,7 +79,7 @@ public class AcceptanceTests extends BaseTestRunner{
         nookUtil.waitForScreenModel(ScreenModel.LIBRARY, Constants.DEFAULT_TIMEOUT);
         libraryScreen = (LibraryScreen) nookUtil.getCurrentScreen(false);
         libraryScreen.openMenu();
-        iDevice.takeScreenShot("hamburger_menu_opened");
+        takeScreenShot("hamburger_menu_opened");
         checkCurrentReadButton();
         TestManager.testCaseInfo.setStatusId(1);
     }
@@ -137,7 +137,7 @@ public class AcceptanceTests extends BaseTestRunner{
     public void testCase435993() throws TestException {
         initLibraryScreen();
         libraryScreen.openMenu();
-        iDevice.takeScreenShot("hamburger_menu_opened");
+        takeScreenShot("hamburger_menu_opened");
         expectedResult435993();
         TestManager.testCaseInfo.setStatusId(1);
     }
@@ -148,7 +148,7 @@ public class AcceptanceTests extends BaseTestRunner{
     public void testCase435986() throws TestException {
         setupAlertCalBack();
 
-        iDevice.takeScreenShot("UIACollection_appeared");
+        takeScreenShot("UIACollection_appeared");
         if(expectedResultFor435986())
             TestManager.testCaseInfo.setStatusId(1);
     }
@@ -180,7 +180,7 @@ public class AcceptanceTests extends BaseTestRunner{
             currentFilter = libraryScreen.getCurrentFilter();
             if(currentFilter == -1) {
                 iDevice.i("can not detect current filter.");
-                iDevice.takeScreenShot("should be filter by " + libraryScreen.getFilterNameByIndex(currentFilterIndex));
+                takeScreenShot("should be filter by " + libraryScreen.getFilterNameByIndex(currentFilterIndex));
             } else if(currentFilter != currentFilterIndex) {
                 testManager.failTest("expected: " + libraryScreen.getFilterNameByIndex(currentFilterIndex) + ", \n" +
                         "actual: " + libraryScreen.getFilterNameByIndex(currentFilter));
@@ -213,7 +213,7 @@ public class AcceptanceTests extends BaseTestRunner{
             currentSort = libraryScreen.getCurrentSort();
             if(currentSort == -1) {
                 iDevice.i("can not detect current sort.");
-                iDevice.takeScreenShot("should be sort by " + libraryScreen.getSortNameByIndex(currentSortIndex));
+                takeScreenShot("should be sort by " + libraryScreen.getSortNameByIndex(currentSortIndex));
             } else if(currentSort != currentSortIndex) {
                 testManager.failTest("expected: " + libraryScreen.getSortNameByIndex(currentSortIndex) + ", \n" +
                         "actual: " + libraryScreen.getSortNameByIndex(currentSort));
@@ -421,17 +421,60 @@ public class AcceptanceTests extends BaseTestRunner{
 
         prepareTextOptions();
 
-        iDevice.takeScreenShot("before_changing_font_size");
+        String before = takeScreenShot("before_changing_font_size");
         readerScreen.changeFontSize(EpubReaderScreen.FontSize.EXTRA_LARGE_FONT);
-        iDevice.takeScreenShot("after_changing_font_size");
+        iDevice.sleep(2000);
+        String after = takeScreenShot("after_changing_font_size");
+
+        if(testManager.compareTwoImages(before, after)) {
+            testManager.failTest("the images before and after font size changing are equals: \n" +
+                    "screen shot before: " + before + "\n" +
+                    "screen shot after: " + after);
+        }
+
+        before = after;
         readerScreen.changeFont(EpubReaderScreen.Font.TREBUCHET);
-        iDevice.takeScreenShot("after_changing_font");
+        iDevice.sleep(2000);
+        after = takeScreenShot("after_changing_font");
+
+        if(testManager.compareTwoImages(before, after)) {
+            testManager.failTest("the images before and after font changing are equals: \n" +
+                    "screen shot before: " + before + "\n" +
+                    "screen shot after: " + after);
+        }
+
+        before = after;
         readerScreen.changeTheme(EpubReaderScreen.Theme.MOCHA);
-        iDevice.takeScreenShot("after_changing_theme");
+        iDevice.sleep(2000);
+        after = takeScreenShot("after_changing_theme");
+
+        if(testManager.compareTwoImages(before, after)) {
+            testManager.failTest("the images before and after theme changing are equals: \n" +
+                    "screen shot before: " + before + "\n" +
+                    "screen shot after: " + after);
+        }
+
+        before = after;
         readerScreen.changeLineSpacing(EpubReaderScreen.LineSpacing.SINGLE_LINE_SPACING);
-        iDevice.takeScreenShot("after_changing_line_spacing");
+        iDevice.sleep(2000);
+        after = takeScreenShot("after_changing_line_spacing");
+
+        if(testManager.compareTwoImages(before, after)) {
+            testManager.failTest("the images before and after line spacing changing are equals: \n" +
+                    "screen shot before: " + before + "\n" +
+                    "screen shot after: " + after);
+        }
+
+        before = after;
         readerScreen.changeMargin(EpubReaderScreen.Margin.LARGE_MARGIN);
-        iDevice.takeScreenShot("after_changing_margin");
+        iDevice.sleep(2000);
+        after = takeScreenShot("after_changing_margin");
+
+        if(testManager.compareTwoImages(before, after)) {
+            testManager.failTest("the images before and after margin changing are equals: \n" +
+                    "screen shot before: " + before + "\n" +
+                    "screen shot after: " + after);
+        }
 
         TestManager.testCaseInfo.setStatusId(1);
     }
@@ -866,7 +909,7 @@ public class AcceptanceTests extends BaseTestRunner{
         drpReaderScreen = new DrpReaderScreen(testManager, testHelper, paramsParser, iDevice);
         if(!drpReaderScreen.openReaderMenu())
             testManager.retest("Reader menu was not opened");
-        iDevice.takeScreenShot("Drp menu opened");
+        takeScreenShot("Drp menu opened");
         TestManager.addStep("Check if tabs present : \n1. Contents \n2Brightness");
         String sliderPercentBeforeOpenNewPage = drpReaderScreen.getSliderPercent();
         if (waiter.waitForElementByNameVisible(Constants.Reader.Drp.CONTENTS_BOOKMARKS, Constants.DEFAULT_TIMEOUT,
@@ -878,12 +921,12 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.failTest("There is not Brightness element");
         }
         TestManager.addStep("Contents and Brightness elements present");
-        iDevice.takeScreenShot("Contents and Brightness elements present");
+        takeScreenShot("Contents and Brightness elements present");
         if(!drpReaderScreen.openContents())
             testManager.retest("Contents was not opened");
         TestManager.addStep("Check if Table of Contents shows");
         drpReaderScreen.openContentByNumber(1);
-        iDevice.takeScreenShot("After click on second page in contents");
+        takeScreenShot("After click on second page in contents");
         drpReaderScreen.openReaderMenu();
         String sliderPercentAfterOpenNewPage = drpReaderScreen.getSliderPercent();
         TestManager.addStep("Check if page changed after click");
@@ -904,7 +947,7 @@ public class AcceptanceTests extends BaseTestRunner{
         drpReaderScreen = new DrpReaderScreen(testManager, testHelper, paramsParser, iDevice);
         if(!drpReaderScreen.openReaderMenu())
             testManager.retest("Reader menu was not opened");
-        iDevice.takeScreenShot("Drp menu opened");
+        takeScreenShot("Drp menu opened");
         if(!drpReaderScreen.openContents())
             testManager.retest("Contents was not opened");
         drpReaderScreen.openContentByNumber(2);
@@ -919,7 +962,7 @@ public class AcceptanceTests extends BaseTestRunner{
                 new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase)) == null)
             testManager.failTest("Article View page was not opened");
         TestManager.addStep("Article view page opened");
-        iDevice.takeScreenShot("Article view page opened");
+        takeScreenShot("Article view page opened");
         TestManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
@@ -945,9 +988,9 @@ public class AcceptanceTests extends BaseTestRunner{
             testTitle = "demo")
     public void testCase123456() throws TestException {
         iDevice.sleep(15000);
-        iDevice.takeScreenShot("123");
+        takeScreenShot("123");
         iDevice.sleep(1000);
-        iDevice.takeScreenShot("321");
+        takeScreenShot("321");
         iDevice.sleep(5000);
         String image1 = "/Volumes/VMware Shared Folders/iOSCISystem/CI/result/123.png";
         String image2 = "/Volumes/VMware Shared Folders/iOSCISystem/CI/result/321.png";

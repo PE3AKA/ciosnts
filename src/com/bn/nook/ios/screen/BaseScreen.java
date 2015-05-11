@@ -1,5 +1,6 @@
 package com.bn.nook.ios.screen;
 
+import com.bn.nook.ios.Base;
 import com.bn.nook.ios.constants.Constants;
 import com.bn.nook.ios.exception.TestException;
 import com.bn.nook.ios.manager.TestManager;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 /**
  * Created by avsupport on 4/24/15.
  */
-public class BaseScreen {
+public class BaseScreen extends Base {
     protected IDevice iDevice;
     protected TestHelper testHelper;
     protected TestManager testManager;
