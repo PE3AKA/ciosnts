@@ -75,7 +75,7 @@ public class DrpReaderScreen extends ReaderScreen {
             iDevice.i("Contents menu was not opened");
             return false;
         }
-        iDevice.takeScreenShot("Contents menu opened");
+        takeScreenShot("Contents menu opened");
         return true;
     }
 
@@ -100,7 +100,7 @@ public class DrpReaderScreen extends ReaderScreen {
             iDevice.i("Contents menu was not gone");
             return false;
         }
-        iDevice.takeScreenShot("Contents menu closed");
+        takeScreenShot("Contents menu closed");
         return true;
     }
 
@@ -135,25 +135,48 @@ public class DrpReaderScreen extends ReaderScreen {
     }
 
     @Override
-    public boolean openFontSettings() throws TestException {
+    public boolean openTextOptions() throws TestException {
         Element textMenuBtn = waiter.waitForElementByNameVisible(Constants.Reader.Drp.TEXT, Constants.DEFAULT_TIMEOUT,
                 new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
         if (textMenuBtn == null)
             testManager.retest("Text button was not found");
         clicker.clickOnElement(textMenuBtn);
         TestManager.addStep("Click on Text button");
-
-
         return false;
     }
 
     @Override
-    public boolean closeFontSettings() {
+    public boolean closeTextOptions() {
         return false;
     }
 
     @Override
-    public boolean isFontSettingsOpened() {
+    public boolean isTextOptionsOpened() {
+        return false;
+    }
+
+    @Override
+    public boolean changeFontSize(int sizeIndex) {
+        return false;
+    }
+
+    @Override
+    public boolean changeFont(int sizeIndex) throws TestException {
+        return false;
+    }
+
+    @Override
+    public boolean changeTheme(int sizeIndex) throws TestException {
+        return false;
+    }
+
+    @Override
+    public boolean changeLineSpacing(int sizeIndex) throws TestException {
+        return false;
+    }
+
+    @Override
+    public boolean changeMargin(int sizeIndex) throws TestException {
         return false;
     }
 
@@ -168,7 +191,7 @@ public class DrpReaderScreen extends ReaderScreen {
     }
 
     @Override
-    public boolean isInformationOpend() {
+    public boolean isInformationOpened() {
         return false;
     }
 

@@ -29,6 +29,7 @@ public class EpubReaderScreen extends ReaderScreen {
     public boolean openReaderMenu() {
         if(isReaderMenuOpened()) return true;
         int[] screenSize = iDevice.getScreenSize();
+        TestManager.addStep(String.format("click on screen center to open reader menu [%s, %s]", screenSize[0]/2, screenSize[1]/2));
         clicker.clickByXY(screenSize[0]/2, screenSize[1]/2);
         return isReaderMenuOpened();
     }
@@ -75,18 +76,183 @@ public class EpubReaderScreen extends ReaderScreen {
     }
 
     @Override
-    public boolean openFontSettings() {
-        return false;
+    public boolean openTextOptions() throws TestException {
+        if(isTextOptionsOpened()) {
+            return true;
+        }
+        openReaderMenu();
+        Element textOptions = waiter.waitForElementByNameVisible(Constants.Reader.Epub.TEXT_OPTIONS, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(textOptions == null) testManager.retest("button to open text options is not found");
+        TestManager.addStep(String.format("open text options [%s]", Constants.Reader.Epub.TEXT_OPTIONS));
+        return clicker.clickOnElement(textOptions) && isTextOptionsOpened();
     }
 
     @Override
-    public boolean closeFontSettings() {
-        return false;
+    public boolean closeTextOptions() throws TestException {
+        if(!isTextOptionsOpened()) {
+            return true;
+        }
+        Element closeButton = waiter.waitForElementByNameVisible(Constants.Reader.Epub.TextOptions.CLOSE, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(closeButton == null) testManager.retest("button to close text options is not found");
+        TestManager.addStep(String.format("close text options [%s]", Constants.Reader.Epub.TextOptions.CLOSE));
+        return clicker.clickOnElement(closeButton) && !isTextOptionsOpened();
     }
 
     @Override
-    public boolean isFontSettingsOpened() {
-        return false;
+    public boolean isTextOptionsOpened() {
+        return waiter.waitForElementByNameVisible(Constants.Reader.Epub.TextOptions.Size.SMALL_FONT, 1, new IConfig().setMaxLevelOfElementsTree(2)) != null;
+    }
+
+    @Override
+    public boolean changeFontSize(int sizeIndex) throws TestException {
+        openTextOptions();
+        String fontName = "";
+        switch (sizeIndex) {
+            case FontSize.EXTRA_SMALL_FONT:
+                fontName = Constants.Reader.Epub.TextOptions.Size.EXTRA_SMALL_FONT;
+                break;
+            case FontSize.EXTRA_LARGE_FONT:
+                fontName = Constants.Reader.Epub.TextOptions.Size.EXTRA_LARGE_FONT;
+                break;
+            case FontSize.LARGE_FONT:
+                fontName = Constants.Reader.Epub.TextOptions.Size.LARGE_FONT;
+                break;
+            case FontSize.MEDIUM_LARGE_FONT:
+                fontName = Constants.Reader.Epub.TextOptions.Size.MEDIUM_LARGE_FONT;
+                break;
+            case FontSize.MEDIUM_SMALL_FONT:
+                fontName = Constants.Reader.Epub.TextOptions.Size.MEDIUM_SMALL_FONT;
+                break;
+            case FontSize.SMALL_FONT:
+                fontName = Constants.Reader.Epub.TextOptions.Size.SMALL_FONT;
+                break;
+            default:
+                fontName = Constants.Reader.Epub.TextOptions.Size.MEDIUM_LARGE_FONT;
+                break;
+        }
+
+        Element element = waiter.waitForElementByNameVisible(fontName, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(element == null) testManager.retest("Button " + fontName + " is not found");
+        TestManager.addStep("change font size to " + fontName);
+        return clicker.clickOnElement(element);
+    }
+
+    @Override
+    public boolean changeFont(int sizeIndex) throws TestException {
+        openTextOptions();
+        String font = "";
+        switch (sizeIndex) {
+            case Font.CENTURY_SCHOOLBOOK:
+                font = Constants.Reader.Epub.TextOptions.Font.CENTURY_SCHOOLBOOK;
+                break;
+            case Font.GEORGIA:
+                font = Constants.Reader.Epub.TextOptions.Font.GEORGIA;
+                break;
+            case Font.ASCENDER_SANS:
+                font = Constants.Reader.Epub.TextOptions.Font.ASCENDER_SANS;
+                break;
+            case Font.GILL_SANS:
+                font = Constants.Reader.Epub.TextOptions.Font.GILL_SANS;
+                break;
+            case Font.TREBUCHET:
+                font = Constants.Reader.Epub.TextOptions.Font.TREBUCHET;
+                break;
+            case Font.DUTCH:
+                font = Constants.Reader.Epub.TextOptions.Font.DUTCH;
+                break;
+            default:
+                font = Constants.Reader.Epub.TextOptions.Font.CENTURY_SCHOOLBOOK;
+                break;
+        }
+
+        Element element = waiter.waitForElementByNameExists(font, 1, new IConfig().setMaxLevelOfElementsTree(3));
+        if(element == null) testManager.retest("Button " + font + " is not found");
+        TestManager.addStep("change font to " + font);
+        return clicker.clickOnElement(element);
+    }
+
+    @Override
+    public boolean changeTheme(int sizeIndex) throws TestException {
+        openTextOptions();
+        String theme = "";
+        switch (sizeIndex) {
+            case Theme.DAY:
+                theme = Constants.Reader.Epub.TextOptions.Theme.DAY;
+                break;
+            case Theme.NIGHT:
+                theme = Constants.Reader.Epub.TextOptions.Theme.NIGHT;
+                break;
+            case Theme.GRAY:
+                theme = Constants.Reader.Epub.TextOptions.Theme.GRAY;
+                break;
+            case Theme.BUTTER:
+                theme = Constants.Reader.Epub.TextOptions.Theme.BUTTER;
+                break;
+            case Theme.MOCHA:
+                theme = Constants.Reader.Epub.TextOptions.Theme.MOCHA;
+                break;
+            case Theme.SEPIA:
+                theme = Constants.Reader.Epub.TextOptions.Theme.SEPIA;
+                break;
+            default:
+                theme = Constants.Reader.Epub.TextOptions.Theme.DAY;
+                break;
+        }
+
+        Element element = waiter.waitForElementByNameExists(theme, 1, new IConfig().setMaxLevelOfElementsTree(3));
+        if(element == null) testManager.retest("Button " + theme + " is not found");
+        TestManager.addStep("change theme to " + theme);
+        return clicker.clickOnElement(element);
+    }
+
+    @Override
+    public boolean changeLineSpacing(int sizeIndex) throws TestException {
+        openTextOptions();
+        String lineSpacing = "";
+        switch (sizeIndex) {
+            case LineSpacing.SINGLE_LINE_SPACING:
+                lineSpacing = Constants.Reader.Epub.TextOptions.LineSpacing.SINGLE_LINE_SPACING;
+                break;
+            case LineSpacing.ONE_AND_HALF_LINES_SPACING:
+                lineSpacing = Constants.Reader.Epub.TextOptions.LineSpacing.ONE_AND_HALF_LINES_SPACING;
+                break;
+            case LineSpacing.MULTIPLE_LINES_SPACING:
+                lineSpacing = Constants.Reader.Epub.TextOptions.LineSpacing.MULTIPLE_LINES_SPACING;
+                break;
+            default:
+                lineSpacing = Constants.Reader.Epub.TextOptions.LineSpacing.ONE_AND_HALF_LINES_SPACING;
+                break;
+        }
+
+        Element element = waiter.waitForElementByNameExists(lineSpacing, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(element == null) testManager.retest("Button " + lineSpacing + " is not found");
+        TestManager.addStep("change line spacing to " + lineSpacing);
+        return clicker.clickOnElement(element);
+    }
+
+    @Override
+    public boolean changeMargin(int sizeIndex) throws TestException {
+        openTextOptions();
+        String margin = "";
+        switch (sizeIndex) {
+            case Margin.SMALL_MARGIN:
+                margin = Constants.Reader.Epub.TextOptions.Margin.SMALL_MARGIN;
+                break;
+            case Margin.MEDIUM_MARGIN:
+                margin = Constants.Reader.Epub.TextOptions.Margin.MEDIUM_MARGIN;
+                break;
+            case Margin.LARGE_MARGIN:
+                margin = Constants.Reader.Epub.TextOptions.Margin.LARGE_MARGIN;
+                break;
+            default:
+                margin = Constants.Reader.Epub.TextOptions.Margin.MEDIUM_MARGIN;
+                break;
+        }
+
+        Element element = waiter.waitForElementByNameExists(margin, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(element == null) testManager.retest("Button " + margin + " is not found");
+        TestManager.addStep("change line margin to " + margin);
+        return clicker.clickOnElement(element);
     }
 
     @Override
@@ -100,7 +266,7 @@ public class EpubReaderScreen extends ReaderScreen {
     }
 
     @Override
-    public boolean isInformationOpend() {
+    public boolean isInformationOpened() {
         return false;
     }
 
@@ -202,5 +368,42 @@ public class EpubReaderScreen extends ReaderScreen {
         return clicker.clickOnElement(element);
     }
 
+    public static class FontSize {
+        public static final int EXTRA_SMALL_FONT = 0;
+        public static final int SMALL_FONT = 1;
+        public static final int MEDIUM_SMALL_FONT = 2;
+        public static final int MEDIUM_LARGE_FONT = 3;
+        public static final int LARGE_FONT = 4;
+        public static final int EXTRA_LARGE_FONT = 5;
+    }
 
+    public static class Font {
+        public static final int CENTURY_SCHOOLBOOK = 0;
+        public static final int GEORGIA = 1;
+        public static final int ASCENDER_SANS = 2;
+        public static final int GILL_SANS = 3;
+        public static final int TREBUCHET = 4;
+        public static final int DUTCH = 5;
+    }
+
+    public static class Theme {
+        public static final int DAY = 0;
+        public static final int NIGHT = 1;
+        public static final int GRAY = 2;
+        public static final int BUTTER = 3;
+        public static final int MOCHA = 4;
+        public static final int SEPIA = 5;
+    }
+
+    public static class LineSpacing {
+        public static final int SINGLE_LINE_SPACING = 0;
+        public static final int ONE_AND_HALF_LINES_SPACING = 1;
+        public static final int MULTIPLE_LINES_SPACING = 2;
+    }
+
+    public static class Margin {
+        public static final int SMALL_MARGIN = 0;
+        public static final int MEDIUM_MARGIN = 1;
+        public static final int LARGE_MARGIN = 2;
+    }
 }
