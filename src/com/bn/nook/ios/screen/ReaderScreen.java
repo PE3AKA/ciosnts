@@ -20,6 +20,9 @@ public abstract class ReaderScreen extends BaseScreen {
     public abstract boolean openContents() throws TestException;
     public abstract boolean closeContents() throws TestException;
     public abstract boolean isContentsOpened();
+    public abstract boolean openFontSettings() throws TestException;
+    public abstract boolean closeFontSettings() throws TestException;
+    public abstract boolean isFontSettingsOpened();
     public abstract boolean openTextOptions() throws TestException;
     public abstract boolean closeTextOptions() throws TestException;
     public abstract boolean isTextOptionsOpened();

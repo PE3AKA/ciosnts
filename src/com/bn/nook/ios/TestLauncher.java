@@ -226,6 +226,14 @@ public class TestLauncher {
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436015();
                 break;
+            case "439472":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(439472L);
+                testCaseInfo.setTitle("DRP: Article view -- Change font style");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase439472();
+                break;
 
             case "123456":
                 alertManager.defaultHandler();

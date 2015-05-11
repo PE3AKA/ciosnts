@@ -9,6 +9,7 @@ import com.bn.nook.ios.exception.TestException;
 import com.bn.nook.ios.json.Status;
 import com.bn.nook.ios.manager.TestManager;
 import com.bn.nook.ios.param.ConfigParam;
+import com.bn.nook.ios.param.ParamsParser;
 import com.bn.nook.ios.screen.*;
 import com.bn.nook.ios.screen.reader.DrpReaderScreen;
 import com.bn.nook.ios.screen.reader.EpubReaderScreen;
@@ -975,9 +976,96 @@ public class AcceptanceTests extends BaseTestRunner{
             testId = 439472,
             testTitle = "DRP: Article view -- Change font style")
     public void testCase439472() throws TestException {
+        iDevice.i("PATH: " + ParamsParser.getInstance().getPathToResultsFolder());
         drpReaderScreen = new DrpReaderScreen(testManager, testHelper, paramsParser, iDevice);
-        drpReaderScreen.openArticleView();
+        if(!drpReaderScreen.openArticleView())
+            testManager.retest("Article View page was not opened");
+        if (!drpReaderScreen.openReaderMenu())
+            testManager.retest("Reader menu was not opened");
 
+        TestManager.addStep("Check if tabs present : \n1. Contents \n2 \n3Brightness");
+        if (waiter.waitForElementByNameVisible(Constants.Reader.Drp.CONTENTS_BOOKMARKS, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)) == null){
+            testManager.failTest("There is not Contents element");
+        }
+        if(waiter.waitForElementByNameVisible(Constants.Reader.Drp.BRIGHTNESS, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)) == null){
+            testManager.failTest("There is not Brightness element");
+        }
+        if(waiter.waitForElementByNameVisible(Constants.Reader.Drp.TEXT, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)) == null){
+            testManager.failTest("There is not Text element");
+        }
+        //change text
+        String nameBeforeChangeSize = "text_before_change_text";
+        String nameAfterChangeSize = "text_after_change_text";
+        String nameAfterChangeSize2 = "text_after_change_text_2";
+        String image1 = takeScreenShot(nameBeforeChangeSize);
+        if(!drpReaderScreen.openReaderMenu())
+            testManager.retest("Reader menu not opened");
+        drpReaderScreen.chooseSize(Constants.Reader.TextOptions.Size.LARGE_FONT_BUTTON);
+        iDevice.takeScreenShot("LARGE_FONT_BUTTON selected");
+        iDevice.sleep(3000);
+        String image2 = takeScreenShot(nameAfterChangeSize);
+        TestManager.addStep("Check screenshots before and after text size changes");
+//        String image1 = ParamsParser.getInstance().getPathToResultsFolder() + nameBeforeChangeSize +".png";
+//        String image2 = ParamsParser.getInstance().getPathToResultsFolder() + nameAfterChangeSize +".png";
+        if (testManager.compareTwoImages(image1, image2))
+            testManager.failTest("Text size was not changed to extra large");
+        TestManager.addStep("Text Size changed");
+        //repeat
+        if(!drpReaderScreen.openReaderMenu())
+            testManager.retest("Reader menu not opened");
+        drpReaderScreen.chooseSize(Constants.Reader.TextOptions.Size.EXTRA_SMALL_FONT_BUTTON);
+        iDevice.takeScreenShot("LARGE_FONT_BUTTON selected");
+        iDevice.sleep(3000);
+        String image3 = takeScreenShot(nameAfterChangeSize2);
+        TestManager.addStep("Check screenshots before and after text size changes");
+//        String image3 = ParamsParser.getInstance().getPathToResultsFolder() + nameAfterChangeSize2 +".png";
+        if (testManager.compareTwoImages(image2, image3))
+            testManager.failTest("Text size was not changed to extra small");
+        TestManager.addStep("Text Size changed");
+        //font changes
+        String imageBeforeChangeFont = takeScreenShot("before_change_font");
+        if(!drpReaderScreen.openReaderMenu())
+            testManager.retest("Reader menu not opened");
+        drpReaderScreen.chooseFont(Constants.Reader.TextOptions.Font.GILL_SANS);
+        String imageAfterChangeFont = takeScreenShot("after_change_font");
+        TestManager.addStep("Check screenshots before and after font was changed");
+        if (testManager.compareTwoImages(imageBeforeChangeFont, imageAfterChangeFont))
+            testManager.failTest("Font was not changed");
+        TestManager.addStep("Text font changed");
+        //theme changes
+        String imageBeforeChangeTheme = takeScreenShot("before_change_theme");
+        if(!drpReaderScreen.openReaderMenu())
+            testManager.retest("Reader menu not opened");
+        drpReaderScreen.chooseTheme(Constants.Reader.TextOptions.Theme.GRAY);
+        String imageAfterChangeTheme = takeScreenShot("after_change_theme");
+        TestManager.addStep("Check screenshots before and after theme was changed");
+        if (testManager.compareTwoImages(imageBeforeChangeTheme, imageAfterChangeTheme))
+            testManager.failTest("Theme was not changed");
+        TestManager.addStep("Text Theme changed");
+        // change line spacing
+        String imageBeforeChangeSpacing = takeScreenShot("before_change_spacing");
+        if(!drpReaderScreen.openReaderMenu())
+            testManager.retest("Reader menu not opened");
+        drpReaderScreen.changeLineSpacing(EpubReaderScreen.LineSpacing.SINGLE_LINE_SPACING);
+        String imageAfterChangeSpacing = takeScreenShot("after_change_spacing");
+        TestManager.addStep("Check screenshots before and after spacing was changed");
+        if (testManager.compareTwoImages(imageBeforeChangeSpacing, imageAfterChangeSpacing))
+            testManager.failTest("Spacing was not changed");
+        TestManager.addStep("Text Spacing changed");
+        //change margin
+        String imageBeforeChangeMargin = takeScreenShot("before_change_margin");
+        if(!drpReaderScreen.openReaderMenu())
+            testManager.retest("Reader menu not opened");
+        drpReaderScreen.chooseMargin(Constants.Reader.TextOptions.Margins.MARGIN_2_BUTTON);
+        String imageAfterChangeMargin = takeScreenShot("after_change_margin");
+        TestManager.addStep("Check screenshots before and after margin was changed");
+        if (testManager.compareTwoImages(imageBeforeChangeMargin, imageAfterChangeMargin))
+            testManager.failTest("Margin was not changed");
+        TestManager.addStep("Text Margin changed");
+        TestManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
 
@@ -992,8 +1080,8 @@ public class AcceptanceTests extends BaseTestRunner{
         iDevice.sleep(1000);
         takeScreenShot("321");
         iDevice.sleep(5000);
-        String image1 = "/Volumes/VMware Shared Folders/iOSCISystem/CI/result/123.png";
-        String image2 = "/Volumes/VMware Shared Folders/iOSCISystem/CI/result/321.png";
+        String image1 = ParamsParser.getInstance().getPathToResultsFolder() +"/123.png";
+        String image2 = ParamsParser.getInstance().getPathToResultsFolder() +"321.png";
         testManager.compareTwoImages(image1, image2);
         iDevice.i("#######FINISH###########");
     }
