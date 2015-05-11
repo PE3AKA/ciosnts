@@ -6,6 +6,7 @@ import com.sofment.testhelper.driver.ios.models.IDevice;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Random;
 
 /**
  * Created by avsupport on 5/11/15.
@@ -44,5 +45,11 @@ public class Base {
             if(System.currentTimeMillis() - start > timeoutMs) return file;
         }
         return file;
+    }
+
+    public int getRandomInt(int min, int max) {
+        Random rand = new Random();
+
+        return rand.nextInt((max - min) + 1) + min;
     }
 }

@@ -509,6 +509,42 @@ public class AcceptanceTests extends BaseTestRunner{
         TestManager.testCaseInfo.setStatusId(1);
     }
 
+    @PreCondition(preConditions = {Condition.LOGIN},
+            testId = 436005,
+            testTitle = "ePUB:go to page [bnauto]")
+    public void testCase436005() throws TestException {
+
+        testCase435999();
+        initEbubReaderScreen();
+
+        int[] pageInfo = readerScreen.getCurrentPageInfo();
+
+        readerScreen.openContents();
+        Element textField = waiter.waitForElementByClassExists(UIAElementType.UIATextField, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(textField == null) {
+            testManager.failTest("text field go to page is not found");
+        }
+
+        TestManager.addStep("click to text field go to page");
+        int random_page = getRandomInt(1, pageInfo[1]);
+        TestManager.addStep("input text " + random_page);
+        iDevice.inputText(random_page + "", textField);
+
+        Element goToPage = waiter.waitForElementByNameVisible(Constants.Reader.Epub.Contents.GO_TO_PAGE, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(goToPage == null) testManager.retest(String.format("go to page button is not found [%s]", Constants.Reader.Epub.Contents.GO_TO_PAGE));
+        TestManager.addStep(String.format("click on button to go to page [%s]", Constants.Reader.Epub.Contents.GO_TO_PAGE));
+        clicker.clickOnElement(goToPage);
+
+        iDevice.sleep(3000);
+        pageInfo = readerScreen.getCurrentPageInfo();
+        if(pageInfo[0] != random_page) {
+            testManager.failTest("loaded wrong page:\n" +
+                    "expected: " + random_page + "\n" +
+                    "loaded: " + pageInfo[0]);
+        }
+        TestManager.testCaseInfo.setStatusId(1);
+    }
+
     private void prepareTextOptions() throws TestException {
         readerScreen.changeFontSize(EpubReaderScreen.FontSize.SMALL_FONT);
         readerScreen.changeFont(EpubReaderScreen.Font.GEORGIA);
