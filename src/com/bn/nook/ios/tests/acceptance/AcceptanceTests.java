@@ -1255,6 +1255,78 @@ public class AcceptanceTests extends BaseTestRunner{
     }
 
 
+    /*
+    C436016	DRP:Page view
+     */
+    @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_PRODUCT},
+            productName = ConfigParam.DRP_MAGAZINE,
+            productType = ScreenModel.DRP_READER,
+            testId = 436016,
+            testTitle = "DRP:Page view")
+    public void testCase436016() throws TestException {
+        drpReaderScreen = new DrpReaderScreen(testManager, testHelper, paramsParser, iDevice);
+        if(!drpReaderScreen.openArticleView())
+            testManager.retest("Article View page was not opened");
+        Element closeBtn = waiter.waitForElementByNameVisible(Constants.Reader.Drp.CLOSE_BTN, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase));
+        TestManager.addStep("Check if Close button present");
+        if (closeBtn == null)
+            testManager.failTest("Close button was not found");
+        takeScreenShot("Close button present in Article View");
+        clicker.clickOnElement(closeBtn);
+        TestManager.addStep("Click on Close button");
+        if (!waiter.waitForElementByNameGone(Constants.Reader.Drp.CLOSE_BTN, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase)))
+            testManager.failTest("Article View was not closed");
+        TestManager.addStep("Article View closed");
+        takeScreenShot("Article View closed");
+        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+    }
+
+    /*
+    C436018	DRP:double tap zoom in zoom out
+     */
+    @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_PRODUCT},
+            productName = ConfigParam.DRP_MAGAZINE,
+            productType = ScreenModel.DRP_READER,
+            testId = 436018,
+            testTitle = "DRP:double tap zoom in zoom out")
+    public void testCase436018() throws TestException {
+        drpReaderScreen = new DrpReaderScreen(testManager, testHelper, paramsParser, iDevice);
+        if(!drpReaderScreen.hideReaderMenu())
+            testManager.retest("Reder menu opened");
+        int[] screenSize = iDevice.getScreenSize();
+        String defaultScreenState = takeScreenShot("default_state");
+        clicker.doubleClickByXY(screenSize[0] / 2, screenSize[1] / 2);
+        TestManager.addStep("Double click");
+        iDevice.sleep(2000);
+        String zoomIn = takeScreenShot("zoom_in");
+        iDevice.sleep(3000);
+        TestManager.addStep("Check if screen zommed in");
+        if (testManager.compareTwoImages(defaultScreenState, zoomIn))
+            testManager.failTest("Screen was not zoomed in");
+        TestManager.addStep("Screen zoomed in");
+        takeScreenShot("Screen zoomed in");
+        clicker.doubleClickByXY(screenSize[0] / 2, screenSize[1] / 2);
+        TestManager.addStep("Double click");
+        iDevice.sleep(2000);
+         String zoomOut = takeScreenShot("zoomed_out");
+        iDevice.sleep(3000);
+        TestManager.addStep("Check if screen zommed out");
+        if (testManager.compareTwoImages(zoomIn, zoomOut))
+            testManager.failTest("Screen was not zoomed out");
+        TestManager.addStep("Screen zoomed out");
+        takeScreenShot("Screen zoomed out");
+        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+    }
+
+    /*
+    C436019	DRP:scrubber navigation
+     */
+    public void testCase436019(){
+
+    }
+
     @PreCondition(preConditions = {Condition.NONE},
             productName = ConfigParam.DRP_MAGAZINE,
             productType = ScreenModel.DRP_READER,

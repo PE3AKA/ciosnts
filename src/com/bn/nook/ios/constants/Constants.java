@@ -208,6 +208,7 @@ public class Constants {
             public static final String ARTICLE_VIEW = "Article View";
             public static final String TEXT = "Text";
             public static final String ARTICLE_VIEW_PAGE = "com.bn.DRPReader.WebviewBackground.png";
+            public static final String CLOSE_BTN = "Close";
 
         }
         public static class TextOptions{

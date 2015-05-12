@@ -250,6 +250,22 @@ public class TestLauncher {
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase439472();
                 break;
+            case "436016":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(436016L);
+                testCaseInfo.setTitle("DRP:Page view");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase436016();
+                break;
+            case "436018":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(436018L);
+                testCaseInfo.setTitle("DRP:double tap zoom in zoom out");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase436018();
+                break;
 
             case "123456":
                 alertManager.defaultHandler();
