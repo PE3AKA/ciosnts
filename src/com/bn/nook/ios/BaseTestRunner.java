@@ -178,6 +178,9 @@ public class BaseTestRunner extends Base{
            case ARCHIVE_PRODUCT:
                preparer.archiveProduct(nookUtil, TestManager.getTestProperty(mPreCondition.productName().name()));
                break;
+           case REMOVE_BOOKMARKS:
+               preparer.removeAllBookmarks(mPreCondition.productType());
+               break;
             default: break;
         }
     }

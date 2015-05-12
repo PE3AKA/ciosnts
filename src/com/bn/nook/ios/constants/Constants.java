@@ -10,6 +10,8 @@ public class Constants {
     public static final long DOWNLOAD_PRODUCT_TIMEOUT = 600000;
     public static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+    public static enum ProductType{EPUB, DRP}
+
     public static class CommonElements{
         public static final String DONE_BTN = "Done";
         public static final String CANCEL_BTN = "Cancel";
@@ -209,6 +211,10 @@ public class Constants {
             public static final String TEXT = "Text";
             public static final String ARTICLE_VIEW_PAGE = "com.bn.DRPReader.WebviewBackground.png";
             public static final String CLOSE_BTN = "Close";
+            public static final String REMOVE_BOOKMARK = "Remove bookmark";
+            public static final String ADD_BOOKMARK = "Add bookmark";
+            public static final String BOOKMARKS_TAB = "Bookmarks tab";
+            public static final String EMPTY_LIST = "Empty list";
 
         }
         public static class TextOptions{

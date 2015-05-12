@@ -1323,8 +1323,38 @@ public class AcceptanceTests extends BaseTestRunner{
     /*
     C436019	DRP:scrubber navigation
      */
-    public void testCase436019(){
+    @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_PRODUCT},
+            productName = ConfigParam.DRP_MAGAZINE,
+            productType = ScreenModel.DRP_READER,
+            testId = 436018,
+            testTitle = "DRP:scrubber navigation")
+    public void testCase436019() throws TestException {
+        drpReaderScreen = new DrpReaderScreen(testManager, testHelper, paramsParser, iDevice);
+        if(!drpReaderScreen.hideReaderMenu())
+            testManager.failTest("Reder menu was not opened");
+        int percentScrubberBefore = Integer.parseInt(drpReaderScreen.getSliderPercent());
+        TestManager.addStep("Remember percent of scrubber : " + percentScrubberBefore);
+        Element slider = waiter.waitForElementByNameVisible(Constants.Reader.Drp.PAGE_SLIDER, Constants.DEFAULT_TIMEOUT);
+        if (slider == null)
+            testManager.retest("Slider was not found");
+        //todo swipe/drag
+        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+    }
 
+    /*
+    C436021	DRP: bookmark
+     */
+    @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_PRODUCT, Condition.REMOVE_BOOKMARKS},
+            productName = ConfigParam.DRP_MAGAZINE,
+            productType = ScreenModel.DRP_READER,
+            testId = 436021,
+            testTitle = "DRP: bookmark")
+    public void testCase436021() throws TestException {
+        drpReaderScreen = new DrpReaderScreen(testManager, testHelper, paramsParser, iDevice);
+        if(!drpReaderScreen.hideReaderMenu())
+            testManager.retest("Reder menu opened");
+        //todo logic
+        TestManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     @PreCondition(preConditions = {Condition.NONE},

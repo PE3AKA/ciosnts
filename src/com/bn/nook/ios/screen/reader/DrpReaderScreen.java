@@ -12,6 +12,7 @@ import com.sofment.testhelper.driver.ios.elements.ElementQuery;
 import com.sofment.testhelper.driver.ios.enams.UIAElementType;
 import com.sofment.testhelper.driver.ios.models.IDevice;
 import com.sofment.testhelper.enums.Matcher;
+import org.omg.CORBA.CODESET_INCOMPATIBLE;
 
 import java.util.ArrayList;
 
@@ -93,9 +94,12 @@ public class DrpReaderScreen extends ReaderScreen {
     }
 
     @Override
-    public boolean closeContents() {
-        clicker.clickOnElement(getter.getElementByName(Constants.Reader.Drp.CONTENTS_BOOKMARKS, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)));
-        TestManager.addStep("Click on Contents");
+    public boolean closeContents() throws TestException {
+        Element contentTab = getter.getElementByName(Constants.Reader.Drp.CONTENTS_TAB, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
+        if (contentTab == null)
+            testManager.retest("Content tab is null");
+        clicker.clickByXY( iDevice.getScreenSize()[0], contentTab.getY() - 50);
+        TestManager.addStep("Click on screen (higher tabs)");
         if (!waiter.waitForElementByNameGone(Constants.Reader.Drp.CONTENTS_TAB, Constants.DEFAULT_TIMEOUT, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase))){
             iDevice.i("Contents menu was not gone");
             return false;
@@ -338,18 +342,73 @@ public class DrpReaderScreen extends ReaderScreen {
     }
 
     @Override
-    public boolean addBookmark() {
-        return false;
+    public boolean addBookmark() throws TestException {
+        Element addBtn = waiter.waitForElementByNameVisible(Constants.Reader.Drp.ADD_BOOKMARK, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMatcher(Matcher.ContainsIgnoreCase));
+        if (addBtn == null)
+            testManager.retest("Add bookmark button was not found");
+        clicker.clickOnElement(addBtn);
+        TestManager.addStep("Click on Remove bookmark");
+        return waiter.waitForElementByNameVisible(Constants.Reader.Drp.REMOVE_BOOKMARK, Constants.DEFAULT_TIMEOUT, new IConfig().setMatcher(Matcher.ContainsIgnoreCase)) != null;
     }
 
     @Override
-    public boolean removeBookmark() {
-        return false;
+    public boolean removeBookmark() throws TestException {
+        Element removeBtn = waiter.waitForElementByNameVisible(Constants.Reader.Drp.REMOVE_BOOKMARK, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMatcher(Matcher.ContainsIgnoreCase));
+        if (removeBtn == null)
+            testManager.retest("Remove bookmark button was not found");
+        clicker.clickOnElement(removeBtn);
+        TestManager.addStep("Click on Add bookmark");
+        return waiter.waitForElementByNameVisible(Constants.Reader.Drp.ADD_BOOKMARK, Constants.DEFAULT_TIMEOUT, new IConfig().setMatcher(Matcher.ContainsIgnoreCase)) != null;
+    }
+
+    public void removeAllBookmarks() throws TestException {
+        while (true){
+            if (!openReaderMenu())
+                testManager.retest("Reader menu was not opened");
+            if (!openContents())
+                testManager.retest("Contents was not opened");
+            if (!openBookmarkTab())
+                testManager.retest("Bookmark tab was not opened");
+            if (isBookmarkTableEmpty()){
+                if (!closeContents())
+                    testManager.retest("Contents was not closed");
+                if (!hideReaderMenu())
+                    testManager.retest("Reader menu was not closed");
+                return ;
+            }
+            if (!openPageFromBookMarkContent(0))
+                testManager.retest("Error during open bookmark page");
+            if(!removeBookmark())
+                testManager.retest("Bookmark was not removed");
+        }
+    }
+
+    public boolean openPageFromBookMarkContent(int index) {
+        Element table = waiter.waitForElementVisible(Constants.DEFAULT_TIMEOUT, new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIATableView, 0));
+        ArrayList<Element> cells = getter.getElementChildren(table);
+        if (cells.size() == 0) {
+            iDevice.i("Table is empty");
+            return false;
+        }
+        if (cells.size() < index){
+            iDevice.i("Cell sieze < index");
+            return false;
+        }
+        clicker.clickOnElement(cells.get(index));
+        TestManager.addStep("Click on " + index + " row");
+        return waiter.waitForElementByNameGone(Constants.Reader.Drp.BOOKMARKS_TAB, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
+    }
+
+    public boolean isBookmarkTableEmpty(){
+        return waiter.waitForElementByNameVisible(Constants.Reader.Drp.EMPTY_LIST, 1, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)) != null;
     }
 
     @Override
     public boolean isBookmarkAdded() {
-        return false;
+        return waiter.waitForElementByNameVisible(Constants.Reader.Drp.REMOVE_BOOKMARK, Constants.DEFAULT_TIMEOUT, new IConfig().setMatcher(Matcher.ContainsIgnoreCase)) != null;
     }
 
     @Override
@@ -358,9 +417,35 @@ public class DrpReaderScreen extends ReaderScreen {
     }
 
     @Override
-    public boolean openBookmarkTab() {
+    public boolean openBookmarkTab()throws TestException{
+        if(!isContentsOpened())
+            testManager.retest("Contents is not opened");
+        Element bookmarkBtn = waiter.waitForElementByNameVisible(Constants.Reader.Drp.BOOKMARKS_TAB, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
+        if (bookmarkBtn == null)
+            testManager.retest("Bookmark button was not found");
+        if (isBookmarkTabOpened())
+            return true;
+        clicker.clickOnElement(bookmarkBtn);
+        TestManager.addStep("Click on Bookmark tab");
+        iDevice.sleep(2000);
+        return isBookmarkTabOpened();
+    }
+
+    public boolean isBookmarkTabOpened() throws TestException {
+        Element bookmarkBtn = waiter.waitForElementByNameVisible(Constants.Reader.Drp.BOOKMARKS_TAB, 5000,
+                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
+        if (bookmarkBtn == null)
+            testManager.retest("Bookmark button was not found");
+        if (bookmarkBtn.getValue() == null || bookmarkBtn.getValue().isEmpty())
+            return false;
+        if(bookmarkBtn.getValue().equals("1")) {
+            takeScreenShot("Bookmark tab opened");
+            return true;
+        }
         return false;
     }
+
 
     @Override
     public boolean openContentTab() {

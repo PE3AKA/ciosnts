@@ -295,8 +295,6 @@ public class Preparer {
 
     public void openHamburgerMenuFromAnyScreen() throws TestException {
         Element menuBtn;
-//        iDevice.i("################SLEEP##############");
-//        iDevice.sleep(20000);
         if (waitWhileHamburgerMenuOpened(1))
             return ;
         if (nookUtil.getCurrentScreen(true) == null)
@@ -339,6 +337,18 @@ public class Preparer {
         menuBtn = getter.getElementByName(Constants.CommonElements.MENU_BTN, new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase));
         clicker.clickOnElement(menuBtn);
         TestManager.addStep("Click on menu button");
+    }
+
+    public void removeAllBookmarks(ScreenModel productType) throws TestException {
+        switch (productType){
+            case EPUB_READER:
+                //todo logic
+                break;
+            case DRP_READER:
+                new DrpReaderScreen(testManager, testManager.getTestHelper(), paramsParser, iDevice).removeAllBookmarks();
+                break;
+        }
+
     }
 
     public boolean waitWhileHamburgerMenuOpened(long timeout) {

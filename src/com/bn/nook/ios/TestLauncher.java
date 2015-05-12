@@ -222,7 +222,7 @@ public class TestLauncher {
                 alertManager.defaultHandler();
                 acceptanceTests = new AcceptanceTests();
                 testCaseInfo.setId(436000L);
-                testCaseInfo.setTitle("ePUB: Table of content");
+                testCaseInfo.setTitle("ePUB: Table of content [bnauto]");
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436000();
                 break;
@@ -230,7 +230,7 @@ public class TestLauncher {
                 alertManager.defaultHandler();
                 acceptanceTests = new AcceptanceTests();
                 testCaseInfo.setId(436014L);
-                testCaseInfo.setTitle("DRP:Table of Contents");
+                testCaseInfo.setTitle("DRP:Table of Contents [bnauto]");
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436014();
                 break;
@@ -238,7 +238,7 @@ public class TestLauncher {
                 alertManager.defaultHandler();
                 acceptanceTests = new AcceptanceTests();
                 testCaseInfo.setId(436015L);
-                testCaseInfo.setTitle("DRP: Article view");
+                testCaseInfo.setTitle("DRP: Article view [bnauto]");
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436015();
                 break;
@@ -246,7 +246,7 @@ public class TestLauncher {
                 alertManager.defaultHandler();
                 acceptanceTests = new AcceptanceTests();
                 testCaseInfo.setId(439472L);
-                testCaseInfo.setTitle("DRP: Article view -- Change font style");
+                testCaseInfo.setTitle("DRP: Article view -- Change font style [bnauto]");
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase439472();
                 break;
@@ -254,7 +254,7 @@ public class TestLauncher {
                 alertManager.defaultHandler();
                 acceptanceTests = new AcceptanceTests();
                 testCaseInfo.setId(436016L);
-                testCaseInfo.setTitle("DRP:Page view");
+                testCaseInfo.setTitle("DRP:Page view [bnauto]");
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436016();
                 break;
@@ -262,7 +262,7 @@ public class TestLauncher {
                 alertManager.defaultHandler();
                 acceptanceTests = new AcceptanceTests();
                 testCaseInfo.setId(436018L);
-                testCaseInfo.setTitle("DRP:double tap zoom in zoom out");
+                testCaseInfo.setTitle("DRP:double tap zoom in zoom out [bnauto]");
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436018();
                 break;
@@ -314,6 +314,13 @@ public class TestLauncher {
                 testCaseInfo.setTitle("ePUB:View details [bnauto]");
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436007();
+            case "436021":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(436021L);
+                testCaseInfo.setTitle("DRP: bookmark [bnauto]");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase436021();
                 break;
 
         }

@@ -10,5 +10,6 @@ public enum Condition {
     UNARCHIVE_PRODUCT,
     ARCHIVE_PRODUCT,
     OPEN_PRODUCT,
-    OPEN_SCREEN
+    OPEN_SCREEN,
+    REMOVE_BOOKMARKS
 }
