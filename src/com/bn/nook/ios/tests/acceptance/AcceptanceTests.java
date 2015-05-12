@@ -818,7 +818,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.retest("My Shelves screen was not loaded");
         }
         initMyShelvesScreen();
-        myShelvesScreen.pressOnAdd();
+        myShelvesScreen.pressOnToolBarButton(Constants.My_Shelves.ADD_BUTTON, true);
 
         Element nextBtn = waiter.waitForElementVisible(Constants.DEFAULT_TIMEOUT, new ElementQuery()
                 .addElement(UIAElementType.UIAWindow, 0)
@@ -855,8 +855,7 @@ public class AcceptanceTests extends BaseTestRunner{
             }
         });
 
-        if(!myShelvesScreen.pressOnNext())
-            testManager.retest("Can not click on Next");
+        myShelvesScreen.pressOnNavigationBarButton(Constants.My_Shelves.NEXT_BUTTON, true);
 
         iDevice.i("waiting for alert Create Shelf");
         long startTimer = System.currentTimeMillis();
@@ -869,9 +868,6 @@ public class AcceptanceTests extends BaseTestRunner{
         iDevice.sleep(1000);
         if(alertState[0] == 0)
             testManager.retest("Alert '" + Constants.My_Shelves.ALERT_TITLE_CREATE_SHELF + "' was not found");
-
-//        if(!myShelvesScreen.pressOnCancel())
-//            testManager.retest("Can not click on Cancel");
 
         if(!nookUtil.waitForScreenModel(ScreenModel.MY_SHELVES, Constants.DEFAULT_TIMEOUT)) {
             testManager.retest("My Shelves screen was not loaded");
@@ -898,13 +894,32 @@ public class AcceptanceTests extends BaseTestRunner{
         TestManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
-    @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_SCREEN},
+    @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_SCREEN}, // todo CREATE_SHELF
             screenModel = ScreenModel.MY_SHELVES,
             screenTitle = Constants.Library.Menu.MY_SHELVES,
             testId = 436029,
             testTitle = "Edit/remove a Stack [bnauto]")
     public void testCase436029() throws TestException {
+        if(!nookUtil.waitForScreenModel(ScreenModel.MY_SHELVES, Constants.DEFAULT_TIMEOUT)) {
+            testManager.retest("My Shelves screen was not loaded");
+        }
+        initMyShelvesScreen();
 
+        ArrayList<Element> products = myShelvesScreen.getProducts(1, 5000);
+        if(products == null || products.size() == 0 )
+            testManager.retest("Shelf was not found");
+        Element firstElement = products.get(0);
+        if(!scroller.scrollToVisible(firstElement))
+            testManager.retest("Can not scrollable to shelf '" + firstElement.getName() + "'");
+
+        iDevice.i("Select shelf " + firstElement.getName());
+        TestManager.addStep("Select shelf " + firstElement.getName());
+        clicker.clickOnElement(firstElement);
+
+        myShelvesScreen.editShelf(true);
+        myShelvesScreen.renameShelf(true);
+        myShelvesScreen.removeShelf(true);
+        TestManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     private void expectedResult435993() throws TestException {

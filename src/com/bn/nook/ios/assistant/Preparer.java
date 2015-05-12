@@ -12,6 +12,7 @@ import com.bn.nook.ios.screen.reader.DrpReaderScreen;
 import com.bn.nook.ios.screen.reader.EpubReaderScreen;
 import com.bn.nook.ios.utils.NookUtil;
 import com.sofment.testhelper.driver.ios.config.IConfig;
+import com.sofment.testhelper.driver.ios.config.IWaiterConfig;
 import com.sofment.testhelper.driver.ios.elements.Element;
 import com.sofment.testhelper.driver.ios.enams.UIAElementType;
 import com.sofment.testhelper.driver.ios.helpers.Clicker;
@@ -296,7 +297,7 @@ public class Preparer {
     public void openHamburgerMenuFromAnyScreen() throws TestException {
         Element menuBtn;
         if (waitWhileHamburgerMenuOpened(1))
-            return ;
+            return;
         if (nookUtil.getCurrentScreen(true) == null)
             testManager.retest("Base screen is null");
         String currentScreen = nookUtil.getCurrentScreen(false).getClass().getSimpleName();
@@ -312,6 +313,15 @@ public class Preparer {
                 TestManager.addStep("Click on Done");
                 break;
             case Constants.Screens.Classes.LIBRARY_SCREEN:
+                Element menu = waiter.waitForElementByNames(new IWaiterConfig()
+                                .setMaxLevelOfElementsTree(3).addMatcher(Matcher.ContainsIgnoreCase),
+                        10000, Constants.CommonElements.MENU_BTN, new String[] {Constants.CommonElements.MENU_BTN_2});
+                if(menu != null) {
+                    TestManager.addStep("Click on menu button");
+                    clicker.clickByXY(menu.getX(), menu.getY());
+                    return;
+                }
+                iDevice.i("Library Menu is not found");
                 break;
             case Constants.Screens.Classes.SEARCH_SCREEN:
                 Element cancelBtn = getter.getElementByName(Constants.CommonElements.CANCEL_BTN, new IConfig().setMaxLevelOfElementsTree(3));
@@ -332,9 +342,11 @@ public class Preparer {
             case Constants.Screens.Classes.MY_SHELVES_SCREEN:
                 break;
         }
-        if(waiter.waitForElementByNameExists(Constants.CommonElements.MENU_BTN, 10000, new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase)) == null)
+        if(waiter.waitForElementByNameExists(Constants.CommonElements.MENU_BTN, 10000,
+                new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase)) == null)
             testManager.retest("Menu button was not found");
-        menuBtn = getter.getElementByName(Constants.CommonElements.MENU_BTN, new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase));
+        menuBtn = getter.getElementByName(Constants.CommonElements.MENU_BTN,
+                new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase));
         clicker.clickOnElement(menuBtn);
         TestManager.addStep("Click on menu button");
     }
@@ -352,8 +364,8 @@ public class Preparer {
     }
 
     public boolean waitWhileHamburgerMenuOpened(long timeout) {
-//        Element element = waiter.waitForElementByClassExists(UIAElementType.UIATableView, timeout, new IConfig().setMaxLevelOfElementsTree(2));
-        Element element = waiter.waitForElementByNameVisible(Constants.SideMenu.NOOK_LOGO, timeout, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
+        Element element = waiter.waitForElementByNameVisible(Constants.SideMenu.NOOK_LOGO, timeout,
+                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
         if (element == null) {
             iDevice.i("Menu not opened");
             return false;

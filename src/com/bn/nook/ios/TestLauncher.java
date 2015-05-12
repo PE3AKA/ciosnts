@@ -179,7 +179,7 @@ public class TestLauncher {
                 acceptanceTests.testCase436027();
                 break;
             case "436028":
-                alertManager.inputShelfHandler();
+                alertManager.createShelfHandler();
                 acceptanceTests = new AcceptanceTests();
                 testCaseInfo.setId(436028L);
                 testCaseInfo.setTitle("Create a Shelf [bnauto]");
@@ -187,7 +187,7 @@ public class TestLauncher {
                 acceptanceTests.testCase436028();
                 break;
             case "436029":
-                alertManager.defaultHandler();
+                alertManager.renameAndDeleteShelfHandler();
                 acceptanceTests = new AcceptanceTests();
                 testCaseInfo.setId(436029L);
                 testCaseInfo.setTitle("Edit/remove a Stack [bnauto]");
