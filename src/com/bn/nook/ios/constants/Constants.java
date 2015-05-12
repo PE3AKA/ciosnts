@@ -14,6 +14,7 @@ public class Constants {
         public static final String DONE_BTN = "Done";
         public static final String CANCEL_BTN = "Cancel";
         public static final String MENU_BTN = "com.bn hub hamburger menu";
+        public static final String MENU_BTN_2 = "Navigation Menu";
     }
 
     public static class SideMenu{
@@ -27,10 +28,17 @@ public class Constants {
 
     public static class My_Shelves {
         public static final String ALERT_TITLE_CREATE_SHELF = "Please enter shelf name";
+        public static final String ALERT_TITLE_RENAME_SHELF = "Rename Shelf";
+        public static final String ALERT_TITLE_DELETE_SHELF = "Delete Shelf?";
         public static final String ADD_BUTTON = "Add";
         public static final String NEXT_BUTTON = "Next";
         public static final String TITLE_CREATE_NEW_SHELF = "Create New Shelf";
         public static final String CANCEL_BUTTON = "Cancel";
+        public static final String EDIT_BUTTON = "Edit";
+        public static final String DONE_BUTTON = "Done";
+        public static final String TITLE_EDIT_SHELF = "Edit Shelf";
+        public static final String DELETE_BUTTON = "Delete";
+        public static final String RENAME_BUTTON = "Rename";
         public static final String SAVE_BUTTON = "Save";
         public static final String TITLE_ACTION_BAR = "My Shelves";
     }
