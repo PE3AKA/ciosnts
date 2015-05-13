@@ -10,6 +10,7 @@ import com.bn.nook.ios.manager.TestManager;
 import com.bn.nook.ios.model.TestCase;
 import com.bn.nook.ios.param.ParamsParser;
 import com.bn.nook.ios.screen.*;
+import com.bn.nook.ios.screen.library.DeferredSignInScreen;
 import com.bn.nook.ios.screen.library.LibraryScreen;
 import com.bn.nook.ios.screen.reader.DrpReaderScreen;
 import com.bn.nook.ios.screen.reader.EpubReaderScreen;
@@ -47,6 +48,7 @@ public class BaseTestRunner extends Base{
     protected OobeScreen oobeScreen;
     protected DrpReaderScreen drpReaderScreen;
     protected LibraryScreen libraryScreen;
+    protected DeferredSignInScreen deferredSignInScreen;
     protected MyShelvesScreen myShelvesScreen;
     protected ReaderScreen readerScreen;
     protected SettingsScreen settingsScreen;
@@ -201,6 +203,13 @@ public class BaseTestRunner extends Base{
         baseScreen = nookUtil.getCurrentScreen(false);
         if(nookUtil.screenModel != ScreenModel.LIBRARY) testManager.retest("Necessary library screen is not found. Expected: " + ScreenModel.LIBRARY.name() + ", actual : " + nookUtil.screenModel.name());
         libraryScreen = ((LibraryScreen) baseScreen);
+    }
+
+    public void initDeferredSignInScreen() throws TestException {
+        nookUtil.waitForScreenModel(ScreenModel.DEFERRED_SIGN_IN, Constants.DEFAULT_TIMEOUT);
+        baseScreen = nookUtil.getCurrentScreen(false);
+        if(nookUtil.screenModel != ScreenModel.DEFERRED_SIGN_IN) testManager.retest("Necessary library screen is not found. Expected: " + ScreenModel.LIBRARY.name() + ", actual : " + nookUtil.screenModel.name());
+        deferredSignInScreen = ((DeferredSignInScreen) baseScreen);
     }
 
     public void initReaderScreen() throws TestException {

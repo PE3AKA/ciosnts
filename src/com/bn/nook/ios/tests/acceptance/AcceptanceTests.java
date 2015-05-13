@@ -707,12 +707,16 @@ public class AcceptanceTests extends BaseTestRunner{
             testId = 436034,
             testTitle = "Deferred sign in:library search [bnauto]")
     public void testCase436034() throws TestException {
-//        initOobeScreen();
-//
-//        oobeScreen.clickOnExploreAppButton();
+        initDeferredSignInScreen();
 
-        iDevice.sleep(5000);
+        deferredSignInScreen.searchProduct(testManager.getDeferredSignInSearchProduct());
 
+        initSearchScreen();
+
+        Element sample = searchScreen.findSample();
+        if(sample == null) {
+            testManager.failTest("sample is not found");
+        }
         TestManager.testCaseInfo.setStatusId(Status.WORK_IN_PROGRESS);
     }
 
