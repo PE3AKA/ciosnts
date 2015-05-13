@@ -61,10 +61,14 @@ public class NookUtil {
                 new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAToolBar, 0).addElement(UIAElementType.UIAButton, Constants.Reader.Drp.LIBRARY_BTN).setOnlyVisible(false),
                 new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAStaticText, Constants.My_Shelves.TITLE_ACTION_BAR),
                 new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAStaticText, Constants.SideMenu.LIBRARY),
+                new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIANavigationBar, 0)
+                        .addElement(UIAElementType.UIAStaticText, Constants.ProfileScreen.TITLE_SET_PROFILE),
 //                new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAToolBar, 0).addElement(UIAElementType.UIAButton, Constants.Screens.LIBRARY_SCREEN),
 //                new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAToolBar, 0).addElement(UIAElementType.UIAButton, Constants.Screens.LIBRARY_SCREEN2),
-                new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIANavigationBar, 0).addElement(UIAElementType.UIAStaticText, Constants.Screens.SETTINGS_SCREEN),
-                new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIANavigationBar, 0).addElement(UIAElementType.UIAButton, Constants.ProductDetails.MANAGE_BUTTON)
+                new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIANavigationBar, 0)
+                        .addElement(UIAElementType.UIAStaticText, Constants.Screens.SETTINGS_SCREEN),
+                new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIANavigationBar, 0)
+                        .addElement(UIAElementType.UIAButton, Constants.ProductDetails.MANAGE_BUTTON)
         );
 
         if(element == null) {
@@ -114,6 +118,11 @@ public class NookUtil {
                 screenModel = ScreenModel.MY_SHELVES;
                 iDevice.i("####### CurrentScreen is " + screenModel.name());
                 baseScreen = new MyShelvesScreen(testManager, testHelper, paramsParser, iDevice);
+                return baseScreen;
+            case Constants.ProfileScreen.TITLE_SET_PROFILE:
+                screenModel = ScreenModel.PROFILES;
+                iDevice.i("####### CurrentScreen is " + screenModel.name());
+                baseScreen = new ProfileScreen(testManager, testHelper, paramsParser, iDevice);
                 return baseScreen;
             case Constants.Screens.DeferredSignIn.BUILD_YOUR_OWN_LIBRARY:
                 screenModel = ScreenModel.DEFERRED_SIGN_IN;

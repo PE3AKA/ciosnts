@@ -29,6 +29,17 @@ public class Constants {
         public static final String NOOK_LOGO = "com.bn.NookApplication.NookLogo.png";
     }
 
+    public static class ProfileScreen {
+        public static final String TITLE_SET_PROFILE = "Set Profile";
+        public static final String TITLE_NEW_PROFILE = "New Profile";
+        public static final String PROFILE_LABEL = "PROFILES:";
+        public static final String ADD_BUTTON = "Add";
+        public static final String DONE_BUTTON = "Done";
+        public static final String FIRST_NAME_EDIT_TEXT = "Enter First Name";
+        public static final String BACK_BUTTON = "Back";
+        public static final String PROFILE_NAME = "ChildProfile";
+    }
+
     public static class My_Shelves {
         public static final String ALERT_TITLE_CREATE_SHELF = "Please enter shelf name";
         public static final String ALERT_TITLE_RENAME_SHELF = "Rename Shelf";

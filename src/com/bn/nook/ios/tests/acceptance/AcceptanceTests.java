@@ -1033,6 +1033,14 @@ public class AcceptanceTests extends BaseTestRunner{
         TestManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
+    @PreCondition(preConditions = {Condition.LOGIN, Condition.ADD_PROFILE},
+            testId = 436030,
+            profileName = Constants.ProfileScreen.PROFILE_NAME,
+            testTitle = "Profiles - swap between profiles [bnauto]")
+    public void testCase436030() throws TestException {
+
+    }
+
     private void expectedResult435993() throws TestException {
         Element profiles = waiter.waitForElementByNameVisible("PROFILES:", Constants.DEFAULT_TIMEOUT, new IConfig().setMatcher(Matcher.ContainsIgnoreCase).setMaxLevelOfElementsTree(3));
         if(profiles == null) {

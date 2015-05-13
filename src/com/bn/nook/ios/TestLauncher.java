@@ -194,6 +194,14 @@ public class TestLauncher {
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436029();
                 break;
+            case "436030":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(436030L);
+                testCaseInfo.setTitle("Profiles - swap between profiles [bnauto]");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase436030();
+                break;
             case "436012":
                 alertManager.defaultHandler();
                 acceptanceTests = new AcceptanceTests();

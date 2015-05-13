@@ -50,6 +50,7 @@ public class BaseTestRunner extends Base{
     protected LibraryScreen libraryScreen;
     protected DeferredSignInScreen deferredSignInScreen;
     protected MyShelvesScreen myShelvesScreen;
+    protected ProfileScreen profileScreen;
     protected ReaderScreen readerScreen;
     protected SettingsScreen settingsScreen;
     protected SearchScreen searchScreen;
@@ -180,6 +181,9 @@ public class BaseTestRunner extends Base{
                break;
            case ARCHIVE_PRODUCT:
                preparer.archiveProduct(nookUtil, TestManager.getTestProperty(mPreCondition.productName().name()));
+               break;
+           case ADD_PROFILE:
+               preparer.addProfile(mPreCondition.profileName(), true);
                break;
            case REMOVE_BOOKMARKS:
                preparer.removeAllBookmarks(mPreCondition.productType());

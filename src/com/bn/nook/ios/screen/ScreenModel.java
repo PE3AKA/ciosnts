@@ -14,5 +14,6 @@ public enum ScreenModel {
     READER,
     SEARCH,
     PRODUCT_DETAILS,
+    PROFILES,
     DEFERRED_SIGN_IN
 }

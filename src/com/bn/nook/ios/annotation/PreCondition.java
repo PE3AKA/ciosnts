@@ -35,6 +35,8 @@ public @interface PreCondition {
     ScreenModel screenModel() default ScreenModel.LIBRARY;
     String screenTitle() default Constants.Library.Menu.LIBRARY;
 
+    String profileName() default "Child";
+
 //    String libreryCategoyOfProduct() default Constants.Library.Text.BOOKS;
 //    boolean isCloseTutorial() default false;
 //    int productType() default Constants.ProductType.EPUB;

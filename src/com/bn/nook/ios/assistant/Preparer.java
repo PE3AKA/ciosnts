@@ -1,16 +1,22 @@
 package com.bn.nook.ios.assistant;
 
+import com.bn.nook.ios.BaseTestRunner;
 import com.bn.nook.ios.constants.Constants;
 import com.bn.nook.ios.exception.TestException;
+import com.bn.nook.ios.json.Status;
 import com.bn.nook.ios.manager.TestManager;
+import com.bn.nook.ios.param.ConfigParam;
 import com.bn.nook.ios.param.ParamsParser;
 import com.bn.nook.ios.screen.*;
 import com.bn.nook.ios.screen.library.LibraryScreen;
 import com.bn.nook.ios.screen.reader.DrpReaderScreen;
+import com.bn.nook.ios.screen.reader.EpubReaderScreen;
 import com.bn.nook.ios.utils.NookUtil;
 import com.sofment.testhelper.driver.ios.config.IConfig;
 import com.sofment.testhelper.driver.ios.config.IWaiterConfig;
 import com.sofment.testhelper.driver.ios.elements.Element;
+import com.sofment.testhelper.driver.ios.elements.ElementQuery;
+import com.sofment.testhelper.driver.ios.enams.UIAElementType;
 import com.sofment.testhelper.driver.ios.helpers.Clicker;
 import com.sofment.testhelper.driver.ios.helpers.Getter;
 import com.sofment.testhelper.driver.ios.helpers.Scroller;
@@ -18,6 +24,7 @@ import com.sofment.testhelper.driver.ios.helpers.Waiter;
 import com.sofment.testhelper.driver.ios.interfaces.AlertCallBack;
 import com.sofment.testhelper.driver.ios.models.IDevice;
 import com.sofment.testhelper.enums.Matcher;
+import org.json.Test;
 
 import java.util.ArrayList;
 
@@ -37,6 +44,7 @@ public class Preparer {
     protected SideMenu sideMenu;
     protected NookUtil nookUtil;
     protected ProductDetailsScreen productDetailsScreen;
+    protected ProfileScreen profileScreen;
     protected ParamsParser paramsParser;
     
     public Preparer(IDevice iDevice, NookUtil nookUtil, ParamsParser paramsParser) {
@@ -102,10 +110,19 @@ public class Preparer {
         nookUtil.waitForScreenModel(ScreenModel.PRODUCT_DETAILS, Constants.DEFAULT_TIMEOUT);
         baseScreen = nookUtil.getCurrentScreen(false);
         if(nookUtil.screenModel != ScreenModel.PRODUCT_DETAILS)
-            testManager.retest("Necessary search screen is not found. Expected: " +
+            testManager.retest("Necessary screen is not found. Expected: " +
                     ScreenModel.PRODUCT_DETAILS.name() + ", actual : " +
                     nookUtil.screenModel.name());
         productDetailsScreen = ((ProductDetailsScreen) baseScreen);
+    }
+
+    public void initProfileScreen() throws TestException {
+        nookUtil.waitForScreenModel(ScreenModel.PROFILES, Constants.DEFAULT_TIMEOUT);
+        baseScreen = nookUtil.getCurrentScreen(false);
+        if(nookUtil.screenModel != ScreenModel.PROFILES)
+            testManager.retest("Necessary screen is not found. Expected: " +
+                    ScreenModel.PROFILES.name() + ", actual : " + nookUtil.screenModel.name());
+        profileScreen = ((ProfileScreen) baseScreen);
     }
 
     public void archiveProduct(NookUtil nookUtil, String productName) throws TestException {
@@ -232,6 +249,51 @@ public class Preparer {
             throw new TestException("Unarchive button doesn't exist").retest();
     }
 
+    public void addProfile(String profileName, boolean isChild) throws TestException {
+//        if (nookUtil.waitForScreenModel(ScreenModel.LIBRARY, 1, false)) {
+//            iDevice.i(ScreenModel.LIBRARY.name() + " already opened");
+//            return;
+//        }
+        openHamburgerMenuFromAnyScreen();
+        if(!waitWhileHamburgerMenuOpened(Constants.DEFAULT_TIMEOUT))
+            testManager.retest("Hamburger menu not opened");
+        sideMenu = new SideMenu(testManager, testManager.getTestHelper(), paramsParser, iDevice);
+        sideMenu.openProfile();
+
+        if(!nookUtil.waitForScreenModel(ScreenModel.PROFILES, Constants.DEFAULT_TIMEOUT)) {
+            testManager.retest("Profiles Screen was not loaded");
+        }
+        initProfileScreen();
+
+        Element profile = profileScreen.getProfile(profileName);
+        if(profile != null) {
+            TestManager.addStep("Profile '" + profileName + "' exists");
+            return;
+        }
+
+        profileScreen.pressOnNavigationBarButton(Constants.ProfileScreen.ADD_BUTTON, true);
+
+        profileScreen.waitForElement(new ElementQuery()
+                .addElement(UIAElementType.UIAWindow, 0)
+                .addElement(UIAElementType.UIANavigationBar, 0)
+                .addElement(UIAElementType.UIAStaticText, Constants.ProfileScreen.TITLE_NEW_PROFILE), Constants.DEFAULT_TIMEOUT, true);
+
+        profileScreen.inputTextToProfile(profileName);
+
+        profileScreen.pressOnNavigationBarButton(Constants.ProfileScreen.DONE_BUTTON, true);
+
+        profileScreen.waitForElement(new ElementQuery()
+                .addElement(UIAElementType.UIAWindow, 0)
+                .addElement(UIAElementType.UIANavigationBar, 0)
+                .addElement(UIAElementType.UIAStaticText, Constants.ProfileScreen.TITLE_SET_PROFILE), Constants.DEFAULT_TIMEOUT, true);
+
+        profile = profileScreen.getProfile(profileName);
+        if(profile != null) {
+            testManager.retest("Profile '" + profileName + "' doesn't exists");
+        }
+
+    }
+
     public void deferredSignIn()throws TestException{
 
     }
@@ -337,6 +399,14 @@ public class Preparer {
                 //todo logic for epub
                 break;
             case Constants.Screens.Classes.MY_SHELVES_SCREEN:
+                menu = waiter.waitForElementByNames(new IWaiterConfig()
+                                .setMaxLevelOfElementsTree(3).addMatcher(Matcher.ContainsIgnoreCase),
+                        10000, Constants.CommonElements.MENU_BTN, new String[] {Constants.CommonElements.MENU_BTN_2});
+                if(menu != null) {
+                    TestManager.addStep("Click on menu button");
+                    clicker.clickByXY(menu.getX(), menu.getY());
+                    return;
+                }
                 break;
         }
         if(waiter.waitForElementByNameExists(Constants.CommonElements.MENU_BTN, 10000,
@@ -344,8 +414,9 @@ public class Preparer {
             testManager.retest("Menu button was not found");
         menuBtn = getter.getElementByName(Constants.CommonElements.MENU_BTN,
                 new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase));
-        clicker.clickOnElement(menuBtn);
+
         TestManager.addStep("Click on menu button");
+        clicker.clickOnElement(menuBtn);
     }
 
     public void removeAllBookmarks(ScreenModel productType) throws TestException {
