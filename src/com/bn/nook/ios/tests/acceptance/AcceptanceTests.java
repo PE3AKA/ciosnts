@@ -564,16 +564,25 @@ public class AcceptanceTests extends BaseTestRunner{
         TestManager.testCaseInfo.setStatusId(1);
     }
 
-    @PreCondition(preConditions = {Condition.NONE},
+    /**
+     *
+     * @return ArrayList with two objects.
+     * 1-st object - int (page number before drag to reader control)
+     * 2-s - instanse of Element class (back button);
+     * @throws TestException
+     */
+
+    @PreCondition(preConditions = {Condition.LOGIN},
             testId = 436008,
             testTitle = "ePUB:navigation bar [bnauto]")
-    public void testCase436008() throws TestException {
+    public ArrayList<Object> testCase436008() throws TestException {
 
-//        testCase435999();
+        testCase435999();
         initEbubReaderScreen();
 
-        iDevice.sleep(5000);
-        int[] pageInfo = readerScreen.getCurrentPageInfo();
+        ArrayList<Object> results = new ArrayList<>();
+
+        int[] pageInfoBefore = readerScreen.getCurrentPageInfo();
         double random = (double)getRandomInt(0, 100) / (double) 100;
         if(!readerScreen.dragToValue(random)) {
             testManager.retest("can not complete drag to value");
@@ -581,12 +590,61 @@ public class AcceptanceTests extends BaseTestRunner{
 
         iDevice.sleep(3000);
 
+        int[] pageInfoAfter = readerScreen.getCurrentPageInfo();
+
+        if(pageInfoAfter[0] == pageInfoBefore[0]) {
+            testManager.failTest("page number is not changed after drag the navigation bar: \n" +
+                    "before drag: " + pageInfoBefore[0] + "\n" +
+                    "after drag: " + pageInfoAfter[0]);
+        }
+
         Element back = waiter.waitForElementByNameVisible(Constants.Reader.Epub.BACK, 1, new IConfig().setMaxLevelOfElementsTree(2));
         if(back == null) {
             testManager.failTest(String.format("back button is not found [%s]", Constants.Reader.Epub.BACK));
         }
 
         TestManager.testCaseInfo.setStatusId(1);
+        results.add(pageInfoBefore[0]);
+        results.add(back);
+        return results;
+    }
+
+    @PreCondition(preConditions = {Condition.LOGIN},
+            testId = 436010,
+            testTitle = "ePUB:go back to page [bnauto]")
+    public void testCase436010() throws TestException {
+        ArrayList<Object> objects = testCase436008();
+        TestManager.testCaseInfo.setStatusId(Status.FAILED);
+
+        int pageNumberBeforeDrag = -1;
+        Element backButton = null;
+        if(objects.get(0) instanceof Integer) {
+            pageNumberBeforeDrag = (Integer) objects.get(0);
+        }
+        if(objects.get(1) instanceof Element) {
+            backButton = (Element) objects.get(1);
+        }
+
+        if(backButton == null) {
+            testManager.retest(String.format("back button is not found [%s]", Constants.Reader.Epub.BACK));
+        }
+
+        TestManager.addStep("click on back button");
+        if(!clicker.clickOnElement(backButton)) {
+            testManager.failTest(String.format("can not click on back button [%s]", Constants.Reader.Epub.BACK));
+        }
+
+        iDevice.sleep(3000);
+
+        int[] pageInfoAfter = readerScreen.getCurrentPageInfo();
+
+        if(pageInfoAfter[0] != pageNumberBeforeDrag) {
+            testManager.failTest("the page number before drag the navigation bar is not equals the page number after click the back button: \n" +
+                    "before drag: " + pageNumberBeforeDrag + "\n" +
+                    "after click the back button: " + pageInfoAfter[0]);
+        }
+
+        TestManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     private void prepareTextOptions() throws TestException {

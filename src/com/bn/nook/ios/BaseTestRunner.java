@@ -15,10 +15,7 @@ import com.bn.nook.ios.screen.reader.EpubReaderScreen;
 import com.bn.nook.ios.utils.LoggerUtil;
 import com.bn.nook.ios.utils.NookUtil;
 import com.sofment.testhelper.TestHelper;
-import com.sofment.testhelper.driver.ios.helpers.Clicker;
-import com.sofment.testhelper.driver.ios.helpers.Getter;
-import com.sofment.testhelper.driver.ios.helpers.Scroller;
-import com.sofment.testhelper.driver.ios.helpers.Waiter;
+import com.sofment.testhelper.driver.ios.helpers.*;
 import com.sofment.testhelper.driver.ios.models.IDevice;
 
 import java.lang.annotation.Annotation;
@@ -42,6 +39,7 @@ public class BaseTestRunner extends Base{
     protected Getter getter;
     protected Clicker clicker;
     protected Scroller scroller;
+    protected Drager drager;
     protected NookUtil nookUtil;
     protected BaseScreen baseScreen;
     protected OobeScreen oobeScreen;
@@ -69,6 +67,7 @@ public class BaseTestRunner extends Base{
         getter = iDevice.getGetter();
         clicker = iDevice.getClicker();
         scroller = iDevice.getScroller();
+        drager = iDevice.getDrager();
 
         nookUtil = new NookUtil(testManager, testHelper, paramsParser, iDevice);
         preparer = new Preparer(iDevice, nookUtil, paramsParser);

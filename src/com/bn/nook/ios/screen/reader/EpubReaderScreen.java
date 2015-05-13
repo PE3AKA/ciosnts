@@ -408,9 +408,14 @@ public class EpubReaderScreen extends ReaderScreen {
         Element slider = waiter.waitForElementByNameVisible(Constants.Reader.Epub.PAGE_SLIDER, 1, new IConfig().setMaxLevelOfElementsTree(2));
         if(slider == null) {
             testManager.retest(String.format("slider is not found: [%s]", Constants.Reader.Epub.PAGE_SLIDER));
+            return false;
         }
+        String progress = slider.getValue().replaceAll("%", "").trim();
+
+        double progressValue = Double.parseDouble(progress)/(double)100;
+
         TestManager.addStep("drag to value: " + value);
-        return drager.dragToValue(slider, value);
+        return drager.dragInsideElementWithOptions(slider, progressValue, 0.5, value, 0.5);
     }
 
     public static class FontSize {

@@ -1,6 +1,7 @@
 package com.bn.nook.ios.model;
 
 import com.bn.nook.ios.exception.TestException;
+import com.bn.nook.ios.json.Status;
 import com.bn.nook.ios.manager.TestManager;
 import com.bn.nook.ios.param.ParamsParser;
 import com.sofment.testhelper.driver.ios.models.IDevice;
@@ -33,6 +34,7 @@ public class TestCase {
 //            iDevice.installApplication(pathToBuild);
 //        }
 //        iDevice.launchApplication(pathToBuild);
+        TestManager.testCaseInfo.setStatusId(Status.FAILED);
         testCaseConfig.mainLogic();
         iDevice.stopApplication();
         TestManager.writeResult();

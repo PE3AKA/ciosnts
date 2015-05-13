@@ -55,7 +55,8 @@ public class ParamsParser {
         implementedTests.add("436005");
         implementedTests.add("436007");
         implementedTests.add("436021");
-//        implementedTests.add("436008"); todo not aplicable. Can not complete drag to value: Unexpected error in -[UIASlider_0x7facdb41f5f0 dragToValue:], /SourceCache/UIAutomation_Sim/UIAutomation-430/Framework/UIAItemElements.m line 626
+        implementedTests.add("436008"); //todo not aplicable. Can not complete drag to value: Unexpected error in -[UIASlider_0x7facdb41f5f0 dragToValue:], /SourceCache/UIAutomation_Sim/UIAutomation-430/Framework/UIAItemElements.m line 626
+        implementedTests.add("436010");
     }
 
     private String deviceUuid;

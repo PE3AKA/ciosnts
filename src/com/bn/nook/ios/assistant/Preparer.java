@@ -319,7 +319,7 @@ public class Preparer {
                         10000, Constants.CommonElements.MENU_BTN, new String[] {Constants.CommonElements.MENU_BTN_2});
                 if(menu != null) {
                     TestManager.addStep("Click on menu button");
-                    clicker.clickByXY(menu.getX(), menu.getY());
+                    clicker.clickByXY(menu.getX() + menu.getWidth()/2, menu.getY() + menu.getHeight()/2);
                     return;
                 }
                 iDevice.i("Library Menu is not found");

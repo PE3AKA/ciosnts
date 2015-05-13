@@ -54,7 +54,7 @@ public class NookUtil {
                 new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAButton, Constants.Screens.OOBE_SCREEN),
                 new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAButton, Constants.Screens.SEARCH_SCREEN),
                 new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAButton, Constants.Screens.EPUB_READER).setOnlyVisible(false),
-                new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAToolBar, 0).addElement(UIAElementType.UIAButton, Constants.Reader.Drp.LIBRARY_BTN),
+                new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAToolBar, 0).addElement(UIAElementType.UIAButton, Constants.Reader.Drp.LIBRARY_BTN).setOnlyVisible(false),
                 new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAStaticText, Constants.My_Shelves.TITLE_ACTION_BAR),
                 new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAStaticText, Constants.SideMenu.LIBRARY),
 //                new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAToolBar, 0).addElement(UIAElementType.UIAButton, Constants.Screens.LIBRARY_SCREEN),
