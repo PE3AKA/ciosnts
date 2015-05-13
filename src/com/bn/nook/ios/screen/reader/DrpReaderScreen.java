@@ -389,15 +389,15 @@ public class DrpReaderScreen extends ReaderScreen {
 
     @Override
     public void swipePage(Constants.SwipeSide swipeSide) throws TestException {
-        Element element = waiter.waitForElementVisible(1, new ElementQuery().addElement(UIAElementType.UIAWindow,0).addElement(UIAElementType.UIAScrollView,0));
+        Element element = waiter.waitForElementExists(1, new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAScrollView, 0));
         if (element == null)
             testManager.retest("Element is null");
         switch(swipeSide){
             case LEFT:
-                scroller.scrollLeftInsideElement(element, 0.1, 5);
+                scroller.scrollLeftInsideElement(element, 0.1, 1);
                 break;
             case RIGHT:
-                scroller.scrollRightInsideElement(element, 0.1, 5);
+                scroller.scrollRightInsideElement(element, 0.1, 1);
                 break;
         }
     }
@@ -422,7 +422,7 @@ public class DrpReaderScreen extends ReaderScreen {
     }
 
     public boolean isBookmarkTableEmpty(){
-        return waiter.waitForElementByNameVisible(Constants.Reader.Drp.EMPTY_LIST, 1, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)) != null;
+        return waiter.waitForElementByNameVisible(Constants.Reader.Drp.EMPTY_LIST, 1, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)) == null;
     }
 
     @Override
