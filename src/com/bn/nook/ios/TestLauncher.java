@@ -266,6 +266,22 @@ public class TestLauncher {
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436018();
                 break;
+            case "436019":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(436019L);
+                testCaseInfo.setTitle("DRP:scrubber navigation [bnauto]");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase436019();
+                break;
+            case "436022":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(436022L);
+                testCaseInfo.setTitle("DRP:swipe forward a few pages [bnauto]");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase436022();
+                break;
 
             case "123456":
                 alertManager.defaultHandler();

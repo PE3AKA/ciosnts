@@ -11,6 +11,7 @@ public class Constants {
     public static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     public static enum ProductType{EPUB, DRP}
+    public static enum SwipeSide {LEFT, RIGHT}
 
     public static class CommonElements{
         public static final String DONE_BTN = "Done";

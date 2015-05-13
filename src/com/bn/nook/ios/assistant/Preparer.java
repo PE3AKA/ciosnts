@@ -276,6 +276,7 @@ public class Preparer {
         searchScreen = (SearchScreen) nookUtil.getCurrentScreen(false);
         ArrayList<Element> searchProducts = searchScreen.getSearchResults(1, Constants.DEFAULT_TIMEOUT);
         iDevice.i("searchProducts: " + searchProducts.size());
+        //todo fix with download product (add logic to load product)
         for (Element element : searchProducts) {
             if(element.getName().toLowerCase().contains(product.toLowerCase()) &&
                     !element.getName().toLowerCase().contains(Constants.Search.DOWNLOADING)) {

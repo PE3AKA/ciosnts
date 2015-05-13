@@ -1,5 +1,6 @@
 package com.bn.nook.ios.screen;
 
+import com.bn.nook.ios.constants.Constants;
 import com.bn.nook.ios.exception.TestException;
 import com.bn.nook.ios.manager.TestManager;
 import com.bn.nook.ios.param.ParamsParser;
@@ -47,4 +48,5 @@ public abstract class ReaderScreen extends BaseScreen {
     public abstract boolean openBookmarkTab() throws TestException;
     public abstract boolean openContentTab() throws TestException;
     public abstract void  removeAllBookmarks () throws TestException;
+    public abstract void swipePage (Constants.SwipeSide swipeSide)throws  TestException;
 }

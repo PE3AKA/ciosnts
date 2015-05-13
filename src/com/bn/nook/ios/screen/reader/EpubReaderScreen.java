@@ -397,6 +397,11 @@ public class EpubReaderScreen extends ReaderScreen {
 
     }
 
+    @Override
+    public void swipePage(Constants.SwipeSide swipeSide) throws TestException {
+
+    }
+
     public static class FontSize {
         public static final int EXTRA_SMALL_FONT = 0;
         public static final int SMALL_FONT = 1;

@@ -1345,14 +1345,27 @@ public class AcceptanceTests extends BaseTestRunner{
             testTitle = "DRP:scrubber navigation")
     public void testCase436019() throws TestException {
         drpReaderScreen = new DrpReaderScreen(testManager, testHelper, paramsParser, iDevice);
-        if(!drpReaderScreen.hideReaderMenu())
+        if(!drpReaderScreen.openReaderMenu())
             testManager.failTest("Reder menu was not opened");
         int percentScrubberBefore = Integer.parseInt(drpReaderScreen.getSliderPercent());
         TestManager.addStep("Remember percent of scrubber : " + percentScrubberBefore);
         Element slider = waiter.waitForElementByNameVisible(Constants.Reader.Drp.PAGE_SLIDER, Constants.DEFAULT_TIMEOUT);
         if (slider == null)
             testManager.retest("Slider was not found");
-        //todo swipe/drag
+        double pointToDrag = percentScrubberBefore <= 50 ? 0.85 : 0.25;
+        if (!iDevice.getDrager().dragToValue(slider, pointToDrag))
+            testManager.retest("Error in drag method");
+        iDevice.sleep(1000);
+        TestManager.addStep("Drag slider to " + pointToDrag * 100 + " percent");
+        takeScreenShot("After drag slider to " + pointToDrag * 100 + " percent");
+        TestManager.addStep("Check if slider changed");
+        int percentScrubberAfter = Integer.parseInt(drpReaderScreen.getSliderPercent());
+        if (percentScrubberAfter != pointToDrag)
+            testManager.failTest("Scrubber was not changed");
+        TestManager.addStep("Scrubber moved");
+        if(!drpReaderScreen.openPageFromSlider())
+            testManager.failTest("Page not opened");
+        TestManager.addStep("Page opened");
         TestManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
@@ -1367,10 +1380,82 @@ public class AcceptanceTests extends BaseTestRunner{
     public void testCase436021() throws TestException {
         drpReaderScreen = new DrpReaderScreen(testManager, testHelper, paramsParser, iDevice);
         if(!drpReaderScreen.hideReaderMenu())
-            testManager.retest("Reder menu opened");
-        //todo logic
+            testManager.retest("Reader menu opened");
+        TestManager.addStep("Check if Add_Bookmark button present");
+        if (waiter.waitForElementByNameExists(Constants.Reader.Drp.ADD_BOOKMARK, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMatcher(Matcher.ContainsIgnoreCase)) == null)
+            testManager.failTest("Add bookmark (+) button was not found");
+        TestManager.addStep("Add Bookmark (+) button present");
+        takeScreenShot("Add Bookmark (+) button present");
+        if(!drpReaderScreen.addBookmark())
+            testManager.failTest("Add bookmark failed");
+        TestManager.addStep("Click on Add bookmark (+) button");
+        takeScreenShot("Add bookmark clicked");
+        if (!drpReaderScreen.openReaderMenu())
+            testManager.retest("Reader menu was not opened");
+        if (!drpReaderScreen.openContents())
+            testManager.retest("Contents was not opened");
+        if (!drpReaderScreen.openBookmarkTab())
+            testManager.retest("Bookmark tab was not opened");
+        if (drpReaderScreen.isBookmarkTableEmpty())
+            testManager.failTest("The page with bookmark do not shown in the Bookmarks tab");
+        TestManager.addStep("Bookmark tab shows in table");
+        takeScreenShot("Bookmark tab shows in table");
         TestManager.testCaseInfo.setStatusId(Status.PASSED);
     }
+
+    /*
+    C436022	DRP:swipe forward a few pages
+     */
+    @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_PRODUCT, Condition.REMOVE_BOOKMARKS},
+            productName = ConfigParam.DRP_MAGAZINE,
+            productType = ScreenModel.DRP_READER,
+            testId = 436022,
+            testTitle = "DRP:swipe forward a few pages")
+    public void testCase436022() throws TestException {
+        drpReaderScreen = new DrpReaderScreen(testManager, testHelper, paramsParser, iDevice);
+        if(!drpReaderScreen.hideReaderMenu())
+            testManager.retest("Reader menu opened");
+        if(!drpReaderScreen.addBookmark())
+            testManager.retest("Add bookmark failed");
+            takeScreenShot("Add bookmark clicked");
+            drpReaderScreen.swipePage(Constants.SwipeSide.LEFT);
+        iDevice.sleep(1500);
+        TestManager.addStep("Swipe forward");
+        takeScreenShot(" after swipe forward");
+        if(waiter.waitForElementByNameExists(Constants.Reader.Drp.REMOVE_BOOKMARK, 5000,
+                new IConfig().setMatcher(Matcher.ContainsIgnoreCase)) != null)
+            testManager.failTest("Page was not scrolled");
+        TestManager.addStep("Page scrolled");
+        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+    }
+
+    /*
+    C436023	DRP:swipe backward a few pages
+     */
+    @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_PRODUCT, Condition.REMOVE_BOOKMARKS},
+            productName = ConfigParam.DRP_MAGAZINE,
+            productType = ScreenModel.DRP_READER,
+            testId = 436023,
+            testTitle = "DRP:swipe backward a few pages")
+    public void testCase436023() throws TestException {
+        drpReaderScreen = new DrpReaderScreen(testManager, testHelper, paramsParser, iDevice);
+        if(!drpReaderScreen.hideReaderMenu())
+            testManager.retest("Reader menu opened");
+        if(!drpReaderScreen.addBookmark())
+            testManager.retest("Add bookmark failed");
+        takeScreenShot("Add bookmark clicked");
+        drpReaderScreen.swipePage(Constants.SwipeSide.RIGHT);
+        iDevice.sleep(1500);
+        TestManager.addStep("Swipe backward");
+        takeScreenShot(" after swipe backward");
+        if(waiter.waitForElementByNameExists(Constants.Reader.Drp.REMOVE_BOOKMARK, 5000,
+                new IConfig().setMatcher(Matcher.ContainsIgnoreCase)) != null)
+            testManager.failTest("Page was not scrolled");
+        TestManager.addStep("Page scrolled");
+        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+    }
+
 
     @PreCondition(preConditions = {Condition.NONE},
             productName = ConfigParam.DRP_MAGAZINE,

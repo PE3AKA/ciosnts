@@ -343,24 +343,26 @@ public class DrpReaderScreen extends ReaderScreen {
 
     @Override
     public boolean addBookmark() throws TestException {
-        Element addBtn = waiter.waitForElementByNameVisible(Constants.Reader.Drp.ADD_BOOKMARK, Constants.DEFAULT_TIMEOUT,
-                new IConfig().setMatcher(Matcher.ContainsIgnoreCase));
+        ///UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAScrollView[2]/UIAButton[1]
+        Element addBtn = waiter.waitForElementByNameExists(Constants.Reader.Drp.ADD_BOOKMARK, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMatcher(Matcher.ContainsIgnoreCase).setMaxLevelOfElementsTree(4));
         if (addBtn == null)
             testManager.retest("Add bookmark button was not found");
-        clicker.clickOnElement(addBtn);
-        TestManager.addStep("Click on Remove bookmark");
-        return waiter.waitForElementByNameVisible(Constants.Reader.Drp.REMOVE_BOOKMARK, Constants.DEFAULT_TIMEOUT, new IConfig().setMatcher(Matcher.ContainsIgnoreCase)) != null;
+        clicker.clickByXY(addBtn.getX() + addBtn.getWidth()/2, addBtn.getY() + addBtn.getHeight()/2);
+        TestManager.addStep("Click on Add bookmark");
+        return waiter.waitForElementByNameExists(Constants.Reader.Drp.REMOVE_BOOKMARK, Constants.DEFAULT_TIMEOUT, new IConfig().setMatcher(Matcher.ContainsIgnoreCase)) != null;
     }
 
     @Override
     public boolean removeBookmark() throws TestException {
-        Element removeBtn = waiter.waitForElementByNameVisible(Constants.Reader.Drp.REMOVE_BOOKMARK, Constants.DEFAULT_TIMEOUT,
+        Element removeBtn = waiter.waitForElementByNameExists(Constants.Reader.Drp.REMOVE_BOOKMARK, Constants.DEFAULT_TIMEOUT,
                 new IConfig().setMatcher(Matcher.ContainsIgnoreCase));
         if (removeBtn == null)
             testManager.retest("Remove bookmark button was not found");
-        clicker.clickOnElement(removeBtn);
+        clicker.clickByXY(removeBtn.getX() + removeBtn.getWidth()/2, removeBtn.getY() + removeBtn.getHeight()/2);
+//        clicker.clickOnElement(removeBtn);
         TestManager.addStep("Click on Add bookmark");
-        return waiter.waitForElementByNameVisible(Constants.Reader.Drp.ADD_BOOKMARK, Constants.DEFAULT_TIMEOUT, new IConfig().setMatcher(Matcher.ContainsIgnoreCase)) != null;
+        return waiter.waitForElementByNameExists(Constants.Reader.Drp.ADD_BOOKMARK, Constants.DEFAULT_TIMEOUT, new IConfig().setMatcher(Matcher.ContainsIgnoreCase)) != null;
     }
 
     public void removeAllBookmarks() throws TestException {
@@ -385,15 +387,32 @@ public class DrpReaderScreen extends ReaderScreen {
         }
     }
 
-    public boolean openPageFromBookMarkContent(int index) {
+    @Override
+    public void swipePage(Constants.SwipeSide swipeSide) throws TestException {
+        Element element = waiter.waitForElementVisible(1, new ElementQuery().addElement(UIAElementType.UIAWindow,0).addElement(UIAElementType.UIAScrollView,0));
+        if (element == null)
+            testManager.retest("Element is null");
+        switch(swipeSide){
+            case LEFT:
+                scroller.scrollLeftInsideElement(element, 0.1, 5);
+                break;
+            case RIGHT:
+                scroller.scrollRightInsideElement(element, 0.1, 5);
+                break;
+        }
+    }
+
+    public boolean openPageFromBookMarkContent(int index) throws TestException {
         Element table = waiter.waitForElementVisible(Constants.DEFAULT_TIMEOUT, new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIATableView, 0));
+        if (table == null)
+            testManager.retest("Table is null");
         ArrayList<Element> cells = getter.getElementChildren(table);
         if (cells.size() == 0) {
             iDevice.i("Table is empty");
             return false;
         }
         if (cells.size() < index){
-            iDevice.i("Cell sieze < index");
+            iDevice.i("Cell size < index");
             return false;
         }
         clicker.clickOnElement(cells.get(index));
@@ -446,7 +465,6 @@ public class DrpReaderScreen extends ReaderScreen {
         return false;
     }
 
-
     @Override
     public boolean openContentTab() {
         return false;
@@ -459,7 +477,32 @@ public class DrpReaderScreen extends ReaderScreen {
         String sliderPercent = slider.getValue();
         if (sliderPercent.isEmpty())
             testManager.retest("Slider page value is empty");
-        sliderPercent = sliderPercent.replace("\\D", "");
+        sliderPercent = sliderPercent.replace("%", "");
         return sliderPercent;
+    }
+
+    public  boolean openPageFromSlider() throws TestException{
+        if (!isReaderMenuOpened())
+            testManager.retest("Reader menu is not opened");
+        Element pagesList = waiter.waitForElementVisible(Constants.DEFAULT_TIMEOUT,
+                new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAScrollView, 1));
+        if (pagesList == null)
+            testManager.retest("PageList is null");
+        ArrayList<Element> pages = getter.getElementChildrenByType(pagesList, UIAElementType.UIAStaticText);
+        Element page = null;
+        for (Element element: pages){
+            if (element.getX() < 0 || element.getX() + element.getWidth() > iDevice.getScreenSize()[0])
+                continue;
+            page = element;
+        }
+        if (page == null)
+            testManager.retest("Page is null");
+            String pageNumber = page.getName();
+        takeScreenShot("Before Click on " + pageNumber);
+        clicker.clickOnElement(page);
+        TestManager.addStep("Click on " + pageNumber);
+        iDevice.sleep(3000);
+        takeScreenShot("After Click on " + pageNumber);
+        return isReaderMenuOpened();
     }
 }
