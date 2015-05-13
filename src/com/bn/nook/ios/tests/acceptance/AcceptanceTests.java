@@ -692,6 +692,18 @@ public class AcceptanceTests extends BaseTestRunner{
         TestManager.testCaseInfo.setStatusId(1);
     }
 
+
+    @PreCondition(preConditions = {Condition.LOGIN},
+            testId = 436032,
+            testTitle = "Sign Out of Account [bnauto]")
+    public void testCase436032() throws TestException {
+        initLibraryScreen();
+        if(!preparer.signOut()) {
+            testManager.failTest("Oobe first screen is not appeared");
+        }
+        TestManager.testCaseInfo.setStatusId(1);
+    }
+
     private void checkSettingsScreen() throws TestException {
         Element necessaryElement = waiter.waitForElementByNameExists(Constants.Settings.DONE, 1, new IConfig().setMaxLevelOfElementsTree(3));
         if(necessaryElement == null)

@@ -1,20 +1,15 @@
 package com.bn.nook.ios.assistant;
 
-import com.bn.nook.ios.BaseTestRunner;
 import com.bn.nook.ios.constants.Constants;
 import com.bn.nook.ios.exception.TestException;
-import com.bn.nook.ios.json.Status;
 import com.bn.nook.ios.manager.TestManager;
-import com.bn.nook.ios.param.ConfigParam;
 import com.bn.nook.ios.param.ParamsParser;
 import com.bn.nook.ios.screen.*;
 import com.bn.nook.ios.screen.reader.DrpReaderScreen;
-import com.bn.nook.ios.screen.reader.EpubReaderScreen;
 import com.bn.nook.ios.utils.NookUtil;
 import com.sofment.testhelper.driver.ios.config.IConfig;
 import com.sofment.testhelper.driver.ios.config.IWaiterConfig;
 import com.sofment.testhelper.driver.ios.elements.Element;
-import com.sofment.testhelper.driver.ios.enams.UIAElementType;
 import com.sofment.testhelper.driver.ios.helpers.Clicker;
 import com.sofment.testhelper.driver.ios.helpers.Getter;
 import com.sofment.testhelper.driver.ios.helpers.Scroller;
@@ -22,7 +17,6 @@ import com.sofment.testhelper.driver.ios.helpers.Waiter;
 import com.sofment.testhelper.driver.ios.interfaces.AlertCallBack;
 import com.sofment.testhelper.driver.ios.models.IDevice;
 import com.sofment.testhelper.enums.Matcher;
-import org.json.Test;
 
 import java.util.ArrayList;
 
@@ -64,7 +58,7 @@ public class Preparer {
         }
     }
 
-    public void signOut() throws TestException {
+    public boolean signOut() throws TestException {
         baseScreen = nookUtil.getCurrentScreen(true);
         iDevice.i("##################### Detected " + nookUtil.screenModel.name());
         if (nookUtil.screenModel == ScreenModel.LIBRARY) {
@@ -75,9 +69,10 @@ public class Preparer {
             if (nookUtil.screenModel == ScreenModel.SETTINGS) {
                 settingsScreen = (SettingsScreen) baseScreen;
                 settingsScreen.clickOnLogOutButton();
-                nookUtil.waitForScreenModel(ScreenModel.OOBE, Constants.DEFAULT_TIMEOUT);
+                return nookUtil.waitForScreenModel(ScreenModel.OOBE, Constants.DEFAULT_TIMEOUT);
             }
         }
+        return false;
     }
 
     public void initOobeScreen() throws TestException {
