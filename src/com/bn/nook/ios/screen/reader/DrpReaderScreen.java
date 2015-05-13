@@ -470,11 +470,6 @@ public class DrpReaderScreen extends ReaderScreen {
         return false;
     }
 
-    @Override
-    public boolean dragToValue(double value) throws TestException {
-        return false;
-    }
-
     public String getSliderPercent() throws TestException {
         Element slider = waiter.waitForElementByNameVisible(Constants.Reader.Drp.PAGE_SLIDER, Constants.DEFAULT_TIMEOUT);
         if (slider == null)
@@ -504,10 +499,12 @@ public class DrpReaderScreen extends ReaderScreen {
             testManager.retest("Page is null");
             String pageNumber = page.getName();
         takeScreenShot("Before Click on " + pageNumber);
-        clicker.clickOnElement(page);
+        iDevice.i("########################### page cord =========== X: " + page.getX() + "==========Y: " + page.getY());
+//        clicker.clickOnElement(page);
+        clicker.clickByXY(page.getX() + page.getWidth()/2, page.getY() + page.getHeight()/2);
         TestManager.addStep("Click on " + pageNumber);
         iDevice.sleep(3000);
         takeScreenShot("After Click on " + pageNumber);
-        return isReaderMenuOpened();
+        return !isReaderMenuOpened();
     }
 }

@@ -5,6 +5,8 @@ import com.bn.nook.ios.exception.TestException;
 import com.bn.nook.ios.manager.TestManager;
 import com.bn.nook.ios.param.ParamsParser;
 import com.sofment.testhelper.TestHelper;
+import com.sofment.testhelper.driver.ios.config.IConfig;
+import com.sofment.testhelper.driver.ios.elements.Element;
 import com.sofment.testhelper.driver.ios.models.IDevice;
 
 /**
@@ -47,7 +49,20 @@ public abstract class ReaderScreen extends BaseScreen {
     public abstract int[] getCurrentPageInfo();
     public abstract boolean openBookmarkTab() throws TestException;
     public abstract boolean openContentTab() throws TestException;
-    public abstract boolean dragToValue(double value) throws TestException;
     public abstract void  removeAllBookmarks () throws TestException;
     public abstract void swipePage (Constants.SwipeSide swipeSide)throws  TestException;
+    public boolean dragToValue(double value) throws TestException {
+        openReaderMenu();
+        Element slider = waiter.waitForElementByNameVisible(Constants.Reader.Epub.PAGE_SLIDER, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(slider == null) {
+            testManager.retest(String.format("slider is not found: [%s]", Constants.Reader.Epub.PAGE_SLIDER));
+            return false;
+        }
+        String progress = slider.getValue().replaceAll("%", "").trim();
+
+        double progressValue = Double.parseDouble(progress)/(double)100;
+
+        TestManager.addStep("drag to value: " + value);
+        return drager.dragInsideElementWithOptions(slider, progressValue, 0.5, value, 0.5);
+    }
 }

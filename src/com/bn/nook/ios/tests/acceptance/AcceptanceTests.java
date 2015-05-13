@@ -3,7 +3,6 @@ package com.bn.nook.ios.tests.acceptance;
 import com.bn.nook.ios.BaseTestRunner;
 import com.bn.nook.ios.annotation.Condition;
 import com.bn.nook.ios.annotation.PreCondition;
-import com.bn.nook.ios.assistant.Preparer;
 import com.bn.nook.ios.constants.Constants;
 import com.bn.nook.ios.exception.TestException;
 import com.bn.nook.ios.json.Status;
@@ -1448,14 +1447,17 @@ public class AcceptanceTests extends BaseTestRunner{
         if (slider == null)
             testManager.retest("Slider was not found");
         double pointToDrag = percentScrubberBefore <= 50 ? 0.85 : 0.25;
-        if (!iDevice.getDrager().dragToValue(slider, pointToDrag))
+        if (!drpReaderScreen.dragToValue(pointToDrag))
             testManager.retest("Error in drag method");
         iDevice.sleep(1000);
         TestManager.addStep("Drag slider to " + pointToDrag * 100 + " percent");
         takeScreenShot("After drag slider to " + pointToDrag * 100 + " percent");
         TestManager.addStep("Check if slider changed");
         int percentScrubberAfter = Integer.parseInt(drpReaderScreen.getSliderPercent());
-        if (percentScrubberAfter != pointToDrag)
+        if(percentScrubberBefore < 50){
+            if (percentScrubberAfter < 50)
+                testManager.failTest("Scrubber was not changed");
+        }else if (percentScrubberAfter > 50)
             testManager.failTest("Scrubber was not changed");
         TestManager.addStep("Scrubber moved");
         if(!drpReaderScreen.openPageFromSlider())
