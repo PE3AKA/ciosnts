@@ -98,6 +98,11 @@ public class Constants {
             public static final String SEARCH_SCREEN = "SearchScreen";
             public static final String SETTINGS_SCREEN = "SettingsScreen";
         }
+
+        public class DeferredSignIn {
+            public static final String BUILD_YOUR_OWN_LIBRARY = "Build Your Own Library";
+
+        }
     }
 
     public static class Settings {
@@ -274,4 +279,8 @@ public class Constants {
         public static final String BACK_BUTTON = "com.bn.NookApplication.btn bac";
     }
 
+    public class Oobe {
+        public static final String SIGN_IN = "Sign In";
+        public static final String EXPLORER_APP = "Explore the app";
+    }
 }

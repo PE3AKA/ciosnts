@@ -13,5 +13,6 @@ public enum ScreenModel {
     DRP_READER,
     READER,
     SEARCH,
-    PRODUCT_DETAILS
+    PRODUCT_DETAILS,
+    DEFERRED_SIGN_IN
 }

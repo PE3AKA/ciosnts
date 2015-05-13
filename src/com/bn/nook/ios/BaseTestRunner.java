@@ -10,8 +10,10 @@ import com.bn.nook.ios.manager.TestManager;
 import com.bn.nook.ios.model.TestCase;
 import com.bn.nook.ios.param.ParamsParser;
 import com.bn.nook.ios.screen.*;
+import com.bn.nook.ios.screen.library.LibraryScreen;
 import com.bn.nook.ios.screen.reader.DrpReaderScreen;
 import com.bn.nook.ios.screen.reader.EpubReaderScreen;
+import com.bn.nook.ios.screen.reader.MyShelvesScreen;
 import com.bn.nook.ios.utils.LoggerUtil;
 import com.bn.nook.ios.utils.NookUtil;
 import com.sofment.testhelper.TestHelper;
@@ -179,6 +181,9 @@ public class BaseTestRunner extends Base{
                break;
            case REMOVE_BOOKMARKS:
                preparer.removeAllBookmarks(mPreCondition.productType());
+               break;
+           case DEFERRED_SIGN_IN:
+               preparer.exploreApp();
                break;
             default: break;
         }

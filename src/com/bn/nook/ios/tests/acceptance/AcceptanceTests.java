@@ -3,7 +3,6 @@ package com.bn.nook.ios.tests.acceptance;
 import com.bn.nook.ios.BaseTestRunner;
 import com.bn.nook.ios.annotation.Condition;
 import com.bn.nook.ios.annotation.PreCondition;
-import com.bn.nook.ios.assistant.Preparer;
 import com.bn.nook.ios.constants.Constants;
 import com.bn.nook.ios.exception.TestException;
 import com.bn.nook.ios.json.Status;
@@ -11,6 +10,7 @@ import com.bn.nook.ios.manager.TestManager;
 import com.bn.nook.ios.param.ConfigParam;
 import com.bn.nook.ios.param.ParamsParser;
 import com.bn.nook.ios.screen.*;
+import com.bn.nook.ios.screen.library.LibraryScreen;
 import com.bn.nook.ios.screen.reader.DrpReaderScreen;
 import com.bn.nook.ios.screen.reader.EpubReaderScreen;
 import com.sofment.testhelper.driver.ios.config.IConfig;
@@ -692,7 +692,6 @@ public class AcceptanceTests extends BaseTestRunner{
         TestManager.testCaseInfo.setStatusId(1);
     }
 
-
     @PreCondition(preConditions = {Condition.LOGIN},
             testId = 436032,
             testTitle = "Sign Out of Account [bnauto]")
@@ -702,6 +701,19 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.failTest("Oobe first screen is not appeared");
         }
         TestManager.testCaseInfo.setStatusId(1);
+    }
+
+    @PreCondition(preConditions = {Condition.DEFERRED_SIGN_IN},
+            testId = 436034,
+            testTitle = "Deferred sign in:library search [bnauto]")
+    public void testCase436034() throws TestException {
+//        initOobeScreen();
+//
+//        oobeScreen.clickOnExploreAppButton();
+
+        iDevice.sleep(5000);
+
+        TestManager.testCaseInfo.setStatusId(Status.WORK_IN_PROGRESS);
     }
 
     private void checkSettingsScreen() throws TestException {

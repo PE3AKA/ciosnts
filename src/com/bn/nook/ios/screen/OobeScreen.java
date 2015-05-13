@@ -19,7 +19,14 @@ public class OobeScreen extends BaseScreen {
     }
 
     public Element waitForSignInButton(long timeoutMs) throws TestException {
-        Element signIn = iDevice.getWaiter().waitForElementByNameVisible("Sign In", timeoutMs, new IConfig().setMaxLevelOfElementsTree(2));
+        Element signIn = iDevice.getWaiter().waitForElementByNameVisible(Constants.Oobe.SIGN_IN, timeoutMs, new IConfig().setMaxLevelOfElementsTree(2));
+        if(signIn == null)
+            testManager.retest("sign in button is not found");
+        return signIn;
+    }
+
+    public Element waitForExplorerAppButton(long timeoutMs) throws TestException {
+        Element signIn = iDevice.getWaiter().waitForElementByNameVisible(Constants.Oobe.EXPLORER_APP, timeoutMs, new IConfig().setMaxLevelOfElementsTree(2));
         if(signIn == null)
             testManager.retest("sign in button is not found");
         return signIn;
@@ -65,5 +72,14 @@ public class OobeScreen extends BaseScreen {
         inputCredentials();
         clicker.clickOnElement(waitForSignInButton(timeoutMs));
         waitForCollection();
+    }
+
+    public boolean clickOnExploreAppButton() throws TestException {
+        Element explore = waitForExplorerAppButton(Constants.DEFAULT_TIMEOUT);
+        if(explore == null) {
+            testManager.retest("Explorer app button is not found");
+        }
+        TestManager.addStep(String.format("click to Explorer app button [%s]", Constants.Oobe.EXPLORER_APP));
+        return clicker.clickOnElement(explore);
     }
 }

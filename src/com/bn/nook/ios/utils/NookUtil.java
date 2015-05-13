@@ -5,8 +5,11 @@ import com.bn.nook.ios.exception.TestException;
 import com.bn.nook.ios.manager.TestManager;
 import com.bn.nook.ios.param.ParamsParser;
 import com.bn.nook.ios.screen.*;
+import com.bn.nook.ios.screen.library.DeferredSignInScreen;
+import com.bn.nook.ios.screen.library.LibraryScreen;
 import com.bn.nook.ios.screen.reader.DrpReaderScreen;
 import com.bn.nook.ios.screen.reader.EpubReaderScreen;
+import com.bn.nook.ios.screen.reader.MyShelvesScreen;
 import com.sofment.testhelper.TestHelper;
 import com.sofment.testhelper.driver.ios.elements.Element;
 import com.sofment.testhelper.driver.ios.elements.ElementQuery;
@@ -51,6 +54,7 @@ public class NookUtil {
         }
         //todo make detect Readers via invisible elements!!!
         Element element = iDevice.getWaiter().waitForElement(Constants.DEFAULT_TIMEOUT * 2,
+                new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAStaticText, Constants.Screens.DeferredSignIn.BUILD_YOUR_OWN_LIBRARY),
                 new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAButton, Constants.Screens.OOBE_SCREEN),
                 new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAButton, Constants.Screens.SEARCH_SCREEN),
                 new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAButton, Constants.Screens.EPUB_READER).setOnlyVisible(false),
@@ -110,6 +114,11 @@ public class NookUtil {
                 screenModel = ScreenModel.MY_SHELVES;
                 iDevice.i("####### CurrentScreen is " + screenModel.name());
                 baseScreen = new MyShelvesScreen(testManager, testHelper, paramsParser, iDevice);
+                return baseScreen;
+            case Constants.Screens.DeferredSignIn.BUILD_YOUR_OWN_LIBRARY:
+                screenModel = ScreenModel.DEFERRED_SIGN_IN;
+                iDevice.i("####### CurrentScreen is " + screenModel.name());
+                baseScreen = new DeferredSignInScreen(testManager, testHelper, paramsParser, iDevice);
                 return baseScreen;
         }
         return null;

@@ -5,6 +5,7 @@ import com.bn.nook.ios.exception.TestException;
 import com.bn.nook.ios.manager.TestManager;
 import com.bn.nook.ios.param.ParamsParser;
 import com.bn.nook.ios.screen.*;
+import com.bn.nook.ios.screen.library.LibraryScreen;
 import com.bn.nook.ios.screen.reader.DrpReaderScreen;
 import com.bn.nook.ios.utils.NookUtil;
 import com.sofment.testhelper.driver.ios.config.IConfig;
@@ -368,6 +369,23 @@ public class Preparer {
         }
         iDevice.i("Menu opened");
         return true;
+    }
+
+    public void exploreApp() throws TestException {
+        baseScreen = nookUtil.getCurrentScreen(true);
+        if(nookUtil.screenModel == ScreenModel.SEARCH) {
+            ((SearchScreen)baseScreen).closeSearch();
+            baseScreen = nookUtil.getCurrentScreen(true);
+        }
+        if(nookUtil.screenModel == ScreenModel.LIBRARY ||
+                nookUtil.screenModel == ScreenModel.MY_SHELVES) {
+            signOut();
+            baseScreen = nookUtil.getCurrentScreen(true);
+        }
+        if(nookUtil.screenModel == ScreenModel.OOBE) {
+            ((OobeScreen)baseScreen).clickOnExploreAppButton();
+            baseScreen = nookUtil.getCurrentScreen(true);
+        }
     }
 }
 
