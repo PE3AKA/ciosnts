@@ -367,6 +367,11 @@ public class DrpReaderScreen extends ReaderScreen {
         return false;
     }
 
+    @Override
+    public boolean dragToValue(double value) throws TestException {
+        return false;
+    }
+
     public String getSliderPercent() throws TestException {
         Element slider = waiter.waitForElementByNameVisible(Constants.Reader.Drp.PAGE_SLIDER, Constants.DEFAULT_TIMEOUT);
         if (slider == null)

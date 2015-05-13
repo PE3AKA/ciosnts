@@ -131,6 +131,8 @@ public class Constants {
             public static final String ADD_BOOKMARK = "Add bookmark";
             public static final String REMOVE_BOOKMARK = "Remove bookmark";
             public static final String PAGE_POSITION = " of ";
+            public static final String PAGE_SLIDER = "pageSlider";
+            public static final String BACK = "Back";
 
             public static class Contents {
                 public static final String CONTENTS_TAB = "contentsTab";

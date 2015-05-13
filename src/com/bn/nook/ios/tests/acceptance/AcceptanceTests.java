@@ -564,6 +564,31 @@ public class AcceptanceTests extends BaseTestRunner{
         TestManager.testCaseInfo.setStatusId(1);
     }
 
+    @PreCondition(preConditions = {Condition.NONE},
+            testId = 436008,
+            testTitle = "ePUB:navigation bar [bnauto]")
+    public void testCase436008() throws TestException {
+
+//        testCase435999();
+        initEbubReaderScreen();
+
+        iDevice.sleep(5000);
+        int[] pageInfo = readerScreen.getCurrentPageInfo();
+        double random = (double)getRandomInt(0, 100) / (double) 100;
+        if(!readerScreen.dragToValue(random)) {
+            testManager.retest("can not complete drag to value");
+        }
+
+        iDevice.sleep(3000);
+
+        Element back = waiter.waitForElementByNameVisible(Constants.Reader.Epub.BACK, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(back == null) {
+            testManager.failTest(String.format("back button is not found [%s]", Constants.Reader.Epub.BACK));
+        }
+
+        TestManager.testCaseInfo.setStatusId(1);
+    }
+
     private void prepareTextOptions() throws TestException {
         readerScreen.changeFontSize(EpubReaderScreen.FontSize.SMALL_FONT);
         readerScreen.changeFont(EpubReaderScreen.Font.GEORGIA);

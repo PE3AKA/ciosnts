@@ -315,7 +315,14 @@ public class TestLauncher {
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436007();
                 break;
-
+            case "436008":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(436008L);
+                testCaseInfo.setTitle("ePUB:navigation bar [bnauto]");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase436008();
+                break;
         }
     }
 }

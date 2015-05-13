@@ -11,10 +11,7 @@ import com.sofment.testhelper.driver.ios.config.IWaiterConfig;
 import com.sofment.testhelper.driver.ios.elements.Element;
 import com.sofment.testhelper.driver.ios.enams.SearchCondition;
 import com.sofment.testhelper.driver.ios.enams.UIAElementType;
-import com.sofment.testhelper.driver.ios.helpers.Clicker;
-import com.sofment.testhelper.driver.ios.helpers.Getter;
-import com.sofment.testhelper.driver.ios.helpers.Scroller;
-import com.sofment.testhelper.driver.ios.helpers.Waiter;
+import com.sofment.testhelper.driver.ios.helpers.*;
 import com.sofment.testhelper.driver.ios.models.IDevice;
 
 import java.util.ArrayList;
@@ -28,6 +25,7 @@ public class BaseScreen extends Base {
     protected TestManager testManager;
     protected ParamsParser paramsParser;
     protected Waiter waiter;
+    protected Drager drager;
     protected Getter getter;
     protected Clicker clicker;
     protected Scroller scroller;
@@ -41,6 +39,7 @@ public class BaseScreen extends Base {
         this.getter = this.iDevice.getGetter();
         this.clicker = this.iDevice.getClicker();
         this.scroller = this.iDevice.getScroller();
+        this.drager = this.iDevice.getDrager();
     }
 
     public ArrayList<Element> getProducts(int minSearchResultProducts, long timeout) throws TestException {
