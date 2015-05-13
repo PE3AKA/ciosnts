@@ -47,6 +47,7 @@ public abstract class ReaderScreen extends BaseScreen {
     public abstract int[] getCurrentPageInfo();
     public abstract boolean openBookmarkTab() throws TestException;
     public abstract boolean openContentTab() throws TestException;
+    public abstract boolean dragToValue(double value) throws TestException;
     public abstract void  removeAllBookmarks () throws TestException;
     public abstract void swipePage (Constants.SwipeSide swipeSide)throws  TestException;
 }

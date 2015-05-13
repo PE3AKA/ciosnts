@@ -402,6 +402,17 @@ public class EpubReaderScreen extends ReaderScreen {
 
     }
 
+    @Override
+    public boolean dragToValue(double value) throws TestException {
+        openReaderMenu();
+        Element slider = waiter.waitForElementByNameVisible(Constants.Reader.Epub.PAGE_SLIDER, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(slider == null) {
+            testManager.retest(String.format("slider is not found: [%s]", Constants.Reader.Epub.PAGE_SLIDER));
+        }
+        TestManager.addStep("drag to value: " + value);
+        return drager.dragToValue(slider, value);
+    }
+
     public static class FontSize {
         public static final int EXTRA_SMALL_FONT = 0;
         public static final int SMALL_FONT = 1;
