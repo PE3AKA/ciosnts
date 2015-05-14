@@ -118,6 +118,7 @@ public class Constants {
 
     public static class Settings {
         public static final String DONE = "Done";
+        public static final String SIGN_IN = "Sign In";
         public static final String ACCOUNT_SETTINGS = "ACCOUNT SETTINGS";
         public static final String ACCOUNTS = "Accounts";
         public static final String DICTIONARY_OPTIONS = "Dictionary Options";

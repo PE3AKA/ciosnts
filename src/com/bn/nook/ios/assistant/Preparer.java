@@ -321,7 +321,7 @@ public class Preparer {
         openHamburgerMenuFromAnyScreen();
         if(!waitWhileHamburgerMenuOpened(Constants.DEFAULT_TIMEOUT))
             testManager.retest("Hamburger menu not opened");
-        sideMenu = (SideMenu) nookUtil.getCurrentScreen(true);
+        sideMenu = new SideMenu(testManager, testManager.getTestHelper(), paramsParser, iDevice);
         sideMenu.openItem(screen);
     }
 

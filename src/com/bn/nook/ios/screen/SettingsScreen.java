@@ -8,11 +8,14 @@ import com.sofment.testhelper.TestHelper;
 import com.sofment.testhelper.driver.ios.config.IConfig;
 import com.sofment.testhelper.driver.ios.elements.Element;
 import com.sofment.testhelper.driver.ios.models.IDevice;
+import com.sofment.testhelper.enums.Matcher;
 
 /**
  * Created by avsupport on 4/24/15.
  */
 public class SettingsScreen extends BaseScreen {
+    private boolean deferredOptionsPresent;
+
     public SettingsScreen(TestManager testManager, TestHelper testHelper, ParamsParser paramsParser, IDevice iDevice) {
         super(testManager, testHelper, paramsParser, iDevice);
     }
@@ -61,6 +64,23 @@ public class SettingsScreen extends BaseScreen {
         return result;
     }
 
+    public void checkThatDeferredOptions() throws TestException {
+        testManager.addStep("Check that elements present:\n" +
+                "1. \"Done\" button\n" +
+                "2. \"Sign In\" Function\n" +
+                "3. \"Account Settings\"\n" +
+                "4. \"Support\"");
+        if (waiter.waitForElementByNameVisible(Constants.Settings.DONE, 1, new IConfig().setMatcher(Matcher.ContainsIgnoreCase).setMaxLevelOfElementsTree(3)) == null)
+            testManager.failTest("Done button was not found");
+        if (waiter.waitForElementByNameVisible(Constants.Settings.SIGN_IN, 1, new IConfig().setMatcher(Matcher.ContainsIgnoreCase).setMaxLevelOfElementsTree(3)) == null)
+            testManager.failTest("Sign In option was not found");
+        if (waiter.waitForElementByNameVisible(Constants.Settings.ACCOUNT_SETTINGS, 1, new IConfig().setMatcher(Matcher.ContainsIgnoreCase).setMaxLevelOfElementsTree(3)) == null)
+            testManager.failTest("ACCOUNT SETTINGS  was not found");
+        if (waiter.waitForElementByNameVisible(Constants.Settings.SUPPORT, 1, new IConfig().setMatcher(Matcher.ContainsIgnoreCase).setMaxLevelOfElementsTree(3)) == null)
+            testManager.failTest("Support option was not found");
+        testManager.addStep("All items present");
+        takeScreenShot("Done_SignIn_AccountSettings_Support_present");
+    }
 
 
     public static class SettingsItems {

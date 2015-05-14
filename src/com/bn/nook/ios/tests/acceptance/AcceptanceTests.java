@@ -3,10 +3,10 @@ package com.bn.nook.ios.tests.acceptance;
 import com.bn.nook.ios.BaseTestRunner;
 import com.bn.nook.ios.annotation.Condition;
 import com.bn.nook.ios.annotation.PreCondition;
+import com.bn.nook.ios.assistant.Preparer;
 import com.bn.nook.ios.constants.Constants;
 import com.bn.nook.ios.exception.TestException;
 import com.bn.nook.ios.json.Status;
-import com.bn.nook.ios.manager.TestManager;
 import com.bn.nook.ios.param.ConfigParam;
 import com.bn.nook.ios.param.ParamsParser;
 import com.bn.nook.ios.screen.*;
@@ -1660,6 +1660,23 @@ public class AcceptanceTests extends BaseTestRunner{
         testManager.addStep("Zoom view activated");
         testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
+
+    /*
+    C436036	Deferred sign in: settings
+     */
+    @PreCondition(preConditions = {Condition.DEFERRED_SIGN_IN},
+            testId = 436036,
+            testTitle = "Deferred sign in: settings")
+    public void testCase436036() throws TestException {
+        Preparer preparer = new Preparer(iDevice, nookUtil, paramsParser);
+        preparer.openScreen(Constants.SideMenu.SETTINGS);
+        if(!nookUtil.waitForScreenModel(ScreenModel.SETTINGS, Constants.DEFAULT_TIMEOUT))
+            testManager.retest("Settings screen was not opened");
+        settingsScreen = new SettingsScreen(testManager, testHelper, paramsParser, iDevice);
+        settingsScreen.checkThatDeferredOptions();
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
+    }
+
 
 
     @PreCondition(preConditions = {Condition.NONE},
