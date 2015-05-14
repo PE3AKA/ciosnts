@@ -386,6 +386,14 @@ public class TestLauncher {
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436024();
                 break;
+            case "436035":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(436035L);
+                testCaseInfo.setTitle("Deferred sign in:download sample [bnauto]");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase436035();
+                break;
             case "436025":
                 alertManager.defaultHandler();
                 acceptanceTests = new AcceptanceTests();

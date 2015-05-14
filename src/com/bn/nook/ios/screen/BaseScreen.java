@@ -82,7 +82,7 @@ public class BaseScreen extends Base {
     }
 
     public boolean inputText(String text, Element textField) {
-        TestManager.addStep("Input text " + text);
+        testManager.addStep("Input text " + text);
         return iDevice.inputText(text, textField);
     }
 

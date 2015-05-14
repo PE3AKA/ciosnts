@@ -48,7 +48,7 @@ public class AcceptanceTests extends BaseTestRunner{
         if(availableCountries.size() == 2 &&
                 Arrays.toString(availableCountries.toArray()).toLowerCase().contains("united states") &&
                 Arrays.toString(availableCountries.toArray()).toLowerCase().contains("united kingdom"))
-            TestManager.testCaseInfo.setStatusId(1);
+            testManager.testCaseInfo.setStatusId(1);
         else {
             testManager.failTest("wrong country list");
         }
@@ -67,7 +67,7 @@ public class AcceptanceTests extends BaseTestRunner{
         oobeScreen.waitForSignInButton(Constants.DEFAULT_TIMEOUT);
         oobeScreen.waitForCollection();
         takeScreenShot("UIACollection_appeared");
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},
@@ -83,7 +83,7 @@ public class AcceptanceTests extends BaseTestRunner{
         libraryScreen.openMenu();
         takeScreenShot("hamburger_menu_opened");
         checkCurrentReadButton();
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     private void checkCurrentReadButton() throws TestException {
@@ -100,7 +100,7 @@ public class AcceptanceTests extends BaseTestRunner{
         if(!currentRead.getName().equals(Constants.Library.Menu.CURRENT_READ)) {
             testManager.failTest("Current Read is not found");
         }
-        TestManager.addStep("click on " + Constants.Library.Menu.CURRENT_READ);
+        testManager.addStep("click on " + Constants.Library.Menu.CURRENT_READ);
         clicker.clickOnElement(currentRead);
 
         long startTime = System.currentTimeMillis();
@@ -141,7 +141,7 @@ public class AcceptanceTests extends BaseTestRunner{
         libraryScreen.openMenu();
         takeScreenShot("hamburger_menu_opened");
         expectedResult435993();
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},
@@ -152,7 +152,7 @@ public class AcceptanceTests extends BaseTestRunner{
 
         takeScreenShot("UIACollection_appeared");
         if(expectedResultFor435986())
-            TestManager.testCaseInfo.setStatusId(1);
+            testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},
@@ -163,7 +163,7 @@ public class AcceptanceTests extends BaseTestRunner{
         libraryScreen.openMenu(LibraryScreen.MenuItems.LIBRARY);
         Element libraryTitle = waiter.waitForElementByNameVisible(Constants.Library.Menu.LIBRARY, Constants.DEFAULT_TIMEOUT, new IConfig().setMaxLevelOfElementsTree(2).setSearchCondition(SearchCondition.VALUE));
         if(libraryTitle == null) testManager.failTest(Constants.Library.Menu.LIBRARY + "library screen is not loaded");
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},
@@ -195,7 +195,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.failTest("expected filter by " + libraryScreen.getFilterNameByIndex(LibraryScreen.FilterItems.ALL_ITEMS) + ",\n" +
                     "actually found filter by " + libraryScreen.getFilterNameByIndex(currentFilter));
         }
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},
@@ -228,7 +228,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.failTest("expected sort by " + libraryScreen.getSortNameByIndex(LibraryScreen.SortItems.RECENT) + ",\n" +
                     "actually found sort " + libraryScreen.getSortNameByIndex(currentSort));
         }
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},
@@ -248,7 +248,7 @@ public class AcceptanceTests extends BaseTestRunner{
 
         Element sampleButton = waiter.waitForElementByNameExists(Constants.Search.SAMPLE, Constants.DEFAULT_TIMEOUT, new IConfig().setMaxLevelOfElementsTree(2).setParentElement(element));
 
-        TestManager.addStep("click on sample button");
+        testManager.addStep("click on sample button");
         if(!clicker.clickOnElement(sampleButton)) {
             testManager.retest("can not click on sample button");
         }
@@ -258,7 +258,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.retest("read button is not found");
         }
 
-        TestManager.addStep("click on read button");
+        testManager.addStep("click on read button");
         if(!clicker.clickOnElement(read)) {
             testManager.retest("can not click on read button");
         }
@@ -269,7 +269,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.failTest("sample was not opened");
         }
 
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},
@@ -295,7 +295,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.failTest(testManager.getEpubProduct() + " product is not downloaded");
         }
 
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},
@@ -331,13 +331,13 @@ public class AcceptanceTests extends BaseTestRunner{
                     scroller.scrollToVisible(element);
                 }
 
-                TestManager.addStep("Click to open on " + testManager.getEpubProduct() + " by xy: [" + (element.getX() + element.getWidth() / 2) + ", " + element.getY() + element.getHeight() / 2 + "]");
+                testManager.addStep("Click to open on " + testManager.getEpubProduct() + " by xy: [" + (element.getX() + element.getWidth() / 2) + ", " + element.getY() + element.getHeight() / 2 + "]");
                 clicker.clickByXY(element.getX() + element.getWidth() / 2, element.getY() + element.getHeight() / 2);
                 if(!nookUtil.waitForScreenModel(ScreenModel.EPUB_READER, Constants.DEFAULT_TIMEOUT, false)) {
                     testManager.failTest("product " + testManager.getEpubProduct() + " was not opened");
                 }
 
-                TestManager.testCaseInfo.setStatusId(1);
+                testManager.testCaseInfo.setStatusId(1);
                 return;
             }
         }
@@ -359,7 +359,7 @@ public class AcceptanceTests extends BaseTestRunner{
         readerScreen.closeContents();
 
         iDevice.sleep(2000);
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},
@@ -397,7 +397,7 @@ public class AcceptanceTests extends BaseTestRunner{
             return;
         }
 
-        TestManager.addStep("click on page: " + necessaryElement.getName());
+        testManager.addStep("click on page: " + necessaryElement.getName());
         clicker.clickOnElement(necessaryElement);
 
         iDevice.sleep(3000);
@@ -410,7 +410,7 @@ public class AcceptanceTests extends BaseTestRunner{
                     "actual loaded: " + Arrays.toString(pageInfo1));
         }
 
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},
@@ -478,7 +478,7 @@ public class AcceptanceTests extends BaseTestRunner{
                     "screen shot after: " + after);
         }
 
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},
@@ -506,7 +506,7 @@ public class AcceptanceTests extends BaseTestRunner{
         moreOptions = waiter.waitForElementByNameVisible(Constants.Reader.Epub.TextOptions.MoreOptions.StaticText.ANIMATE_PAGE_TURNS, 1, new IConfig().setMaxLevelOfElementsTree(2));
         if(moreOptions == null) testManager.failTest(String.format("%s is not found", Constants.Reader.Epub.TextOptions.MoreOptions.StaticText.ANIMATE_PAGE_TURNS));
 
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},
@@ -525,14 +525,14 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.failTest("text field go to page is not found");
         }
 
-        TestManager.addStep("click to text field go to page");
+        testManager.addStep("click to text field go to page");
         int random_page = getRandomInt(1, pageInfo[1]);
-        TestManager.addStep("input text " + random_page);
+        testManager.addStep("input text " + random_page);
         iDevice.inputText(random_page + "", textField);
 
         Element goToPage = waiter.waitForElementByNameVisible(Constants.Reader.Epub.Contents.GO_TO_PAGE, 1, new IConfig().setMaxLevelOfElementsTree(2));
         if(goToPage == null) testManager.retest(String.format("go to page button is not found [%s]", Constants.Reader.Epub.Contents.GO_TO_PAGE));
-        TestManager.addStep(String.format("click on button to go to page [%s]", Constants.Reader.Epub.Contents.GO_TO_PAGE));
+        testManager.addStep(String.format("click on button to go to page [%s]", Constants.Reader.Epub.Contents.GO_TO_PAGE));
         clicker.clickOnElement(goToPage);
 
         iDevice.sleep(3000);
@@ -542,7 +542,7 @@ public class AcceptanceTests extends BaseTestRunner{
                     "expected: " + random_page + "\n" +
                     "loaded: " + pageInfo[0]);
         }
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},
@@ -561,7 +561,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.failTest("after click back on product information screen the reader wa not loaded");
         }
 
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     /**
@@ -603,7 +603,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.failTest(String.format("back button is not found [%s]", Constants.Reader.Epub.BACK));
         }
 
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
         results.add(pageInfoBefore[0]);
         results.add(back);
         return results;
@@ -614,7 +614,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testTitle = "ePUB:go back to page [bnauto]")
     public void testCase436010() throws TestException {
         ArrayList<Object> objects = testCase436008();
-        TestManager.testCaseInfo.setStatusId(Status.FAILED);
+        testManager.testCaseInfo.setStatusId(Status.FAILED);
 
         int pageNumberBeforeDrag = -1;
         Element backButton = null;
@@ -629,7 +629,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.retest(String.format("back button is not found [%s]", Constants.Reader.Epub.BACK));
         }
 
-        TestManager.addStep("click on back button");
+        testManager.addStep("click on back button");
         if(!clicker.clickOnElement(backButton)) {
             testManager.failTest(String.format("can not click on back button [%s]", Constants.Reader.Epub.BACK));
         }
@@ -644,7 +644,7 @@ public class AcceptanceTests extends BaseTestRunner{
                     "after click the back button: " + pageInfoAfter[0]);
         }
 
-        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     private void prepareTextOptions() throws TestException {
@@ -664,7 +664,7 @@ public class AcceptanceTests extends BaseTestRunner{
         libraryScreen.openMenu(LibraryScreen.MenuItems.MY_SHELVES);
         Element libraryTitle = waiter.waitForElementByNameVisible(Constants.Library.Menu.MY_SHELVES, Constants.DEFAULT_TIMEOUT, new IConfig().setMaxLevelOfElementsTree(2).setSearchCondition(SearchCondition.VALUE));
         if(libraryTitle == null) testManager.failTest(Constants.Library.Menu.MY_SHELVES + "screen is not loaded");
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},
@@ -676,7 +676,7 @@ public class AcceptanceTests extends BaseTestRunner{
         libraryScreen.openMenu(LibraryScreen.MenuItems.MESSAGES);
         Element libraryTitle = waiter.waitForElementByNameVisible(inboxTitle, Constants.DEFAULT_TIMEOUT, new IConfig().setMatcher(Matcher.ContainsIgnoreCase).setMaxLevelOfElementsTree(2).setSearchCondition(SearchCondition.VALUE));
         if(libraryTitle == null) testManager.failTest(inboxTitle + "screen is not loaded");
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},
@@ -689,7 +689,7 @@ public class AcceptanceTests extends BaseTestRunner{
         if(libraryTitle == null) testManager.failTest(Constants.Library.Menu.SETTINGS + "screen is not loaded");
 
         checkSettingsScreen();
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN},
@@ -700,13 +700,13 @@ public class AcceptanceTests extends BaseTestRunner{
         if(!preparer.signOut()) {
             testManager.failTest("Oobe first screen is not appeared");
         }
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     @PreCondition(preConditions = {Condition.DEFERRED_SIGN_IN},
             testId = 436034,
             testTitle = "Deferred sign in:library search [bnauto]")
-    public void testCase436034() throws TestException {
+    public Element testCase436034() throws TestException {
         initDeferredSignInScreen();
 
         deferredSignInScreen.searchProduct(testManager.getDeferredSignInSearchProduct());
@@ -717,7 +717,49 @@ public class AcceptanceTests extends BaseTestRunner{
         if(sample == null) {
             testManager.failTest("sample is not found");
         }
-        TestManager.testCaseInfo.setStatusId(Status.WORK_IN_PROGRESS);
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
+        return sample;
+    }
+
+    @PreCondition(preConditions = {Condition.DEFERRED_SIGN_IN},
+            testId = 436035,
+            testTitle = "Deferred sign in:download sample [bnauto]")
+    public void testCase436035() throws TestException {
+        Element sampleButton = testCase436034();
+        testManager.testCaseInfo.setStatusId(Status.FAILED);
+
+        Element parent = getter.getParent(sampleButton);
+
+        iDevice.i("Sample button: " + sampleButton.getName());
+        iDevice.i("parent of sample button: " + parent.getName());
+
+        initSearchScreen();
+        if(!searchScreen.downloadProduct(parent)) {
+            testManager.failTest(String.format("the sample %s is not downloaded", parent.getName()));
+        }
+
+        searchScreen.closeSearch();
+
+        initDeferredSignInScreen();
+
+        ArrayList<Element> elements = deferredSignInScreen.getProducts();
+
+        ArrayList<String> availableNames =new ArrayList<String>();
+
+        for(Element element : elements) {
+            availableNames.add(element.getName());
+            if(element.getName() != null && element.getName().toLowerCase().replaceAll(",", "").contains(parent.getName().toLowerCase().replaceAll(",", ""))) {
+                testManager.testCaseInfo.setStatusId(Status.PASSED);
+                return;
+            }
+        }
+
+//        Carly (Women of Ivy Manor Series #4), by Lyn Cote, SAMPLE
+//        Carly (Women of Ivy Manor Series #4) by Lyn Cote
+
+        testManager.failTest("the sample which was downloaded is not found in library screen.\n" +
+                "expected: " + parent.getName() + "\n" +
+                "actual: " + Arrays.toString(availableNames.toArray()));
     }
 
     private void checkSettingsScreen() throws TestException {
@@ -750,7 +792,7 @@ public class AcceptanceTests extends BaseTestRunner{
         initLibraryScreen();
         libraryScreen.openMenu(LibraryScreen.MenuItems.LIBRARY);
         libraryScreen.changeFilter(LibraryScreen.FilterItems.ALL_ITEMS);
-        String productName = TestManager.getTestProperty(ConfigParam.ARCHIVE_PRODUCT.name());
+        String productName = testManager.getTestProperty(ConfigParam.ARCHIVE_PRODUCT.name());
         libraryScreen.searchProduct(productName);
 
         if(!nookUtil.waitForScreenModel(ScreenModel.SEARCH, Constants.DEFAULT_TIMEOUT)) {
@@ -777,7 +819,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.retest("Can not scrollable to product '" + productName + "'");
         }
 
-        TestManager.addStep("Long click on product '" + productName + "'");
+        testManager.addStep("Long click on product '" + productName + "'");
         clicker.longClickOnElement(product, 5);
 
         if(!nookUtil.waitForScreenModel(ScreenModel.PRODUCT_DETAILS, Constants.DEFAULT_TIMEOUT)){
@@ -844,7 +886,7 @@ public class AcceptanceTests extends BaseTestRunner{
 
         if(archiveProduct == null)
             testManager.failTest("Product '" + productName + "' was not archivated");
-        else TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        else testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN, Condition.ARCHIVE_PRODUCT},
@@ -852,7 +894,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testId = 436027,
             testTitle = "Unarchive a book [bnauto]")
     public void testCase436027() throws TestException {
-        String productName = TestManager.getTestProperty(ConfigParam.ARCHIVE_PRODUCT.name());
+        String productName = testManager.getTestProperty(ConfigParam.ARCHIVE_PRODUCT.name());
 
         if(!nookUtil.waitForScreenModel(ScreenModel.PRODUCT_DETAILS, 5000, false)) {
             initLibraryScreen();
@@ -876,7 +918,7 @@ public class AcceptanceTests extends BaseTestRunner{
                 throw new TestException("Can not scrollable to product '" + productName + "'").retest();
             }
 
-            TestManager.addStep("Long click on product '" + productName + "'");
+            testManager.addStep("Long click on product '" + productName + "'");
             clicker.longClickOnElement(archiveProduct, 5);
 
             if (!nookUtil.waitForScreenModel(ScreenModel.PRODUCT_DETAILS, Constants.DEFAULT_TIMEOUT)) {
@@ -916,7 +958,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.failTest("Product '" + productName + "' was not found");
         else if(!product.getName().toLowerCase().contains("not downloaded"))
             testManager.failTest("Product '" + productName + "' don't consist download icon");
-        else TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        else testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_SCREEN},
@@ -946,7 +988,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.retest("Can not scrollable to product '" + firstElement.getName() + "'");
 
         iDevice.i("Select product " + firstElement.getName());
-        TestManager.addStep("Select product " + firstElement.getName());
+        testManager.addStep("Select product " + firstElement.getName());
         clicker.clickOnElement(firstElement);
 
         final int[] alertState = new int[1];
@@ -984,7 +1026,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.retest("My Shelves screen was not loaded");
         }
 
-        String newShelfName = TestManager.getRandomShelfName();
+        String newShelfName = testManager.getRandomShelfName();
         initMyShelvesScreen();
 
         ArrayList<Element> shelves = myShelvesScreen.getProducts(1, Constants.DEFAULT_TIMEOUT);
@@ -1002,7 +1044,7 @@ public class AcceptanceTests extends BaseTestRunner{
         if(shelf == null)
             testManager.failTest("New Shelf with name '" + newShelfName + "' is not created");
 
-        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_SCREEN}, // todo CREATE_SHELF
@@ -1024,13 +1066,13 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.retest("Can not scrollable to shelf '" + firstElement.getName() + "'");
 
         iDevice.i("Select shelf " + firstElement.getName());
-        TestManager.addStep("Select shelf " + firstElement.getName());
+        testManager.addStep("Select shelf " + firstElement.getName());
         clicker.clickOnElement(firstElement);
 
         myShelvesScreen.editShelf(true);
         myShelvesScreen.renameShelf(true);
         myShelvesScreen.removeShelf(true);
-        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     @PreCondition(preConditions = {Condition.LOGIN, Condition.ADD_PROFILE},
@@ -1121,7 +1163,7 @@ public class AcceptanceTests extends BaseTestRunner{
         if(signInGp == null) {
             testManager.failTest("Sign In With Google+ is not found");
         }
-        TestManager.testCaseInfo.setStatusId(1);
+        testManager.testCaseInfo.setStatusId(1);
     }
 
     private void clickChoseCountryAndScroll(boolean isScrollDown) throws TestException {
@@ -1135,7 +1177,7 @@ public class AcceptanceTests extends BaseTestRunner{
                 testManager.retest("can not find button choose country");
             }
 
-            TestManager.addStep("click choose country");
+            testManager.addStep("click choose country");
 
             if(!clicker.clickOnElement(chooseCountry)) {
                 testManager.retest("can not click to choose country");
@@ -1145,7 +1187,7 @@ public class AcceptanceTests extends BaseTestRunner{
             iDevice.i("picker name: " + picker.getValue());
 
 
-            TestManager.addStep("scroll " + (isScrollDown ? " down" : "up") + "inside picker");
+            testManager.addStep("scroll " + (isScrollDown ? " down" : "up") + "inside picker");
             if(isScrollDown)
                 scroller.scrollDownInsideElement(picker, 0.1, 1);
             else
@@ -1176,7 +1218,7 @@ public class AcceptanceTests extends BaseTestRunner{
         if(!searchScreen.downloadProduct(product)) {
             testManager.failTest(testManager.getDrpMagazine() + " product is not downloaded");
         }
-        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     /*
@@ -1196,18 +1238,18 @@ public class AcceptanceTests extends BaseTestRunner{
         for (Element element : searchProducts) {
             if(element.getName().toLowerCase().contains(testManager.getDrpMagazine().toLowerCase()) &&
                     !element.getName().toLowerCase().contains(Constants.Search.DOWNLOADING)) {
-                TestManager.addStep("Click to open on " + testManager.getDrpMagazine());
+                testManager.addStep("Click to open on " + testManager.getDrpMagazine());
                 clicker.clickOnElement(element);
                 if(!nookUtil.waitForScreenModel(ScreenModel.DRP_READER, Constants.DEFAULT_TIMEOUT, false)) {
                     iDevice.i("CURRENT SCREEN MODEL: " + nookUtil.screenModel.name());
                     testManager.failTest("product " + testManager.getDrpMagazine() + " was not opened");
                 }
-                TestManager.testCaseInfo.setStatusId(Status.PASSED);
+                testManager.testCaseInfo.setStatusId(Status.PASSED);
                 return;
             }
         }
         testManager.retest("necessary downloaded product " + testManager.getDrpMagazine() + " was not found");
-        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     /*
@@ -1224,7 +1266,7 @@ public class AcceptanceTests extends BaseTestRunner{
         if(!drpReaderScreen.openReaderMenu())
             testManager.retest("Reader menu was not opened");
         takeScreenShot("Drp menu opened");
-        TestManager.addStep("Check if tabs present : \n1. Contents \n2Brightness");
+        testManager.addStep("Check if tabs present : \n1. Contents \n2Brightness");
         String sliderPercentBeforeOpenNewPage = drpReaderScreen.getSliderPercent();
         if (waiter.waitForElementByNameVisible(Constants.Reader.Drp.CONTENTS_BOOKMARKS, Constants.DEFAULT_TIMEOUT,
                 new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)) == null){
@@ -1234,19 +1276,19 @@ public class AcceptanceTests extends BaseTestRunner{
                 new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)) == null){
             testManager.failTest("There is not Brightness element");
         }
-        TestManager.addStep("Contents and Brightness elements present");
+        testManager.addStep("Contents and Brightness elements present");
         takeScreenShot("Contents and Brightness elements present");
         if(!drpReaderScreen.openContents())
             testManager.retest("Contents was not opened");
-        TestManager.addStep("Check if Table of Contents shows");
+        testManager.addStep("Check if Table of Contents shows");
         drpReaderScreen.openContentByNumber(1);
         takeScreenShot("After click on second page in contents");
         drpReaderScreen.openReaderMenu();
         String sliderPercentAfterOpenNewPage = drpReaderScreen.getSliderPercent();
-        TestManager.addStep("Check if page changed after click");
+        testManager.addStep("Check if page changed after click");
         if (sliderPercentBeforeOpenNewPage.equals(sliderPercentAfterOpenNewPage))
             testManager.retest("Page was not changed");
-        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     /*
@@ -1271,13 +1313,13 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.retest("Article View button was not found");
         }
         clicker.clickOnElement(articleViewBtn);
-        TestManager.addStep("Click on article view button");
+        testManager.addStep("Click on article view button");
         if (waiter.waitForElementByNameVisible(Constants.Reader.Drp.ARTICLE_VIEW_PAGE, Constants.DEFAULT_TIMEOUT,
                 new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase)) == null)
             testManager.failTest("Article View page was not opened");
-        TestManager.addStep("Article view page opened");
+        testManager.addStep("Article view page opened");
         takeScreenShot("Article view page opened");
-        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     /*
@@ -1296,7 +1338,7 @@ public class AcceptanceTests extends BaseTestRunner{
         if (!drpReaderScreen.openReaderMenu())
             testManager.retest("Reader menu was not opened");
 
-        TestManager.addStep("Check if tabs present : \n1. Contents \n2 \n3Brightness");
+        testManager.addStep("Check if tabs present : \n1. Contents \n2 \n3Brightness");
         if (waiter.waitForElementByNameVisible(Constants.Reader.Drp.CONTENTS_BOOKMARKS, Constants.DEFAULT_TIMEOUT,
                 new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)) == null){
             testManager.failTest("There is not Contents element");
@@ -1320,12 +1362,12 @@ public class AcceptanceTests extends BaseTestRunner{
         iDevice.takeScreenShot("LARGE_FONT_BUTTON selected");
         iDevice.sleep(3000);
         String image2 = takeScreenShot(nameAfterChangeSize);
-        TestManager.addStep("Check screenshots before and after text size changes");
+        testManager.addStep("Check screenshots before and after text size changes");
 //        String image1 = ParamsParser.getInstance().getPathToResultsFolder() + nameBeforeChangeSize +".png";
 //        String image2 = ParamsParser.getInstance().getPathToResultsFolder() + nameAfterChangeSize +".png";
         if (testManager.compareTwoImages(image1, image2))
             testManager.failTest("Text size was not changed to extra large");
-        TestManager.addStep("Text Size changed");
+        testManager.addStep("Text Size changed");
         //repeat
         if(!drpReaderScreen.openReaderMenu())
             testManager.retest("Reader menu not opened");
@@ -1333,52 +1375,52 @@ public class AcceptanceTests extends BaseTestRunner{
         iDevice.takeScreenShot("LARGE_FONT_BUTTON selected");
         iDevice.sleep(3000);
         String image3 = takeScreenShot(nameAfterChangeSize2);
-        TestManager.addStep("Check screenshots before and after text size changes");
+        testManager.addStep("Check screenshots before and after text size changes");
 //        String image3 = ParamsParser.getInstance().getPathToResultsFolder() + nameAfterChangeSize2 +".png";
         if (testManager.compareTwoImages(image2, image3))
             testManager.failTest("Text size was not changed to extra small");
-        TestManager.addStep("Text Size changed");
+        testManager.addStep("Text Size changed");
         //font changes
         String imageBeforeChangeFont = takeScreenShot("before_change_font");
         if(!drpReaderScreen.openReaderMenu())
             testManager.retest("Reader menu not opened");
         drpReaderScreen.chooseFont(Constants.Reader.TextOptions.Font.GILL_SANS);
         String imageAfterChangeFont = takeScreenShot("after_change_font");
-        TestManager.addStep("Check screenshots before and after font was changed");
+        testManager.addStep("Check screenshots before and after font was changed");
         if (testManager.compareTwoImages(imageBeforeChangeFont, imageAfterChangeFont))
             testManager.failTest("Font was not changed");
-        TestManager.addStep("Text font changed");
+        testManager.addStep("Text font changed");
         //theme changes
         String imageBeforeChangeTheme = takeScreenShot("before_change_theme");
         if(!drpReaderScreen.openReaderMenu())
             testManager.retest("Reader menu not opened");
         drpReaderScreen.chooseTheme(Constants.Reader.TextOptions.Theme.GRAY);
         String imageAfterChangeTheme = takeScreenShot("after_change_theme");
-        TestManager.addStep("Check screenshots before and after theme was changed");
+        testManager.addStep("Check screenshots before and after theme was changed");
         if (testManager.compareTwoImages(imageBeforeChangeTheme, imageAfterChangeTheme))
             testManager.failTest("Theme was not changed");
-        TestManager.addStep("Text Theme changed");
+        testManager.addStep("Text Theme changed");
         // change line spacing
         String imageBeforeChangeSpacing = takeScreenShot("before_change_spacing");
         if(!drpReaderScreen.openReaderMenu())
             testManager.retest("Reader menu not opened");
         drpReaderScreen.changeLineSpacing(EpubReaderScreen.LineSpacing.SINGLE_LINE_SPACING);
         String imageAfterChangeSpacing = takeScreenShot("after_change_spacing");
-        TestManager.addStep("Check screenshots before and after spacing was changed");
+        testManager.addStep("Check screenshots before and after spacing was changed");
         if (testManager.compareTwoImages(imageBeforeChangeSpacing, imageAfterChangeSpacing))
             testManager.failTest("Spacing was not changed");
-        TestManager.addStep("Text Spacing changed");
+        testManager.addStep("Text Spacing changed");
         //change margin
         String imageBeforeChangeMargin = takeScreenShot("before_change_margin");
         if(!drpReaderScreen.openReaderMenu())
             testManager.retest("Reader menu not opened");
         drpReaderScreen.chooseMargin(Constants.Reader.TextOptions.Margins.MARGIN_2_BUTTON);
         String imageAfterChangeMargin = takeScreenShot("after_change_margin");
-        TestManager.addStep("Check screenshots before and after margin was changed");
+        testManager.addStep("Check screenshots before and after margin was changed");
         if (testManager.compareTwoImages(imageBeforeChangeMargin, imageAfterChangeMargin))
             testManager.failTest("Margin was not changed");
-        TestManager.addStep("Text Margin changed");
-        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        testManager.addStep("Text Margin changed");
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
 
@@ -1396,18 +1438,18 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.retest("Article View page was not opened");
         Element closeBtn = waiter.waitForElementByNameVisible(Constants.Reader.Drp.CLOSE_BTN, Constants.DEFAULT_TIMEOUT,
                 new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase));
-        TestManager.addStep("Check if Close button present");
+        testManager.addStep("Check if Close button present");
         if (closeBtn == null)
             testManager.failTest("Close button was not found");
         takeScreenShot("Close button present in Article View");
         clicker.clickOnElement(closeBtn);
-        TestManager.addStep("Click on Close button");
+        testManager.addStep("Click on Close button");
         if (!waiter.waitForElementByNameGone(Constants.Reader.Drp.CLOSE_BTN, Constants.DEFAULT_TIMEOUT,
                 new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase)))
             testManager.failTest("Article View was not closed");
-        TestManager.addStep("Article View closed");
+        testManager.addStep("Article View closed");
         takeScreenShot("Article View closed");
-        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     /*
@@ -1425,26 +1467,26 @@ public class AcceptanceTests extends BaseTestRunner{
         int[] screenSize = iDevice.getScreenSize();
         String defaultScreenState = takeScreenShot("default_state");
         clicker.doubleClickByXY(screenSize[0] / 2, screenSize[1] / 2);
-        TestManager.addStep("Double click");
+        testManager.addStep("Double click");
         iDevice.sleep(2000);
         String zoomIn = takeScreenShot("zoom_in");
         iDevice.sleep(3000);
-        TestManager.addStep("Check if screen zommed in");
+        testManager.addStep("Check if screen zommed in");
         if (testManager.compareTwoImages(defaultScreenState, zoomIn))
             testManager.failTest("Screen was not zoomed in");
-        TestManager.addStep("Screen zoomed in");
+        testManager.addStep("Screen zoomed in");
         takeScreenShot("Screen zoomed in");
         clicker.doubleClickByXY(screenSize[0] / 2, screenSize[1] / 2);
-        TestManager.addStep("Double click");
+        testManager.addStep("Double click");
         iDevice.sleep(2000);
         String zoomOut = takeScreenShot("zoomed_out");
         iDevice.sleep(3000);
-        TestManager.addStep("Check if screen zommed out");
+        testManager.addStep("Check if screen zommed out");
         if (testManager.compareTwoImages(zoomIn, zoomOut))
             testManager.failTest("Screen was not zoomed out");
-        TestManager.addStep("Screen zoomed out");
+        testManager.addStep("Screen zoomed out");
         takeScreenShot("Screen zoomed out");
-        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     /*
@@ -1460,7 +1502,7 @@ public class AcceptanceTests extends BaseTestRunner{
         if(!drpReaderScreen.openReaderMenu())
             testManager.failTest("Reder menu was not opened");
         int percentScrubberBefore = Integer.parseInt(drpReaderScreen.getSliderPercent());
-        TestManager.addStep("Remember percent of scrubber : " + percentScrubberBefore);
+        testManager.addStep("Remember percent of scrubber : " + percentScrubberBefore);
         Element slider = waiter.waitForElementByNameVisible(Constants.Reader.Drp.PAGE_SLIDER, Constants.DEFAULT_TIMEOUT);
         if (slider == null)
             testManager.retest("Slider was not found");
@@ -1468,20 +1510,20 @@ public class AcceptanceTests extends BaseTestRunner{
         if (!drpReaderScreen.dragToValue(pointToDrag))
             testManager.retest("Error in drag method");
         iDevice.sleep(1000);
-        TestManager.addStep("Drag slider to " + pointToDrag * 100 + " percent");
+        testManager.addStep("Drag slider to " + pointToDrag * 100 + " percent");
         takeScreenShot("After drag slider to " + pointToDrag * 100 + " percent");
-        TestManager.addStep("Check if slider changed");
+        testManager.addStep("Check if slider changed");
         int percentScrubberAfter = Integer.parseInt(drpReaderScreen.getSliderPercent());
         if(percentScrubberBefore < 50){
             if (percentScrubberAfter < 50)
                 testManager.failTest("Scrubber was not changed");
         }else if (percentScrubberAfter > 50)
             testManager.failTest("Scrubber was not changed");
-        TestManager.addStep("Scrubber moved");
+        testManager.addStep("Scrubber moved");
         if(!drpReaderScreen.openPageFromSlider())
             testManager.failTest("Page not opened");
-        TestManager.addStep("Page opened");
-        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        testManager.addStep("Page opened");
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     /*
@@ -1496,15 +1538,15 @@ public class AcceptanceTests extends BaseTestRunner{
         drpReaderScreen = new DrpReaderScreen(testManager, testHelper, paramsParser, iDevice);
         if(!drpReaderScreen.hideReaderMenu())
             testManager.retest("Reader menu opened");
-        TestManager.addStep("Check if Add_Bookmark button present");
+        testManager.addStep("Check if Add_Bookmark button present");
         if (waiter.waitForElementByNameExists(Constants.Reader.Drp.ADD_BOOKMARK, Constants.DEFAULT_TIMEOUT,
                 new IConfig().setMatcher(Matcher.ContainsIgnoreCase)) == null)
             testManager.failTest("Add bookmark (+) button was not found");
-        TestManager.addStep("Add Bookmark (+) button present");
+        testManager.addStep("Add Bookmark (+) button present");
         takeScreenShot("Add Bookmark (+) button present");
         if(!drpReaderScreen.addBookmark())
             testManager.failTest("Add bookmark failed");
-        TestManager.addStep("Click on Add bookmark (+) button");
+        testManager.addStep("Click on Add bookmark (+) button");
         takeScreenShot("Add bookmark clicked");
         if (!drpReaderScreen.openReaderMenu())
             testManager.retest("Reader menu was not opened");
@@ -1514,9 +1556,9 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.retest("Bookmark tab was not opened");
         if (drpReaderScreen.isBookmarkTableEmpty())
             testManager.failTest("The page with bookmark do not shown in the Bookmarks tab");
-        TestManager.addStep("Bookmark tab shows in table");
+        testManager.addStep("Bookmark tab shows in table");
         takeScreenShot("Bookmark tab shows in table");
-        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     /*
@@ -1536,13 +1578,13 @@ public class AcceptanceTests extends BaseTestRunner{
         takeScreenShot("Add bookmark clicked");
         drpReaderScreen.swipePage(Constants.SwipeSide.LEFT);
         iDevice.sleep(1500);
-        TestManager.addStep("Swipe forward");
+        testManager.addStep("Swipe forward");
         takeScreenShot(" after swipe forward");
         if(waiter.waitForElementByNameExists(Constants.Reader.Drp.REMOVE_BOOKMARK, 5000,
                 new IConfig().setMatcher(Matcher.ContainsIgnoreCase)) != null)
             testManager.failTest("Page was not scrolled");
-        TestManager.addStep("Page scrolled");
-        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        testManager.addStep("Page scrolled");
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     /*
@@ -1562,13 +1604,13 @@ public class AcceptanceTests extends BaseTestRunner{
         takeScreenShot("Add bookmark clicked");
         drpReaderScreen.swipePage(Constants.SwipeSide.RIGHT);
         iDevice.sleep(1500);
-        TestManager.addStep("Swipe backward");
+        testManager.addStep("Swipe backward");
         takeScreenShot(" after swipe backward");
         if(waiter.waitForElementByNameExists(Constants.Reader.Drp.REMOVE_BOOKMARK, 5000,
                 new IConfig().setMatcher(Matcher.ContainsIgnoreCase)) != null)
             testManager.failTest("Page was not scrolled");
-        TestManager.addStep("Page scrolled");
-        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        testManager.addStep("Page scrolled");
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     //C436024	Comic book - download
@@ -1585,7 +1627,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.retest("not downloaded product is not found");
         if(!searchScreen.downloadProduct(product))
             testManager.failTest(testManager.getDrpComics() + " product is not downloaded");
-        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     /*
@@ -1606,7 +1648,7 @@ public class AcceptanceTests extends BaseTestRunner{
         if (zoomView == null)
             testManager.failTest("Zoom View button was not found");
         clicker.clickByXY(zoomView.getX() + zoomView.getWidth()/2, zoomView.getY() + zoomView.getHeight()/2);
-        TestManager.addStep("Click on Zoom View");
+        testManager.addStep("Click on Zoom View");
         iDevice.sleep(2000);
 //        if (!waiter.waitForElementByNameGone(Constants.Reader.Drp.ZOOM_VIEW_BTN, 5000,
 //                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)))
@@ -1615,8 +1657,8 @@ public class AcceptanceTests extends BaseTestRunner{
         String afterZoom = takeScreenShot("zoom_view_after");
         if (testManager.compareTwoImages(beforeZoom, afterZoom))
             testManager.failTest("Comics zoom view was not activated");
-        TestManager.addStep("Zoom view activated");
-        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+        testManager.addStep("Zoom view activated");
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
 

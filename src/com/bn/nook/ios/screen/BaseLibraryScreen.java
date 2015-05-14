@@ -28,7 +28,7 @@ public class BaseLibraryScreen extends BaseScreen {
         if(menu == null) {
             testManager.retest("menu button is not found");
         }
-        TestManager.addStep("Click on menu button");
+        testManager.addStep("Click on menu button");
         clicker.clickOnElement(menu);
         return waiter.waitForElementByNameVisible(Constants.Library.Menu.MY_SHELVES, 5000, new IConfig().setMaxLevelOfElementsTree(3)) != null;
     }
@@ -79,7 +79,7 @@ public class BaseLibraryScreen extends BaseScreen {
         if(element == null) {
             testManager.retest("Menu item " + name + " is not found");
         }
-        TestManager.addStep("click on " + name);
+        testManager.addStep("click on " + name);
         return clicker.clickOnElement(element);
     }
 
@@ -99,7 +99,7 @@ public class BaseLibraryScreen extends BaseScreen {
             testManager.retest("search button is not found");
         }
 
-        TestManager.addStep("Click on the search button");
+        testManager.addStep("Click on the search button");
         clicker.clickOnElement(search);
 
         Element searchBar = waiter.waitForElementByClassVisible(UIAElementType.UIASearchBar, 5000, new IConfig().setMaxLevelOfElementsTree(2));
@@ -155,7 +155,7 @@ public class BaseLibraryScreen extends BaseScreen {
 
         int x = collection.getX() + 50;
         int y = collection.getY() + collection.getHeight()/20;
-        TestManager.addStep("open filter");
+        testManager.addStep("open filter");
         return clicker.clickByXY(x, y);
     }
 
@@ -189,7 +189,7 @@ public class BaseLibraryScreen extends BaseScreen {
         if(necessaryFilter == null) {
             testManager.retest(searchQuery + " is not found");
         }
-        TestManager.addStep("click on the " + searchQuery);
+        testManager.addStep("click on the " + searchQuery);
         return clicker.clickOnElement(necessaryFilter);
     }
 
@@ -227,7 +227,7 @@ public class BaseLibraryScreen extends BaseScreen {
         if(necessaryFilter == null) {
             testManager.retest(searchQuery + " is not found");
         }
-        TestManager.addStep("click on the " + searchQuery);
+        testManager.addStep("click on the " + searchQuery);
         return clicker.clickOnElement(necessaryFilter);
     }
 

@@ -61,7 +61,7 @@ public class OobeScreen extends BaseScreen {
             testManager.retest("Sign in button is not available now");
         }
 
-        TestManager.addStep("click on the sign in button");
+        testManager.addStep("click on the sign in button");
         clicker.clickOnElement(signIn);
     }
 
@@ -79,7 +79,7 @@ public class OobeScreen extends BaseScreen {
         if(explore == null) {
             testManager.retest("Explorer app button is not found");
         }
-        TestManager.addStep(String.format("click to Explorer app button [%s]", Constants.Oobe.EXPLORER_APP));
+        testManager.addStep(String.format("click to Explorer app button [%s]", Constants.Oobe.EXPLORER_APP));
         return clicker.clickOnElement(explore);
     }
 }

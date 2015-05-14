@@ -29,7 +29,7 @@ public class EpubReaderScreen extends ReaderScreen {
     public boolean openReaderMenu() {
         if(isReaderMenuOpened()) return true;
         int[] screenSize = iDevice.getScreenSize();
-        TestManager.addStep(String.format("click on screen center to open reader menu [%s, %s]", screenSize[0]/2, screenSize[1]/2));
+        testManager.addStep(String.format("click on screen center to open reader menu [%s, %s]", screenSize[0]/2, screenSize[1]/2));
         clicker.clickByXY(screenSize[0]/2, screenSize[1]/2);
         return isReaderMenuOpened();
     }
@@ -50,7 +50,7 @@ public class EpubReaderScreen extends ReaderScreen {
             if(element == null) {
                 testManager.retest("Contents button " + Constants.Reader.Epub.CONTENTS + " is not found");
             }
-            TestManager.addStep("open contents");
+            testManager.addStep("open contents");
             clicker.clickOnElement(element);
             return isContentsOpened();
         }
@@ -64,7 +64,7 @@ public class EpubReaderScreen extends ReaderScreen {
             if(element == null) {
                 testManager.retest("close button " + Constants.Reader.Epub.Contents.CLOSE_BUTTON + " is not found");
             }
-            TestManager.addStep("click on button " + Constants.Reader.Epub.Contents.CLOSE_BUTTON);
+            testManager.addStep("click on button " + Constants.Reader.Epub.Contents.CLOSE_BUTTON);
             clicker.clickOnElement(element);
         }
         return false;
@@ -98,7 +98,7 @@ public class EpubReaderScreen extends ReaderScreen {
         openReaderMenu();
         Element textOptions = waiter.waitForElementByNameVisible(Constants.Reader.Epub.TEXT_OPTIONS, 1, new IConfig().setMaxLevelOfElementsTree(2));
         if(textOptions == null) testManager.retest("button to open text options is not found");
-        TestManager.addStep(String.format("open text options [%s]", Constants.Reader.Epub.TEXT_OPTIONS));
+        testManager.addStep(String.format("open text options [%s]", Constants.Reader.Epub.TEXT_OPTIONS));
         return clicker.clickOnElement(textOptions) && isTextOptionsOpened();
     }
 
@@ -109,7 +109,7 @@ public class EpubReaderScreen extends ReaderScreen {
         }
         Element closeButton = waiter.waitForElementByNameVisible(Constants.Reader.Epub.TextOptions.CLOSE, 1, new IConfig().setMaxLevelOfElementsTree(2));
         if(closeButton == null) testManager.retest("button to close text options is not found");
-        TestManager.addStep(String.format("close text options [%s]", Constants.Reader.Epub.TextOptions.CLOSE));
+        testManager.addStep(String.format("close text options [%s]", Constants.Reader.Epub.TextOptions.CLOSE));
         return clicker.clickOnElement(closeButton) && !isTextOptionsOpened();
     }
 
@@ -148,7 +148,7 @@ public class EpubReaderScreen extends ReaderScreen {
 
         Element element = waiter.waitForElementByNameVisible(fontName, 1, new IConfig().setMaxLevelOfElementsTree(2));
         if(element == null) testManager.retest("Button " + fontName + " is not found");
-        TestManager.addStep("change font size to " + fontName);
+        testManager.addStep("change font size to " + fontName);
         return clicker.clickOnElement(element);
     }
 
@@ -182,7 +182,7 @@ public class EpubReaderScreen extends ReaderScreen {
 
         Element element = waiter.waitForElementByNameExists(font, 1, new IConfig().setMaxLevelOfElementsTree(3));
         if(element == null) testManager.retest("Button " + font + " is not found");
-        TestManager.addStep("change font to " + font);
+        testManager.addStep("change font to " + font);
         return clicker.clickOnElement(element);
     }
 
@@ -216,7 +216,7 @@ public class EpubReaderScreen extends ReaderScreen {
 
         Element element = waiter.waitForElementByNameExists(theme, 1, new IConfig().setMaxLevelOfElementsTree(3));
         if(element == null) testManager.retest("Button " + theme + " is not found");
-        TestManager.addStep("change theme to " + theme);
+        testManager.addStep("change theme to " + theme);
         return clicker.clickOnElement(element);
     }
 
@@ -241,7 +241,7 @@ public class EpubReaderScreen extends ReaderScreen {
 
         Element element = waiter.waitForElementByNameExists(lineSpacing, 1, new IConfig().setMaxLevelOfElementsTree(2));
         if(element == null) testManager.retest("Button " + lineSpacing + " is not found");
-        TestManager.addStep("change line spacing to " + lineSpacing);
+        testManager.addStep("change line spacing to " + lineSpacing);
         return clicker.clickOnElement(element);
     }
 
@@ -266,7 +266,7 @@ public class EpubReaderScreen extends ReaderScreen {
 
         Element element = waiter.waitForElementByNameExists(margin, 1, new IConfig().setMaxLevelOfElementsTree(2));
         if(element == null) testManager.retest("Button " + margin + " is not found");
-        TestManager.addStep("change line margin to " + margin);
+        testManager.addStep("change line margin to " + margin);
         return clicker.clickOnElement(element);
     }
 
@@ -276,7 +276,7 @@ public class EpubReaderScreen extends ReaderScreen {
         openReaderMenu();
         Element infoButton = waiter.waitForElementByNameVisible(Constants.Reader.Epub.INFORMATION, 1, new IConfig().setMaxLevelOfElementsTree(2));
         if(infoButton == null) testManager.retest(String.format("button to open product information is not found [%s]", Constants.Reader.Epub.INFORMATION));
-        TestManager.addStep("click to open product information");
+        testManager.addStep("click to open product information");
         return clicker.clickOnElement(infoButton) && isInformationOpened();
     }
 
@@ -285,7 +285,7 @@ public class EpubReaderScreen extends ReaderScreen {
         if(!isInformationOpened()) return  true;
         Element infoButton = waiter.waitForElementByNameVisible(Constants.ProductDetails.BACK_BUTTON, 1, new IConfig().setMaxLevelOfElementsTree(3));
         if(infoButton == null) testManager.retest(String.format("button to back to book from product information screen is not found [%s]", Constants.ProductDetails.BACK_BUTTON));
-        TestManager.addStep("click to open product information");
+        testManager.addStep("click to open product information");
         return clicker.clickOnElement(infoButton) && !isInformationOpened();
     }
 
@@ -331,7 +331,7 @@ public class EpubReaderScreen extends ReaderScreen {
         if(element == null) {
             testManager.retest("add bookmark button is not found (" + Constants.Reader.Epub.ADD_BOOKMARK + ")");
         }
-        TestManager.addStep("click on button add bookmark " + Constants.Reader.Epub.ADD_BOOKMARK);
+        testManager.addStep("click on button add bookmark " + Constants.Reader.Epub.ADD_BOOKMARK);
         clicker.clickOnElement(element);
         return isBookmarkAdded();
     }
@@ -343,7 +343,7 @@ public class EpubReaderScreen extends ReaderScreen {
         if(element == null) {
             testManager.retest("add bookmark button is not found (" + Constants.Reader.Epub.REMOVE_BOOKMARK + ")");
         }
-        TestManager.addStep("click on button add bookmark " + Constants.Reader.Epub.REMOVE_BOOKMARK);
+        testManager.addStep("click on button add bookmark " + Constants.Reader.Epub.REMOVE_BOOKMARK);
         clicker.clickOnElement(element);
         return !isBookmarkAdded();
     }
@@ -376,7 +376,7 @@ public class EpubReaderScreen extends ReaderScreen {
         if(element == null) {
             testManager.retest("can not found " + Constants.Reader.Epub.Contents.BOOKMARKS_TAB);
         }
-        TestManager.addStep("click on " + Constants.Reader.Epub.Contents.BOOKMARKS_TAB);
+        testManager.addStep("click on " + Constants.Reader.Epub.Contents.BOOKMARKS_TAB);
         return clicker.clickOnElement(element);
     }
 
@@ -388,7 +388,7 @@ public class EpubReaderScreen extends ReaderScreen {
         if(element == null) {
             testManager.retest("can not found " + Constants.Reader.Epub.Contents.CONTENTS_TAB);
         }
-        TestManager.addStep("click on " + Constants.Reader.Epub.Contents.CONTENTS_TAB);
+        testManager.addStep("click on " + Constants.Reader.Epub.Contents.CONTENTS_TAB);
         return clicker.clickOnElement(element);
     }
 
@@ -400,6 +400,22 @@ public class EpubReaderScreen extends ReaderScreen {
     @Override
     public void swipePage(Constants.SwipeSide swipeSide) throws TestException {
 
+    }
+
+    @Override
+    public boolean dragToValue(double value) throws TestException {
+        openReaderMenu();
+        Element slider = waiter.waitForElementByNameVisible(Constants.Reader.Epub.PAGE_SLIDER, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        if(slider == null) {
+            testManager.retest(String.format("slider is not found: [%s]", Constants.Reader.Epub.PAGE_SLIDER));
+            return false;
+        }
+        String progress = slider.getValue().replaceAll("%", "").trim();
+
+        double progressValue = Double.parseDouble(progress)/(double)100;
+
+        testManager.addStep("drag to value: " + value);
+        return drager.dragInsideElementWithOptions(slider, progressValue, 0.5, value, 0.5);
     }
 
     public static class FontSize {

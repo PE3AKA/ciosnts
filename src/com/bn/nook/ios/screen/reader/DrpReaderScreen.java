@@ -34,7 +34,7 @@ public class DrpReaderScreen extends ReaderScreen {
         if(!isReaderMenuOpened()) {
             int[] screenSize = iDevice.getScreenSize();
             clicker.clickByXY(screenSize[0]/2, screenSize[1]/2);
-            TestManager.addStep("Open Reader menu");
+            testManager.addStep("Open Reader menu");
             if (!isReaderMenuOpened())
                 return false;
         }
@@ -46,7 +46,7 @@ public class DrpReaderScreen extends ReaderScreen {
         if(isReaderMenuOpened()) {
             int[] screenSize = iDevice.getScreenSize();
             clicker.clickByXY(screenSize[0]/2, screenSize[1]/2);
-            TestManager.addStep("Hide reader menu");
+            testManager.addStep("Hide reader menu");
             if (isReaderMenuOpened())
                 return false;
         }
@@ -65,13 +65,13 @@ public class DrpReaderScreen extends ReaderScreen {
             testManager.retest("Menu button was not found");
         Element menuBtn =  getter.getElement(libraryBtnQuery);
         clicker.clickOnElement(menuBtn);
-        TestManager.addStep("Click on menu button (Library)");
+        testManager.addStep("Click on menu button (Library)");
     }
 
     @Override
     public boolean openContents() {
         clicker.clickOnElement(getter.getElementByName(Constants.Reader.Drp.CONTENTS_BOOKMARKS, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)));
-        TestManager.addStep("Click on Contents");
+        testManager.addStep("Click on Contents");
         if (!waitWhileContentsMenuOpens(Constants.DEFAULT_TIMEOUT)) {
             iDevice.i("Contents menu was not opened");
             return false;
@@ -90,7 +90,7 @@ public class DrpReaderScreen extends ReaderScreen {
         if (number > elements.size())
             testManager.retest("Number bigger than rows. Rows in table: " + elements.size() + 1);
         clicker.clickOnElement(elements.get(number));
-        TestManager.addStep("Click on row" + number + " page in content tipe");
+        testManager.addStep("Click on row" + number + " page in content tipe");
     }
 
     @Override
@@ -98,8 +98,8 @@ public class DrpReaderScreen extends ReaderScreen {
         Element contentTab = getter.getElementByName(Constants.Reader.Drp.CONTENTS_TAB, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
         if (contentTab == null)
             testManager.retest("Content tab is null");
-        clicker.clickByXY( iDevice.getScreenSize()[0], contentTab.getY() - 50);
-        TestManager.addStep("Click on screen (higher tabs)");
+        clicker.clickByXY(iDevice.getScreenSize()[0], contentTab.getY() - 50);
+        testManager.addStep("Click on screen (higher tabs)");
         if (!waiter.waitForElementByNameGone(Constants.Reader.Drp.CONTENTS_TAB, Constants.DEFAULT_TIMEOUT, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase))){
             iDevice.i("Contents menu was not gone");
             return false;
@@ -147,7 +147,7 @@ public class DrpReaderScreen extends ReaderScreen {
         if (articleViewBtn == null)
             testManager.retest("articleViewBtn is null");
         clicker.clickOnElement(articleViewBtn);
-        TestManager.addStep("Click on article view button");
+        testManager.addStep("Click on article view button");
         if (waiter.waitForElementByNameVisible(Constants.Reader.Drp.ARTICLE_VIEW_PAGE, Constants.DEFAULT_TIMEOUT,
                 new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase)) == null)
             return false;
@@ -162,7 +162,7 @@ public class DrpReaderScreen extends ReaderScreen {
         if (textMenuBtn == null)
             testManager.retest("Text button was not found");
         clicker.clickOnElement(textMenuBtn);
-        TestManager.addStep("Click on Text button");
+        testManager.addStep("Click on Text button");
         return waiter.waitForElementByNameVisible(Constants.Reader.TextOptions.Size.EXTRA_SMALL_FONT_BUTTON, Constants.DEFAULT_TIMEOUT,
                 new IConfig().setMatcher(Matcher.ContainsIgnoreCase).setMaxLevelOfElementsTree(2)) != null;
     }
@@ -174,7 +174,7 @@ public class DrpReaderScreen extends ReaderScreen {
         if (smallBtn == null)
             testManager.retest("Text options page was not opened");
         clicker.clickByXY(iDevice.getScreenSize()[0] / 2, smallBtn.getY() - 100);
-        TestManager.addStep("Click on screen");
+        testManager.addStep("Click on screen");
         return waiter.waitForElementByNameGone(Constants.Reader.TextOptions.Size.EXTRA_SMALL_FONT_BUTTON, Constants.DEFAULT_TIMEOUT,
                 new IConfig().setMatcher(Matcher.ContainsIgnoreCase).setMaxLevelOfElementsTree(2));
     }
@@ -192,7 +192,7 @@ public class DrpReaderScreen extends ReaderScreen {
         if (sizeChoice == null)
             testManager.retest(sizeName + " wan not found");
         clicker.clickOnElement(sizeChoice);
-        TestManager.addStep("Select " + sizeName);
+        testManager.addStep("Select " + sizeName);
         if(!closeTextOptions())
             testManager.retest("Text options not closed");
     }
@@ -211,7 +211,7 @@ public class DrpReaderScreen extends ReaderScreen {
             testManager.retest("Text options not opened");
         Element element = waiter.waitForElementByNameExists(font, 1, new IConfig().setMaxLevelOfElementsTree(3));
         if(element == null) testManager.retest("Button " + font + " is not found");
-        TestManager.addStep("change font to " + font);
+        testManager.addStep("change font to " + font);
         clicker.clickOnElement(element);
         if(!closeTextOptions())
             testManager.retest("Text options not closed");
@@ -226,9 +226,9 @@ public class DrpReaderScreen extends ReaderScreen {
             testManager.retest("Text options not opened");
         Element element = waiter.waitForElementByNameExists(theme, 1, new IConfig().setMaxLevelOfElementsTree(3));
         if(element == null) testManager.retest("Button " + theme + " is not found");
-        TestManager.addStep("change theme to " + theme);
+        testManager.addStep("change theme to " + theme);
         clicker.clickOnElement(element);
-        TestManager.addStep("Select theme" + theme);
+        testManager.addStep("Select theme" + theme);
         if(!closeTextOptions())
             testManager.retest("Text options not closed");
     }
@@ -255,7 +255,7 @@ public class DrpReaderScreen extends ReaderScreen {
 
         Element element = waiter.waitForElementByNameExists(lineSpacing, 1, new IConfig().setMaxLevelOfElementsTree(2));
         if(element == null) testManager.retest("Button " + lineSpacing + " is not found");
-        TestManager.addStep("change line spacing to " + lineSpacing);
+        testManager.addStep("change line spacing to " + lineSpacing);
         clicker.clickOnElement(element);
         return closeTextOptions();
     }
@@ -282,7 +282,7 @@ public class DrpReaderScreen extends ReaderScreen {
 
         Element element = waiter.waitForElementByNameExists(margin, 1, new IConfig().setMaxLevelOfElementsTree(2));
         if(element == null) testManager.retest("Button " + margin + " is not found");
-        TestManager.addStep("change line margin to " + margin);
+        testManager.addStep("change line margin to " + margin);
         return closeTextOptions();
     }
 
@@ -291,7 +291,7 @@ public class DrpReaderScreen extends ReaderScreen {
             testManager.retest("Text options not opened");
         Element element = waiter.waitForElementByNameExists(margin, 2, new IConfig().setMaxLevelOfElementsTree(3));
         if(element == null) testManager.retest("Button " + margin + " is not found");
-        TestManager.addStep("change line margin to " + margin);
+        testManager.addStep("change line margin to " + margin);
         if(!closeTextOptions())
             testManager.retest("Text options not closed");
     }
@@ -349,7 +349,7 @@ public class DrpReaderScreen extends ReaderScreen {
         if (addBtn == null)
             testManager.retest("Add bookmark button was not found");
         clicker.clickByXY(addBtn.getX() + addBtn.getWidth()/2, addBtn.getY() + addBtn.getHeight()/2);
-        TestManager.addStep("Click on Add bookmark");
+        testManager.addStep("Click on Add bookmark");
         return waiter.waitForElementByNameExists(Constants.Reader.Drp.REMOVE_BOOKMARK, Constants.DEFAULT_TIMEOUT, new IConfig().setMatcher(Matcher.ContainsIgnoreCase)) != null;
     }
 
@@ -361,7 +361,7 @@ public class DrpReaderScreen extends ReaderScreen {
             testManager.retest("Remove bookmark button was not found");
         clicker.clickByXY(removeBtn.getX() + removeBtn.getWidth()/2, removeBtn.getY() + removeBtn.getHeight()/2);
 //        clicker.clickOnElement(removeBtn);
-        TestManager.addStep("Click on Add bookmark");
+        testManager.addStep("Click on Add bookmark");
         return waiter.waitForElementByNameExists(Constants.Reader.Drp.ADD_BOOKMARK, Constants.DEFAULT_TIMEOUT, new IConfig().setMatcher(Matcher.ContainsIgnoreCase)) != null;
     }
 
@@ -418,7 +418,7 @@ public class DrpReaderScreen extends ReaderScreen {
             return false;
         }
         clicker.clickOnElement(cells.get(index));
-        TestManager.addStep("Click on " + index + " row");
+        testManager.addStep("Click on " + index + " row");
         return waiter.waitForElementByNameGone(Constants.Reader.Drp.BOOKMARKS_TAB, Constants.DEFAULT_TIMEOUT,
                 new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
     }
@@ -448,7 +448,7 @@ public class DrpReaderScreen extends ReaderScreen {
         if (isBookmarkTabOpened())
             return true;
         clicker.clickOnElement(bookmarkBtn);
-        TestManager.addStep("Click on Bookmark tab");
+        testManager.addStep("Click on Bookmark tab");
         iDevice.sleep(2000);
         return isBookmarkTabOpened();
     }
@@ -504,7 +504,7 @@ public class DrpReaderScreen extends ReaderScreen {
         iDevice.i("########################### page cord =========== X: " + page.getX() + "==========Y: " + page.getY());
 //        clicker.clickOnElement(page);
         clicker.clickByXY(page.getX() + page.getWidth()/2, page.getY() + page.getHeight()/2);
-        TestManager.addStep("Click on " + pageNumber);
+        testManager.addStep("Click on " + pageNumber);
         iDevice.sleep(3000);
         takeScreenShot("After Click on " + pageNumber);
         return !isReaderMenuOpened();

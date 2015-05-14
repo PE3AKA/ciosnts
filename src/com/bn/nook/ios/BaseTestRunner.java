@@ -119,8 +119,8 @@ public class BaseTestRunner extends Base{
                 }
             }
         }
-        TestManager.testCaseInfo.setTitle(mPreCondition.testTitle());
-        TestManager.testCaseInfo.setId(mPreCondition.testId());
+        testManager.testCaseInfo.setTitle(mPreCondition.testTitle());
+        testManager.testCaseInfo.setId(mPreCondition.testId());
     }
 
     private void processPreConditions() throws TestException {
@@ -128,7 +128,7 @@ public class BaseTestRunner extends Base{
 
         Condition[] preconditionActions = mPreCondition.preConditions();
         for(Condition precondition : preconditionActions) {
-            TestManager.addStep("PRECONDITION: " + precondition.name());
+            testManager.addStep("PRECONDITION: " + precondition.name());
             executeCondition(precondition);
         }
     }
@@ -137,14 +137,14 @@ public class BaseTestRunner extends Base{
         if(mPostCondition == null) return;
         Condition[] postConditions = mPostCondition.postConditions();
         for(Condition postCondition : postConditions) {
-            TestManager.addStep("POST CONDITION: " + postCondition.name());
+            testManager.addStep("POST CONDITION: " + postCondition.name());
             executeCondition(postCondition);
         }
     }
 
     private void executeCondition(Condition condition) throws TestException {
         iDevice.i("Annotation condition : " + condition.name());
-        TestManager.addStep("Annotation condition:" + condition.name());
+        testManager.addStep("Annotation condition:" + condition.name());
        switch (condition) {
             case LOGIN:
                 baseScreen = nookUtil.getCurrentScreen(true);
@@ -170,17 +170,17 @@ public class BaseTestRunner extends Base{
                 }
                 break;
            case OPEN_PRODUCT:
-               String product = TestManager.getTestProperty(mPreCondition.productName().name());
+               String product = testManager.getTestProperty(mPreCondition.productName().name());
                 preparer.openProduct(product, mPreCondition.productType());
                break;
            case OPEN_SCREEN:
                preparer.openScreen(mPreCondition.screenTitle(), mPreCondition.screenModel());
                break;
            case UNARCHIVE_PRODUCT:
-               preparer.unArchiveProduct(nookUtil, TestManager.getTestProperty(mPreCondition.productName().name()));
+               preparer.unArchiveProduct(nookUtil, testManager.getTestProperty(mPreCondition.productName().name()));
                break;
            case ARCHIVE_PRODUCT:
-               preparer.archiveProduct(nookUtil, TestManager.getTestProperty(mPreCondition.productName().name()));
+               preparer.archiveProduct(nookUtil, testManager.getTestProperty(mPreCondition.productName().name()));
                break;
            case ADD_PROFILE:
                preparer.addProfile(mPreCondition.profileName(), true);

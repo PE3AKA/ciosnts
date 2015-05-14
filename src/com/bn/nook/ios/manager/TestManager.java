@@ -12,7 +12,6 @@ import com.sofment.testhelper.property.PropertiesManager;
 import java.awt.*;
 import java.awt.image.PixelGrabber;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -23,19 +22,19 @@ public class TestManager {
     private static TestManager testManager;
     private IDevice iDevice;
     private String pathToBuild;
-    public static TestCaseInfo testCaseInfo;
+    public TestCaseInfo testCaseInfo;
     private String login = "";
     private String pass = "";
     private String purchaseLogin = "";
     private String purchasePass = "";
-    private static PropertiesManager propertiesManager;
-    private static ParamsParser paramsParser;
+    private PropertiesManager propertiesManager;
+    private ParamsParser paramsParser;
     private String searchProduct;
     private String deferredSignInSearchProduct;
     private String epubProduct;
     private String drpMagazine;
     private String drpComics;
-    private static String randomShelfName = null;
+    private String randomShelfName = null;
 
     private TestManager () {
         testHelper = new TestHelper();
@@ -70,15 +69,15 @@ public class TestManager {
         return sb.toString();
     }
 
-    public static String getRandomShelfName() {
+    public String getRandomShelfName() {
         return randomShelfName;
     }
 
-    public static void setRandomShelfName(String randomShelfName){
-        TestManager.randomShelfName = randomShelfName;
+    public void setRandomShelfName(String randomShelfName){
+        this.randomShelfName = randomShelfName;
     }
 
-    public static String getTestProperty(String key) {
+    public String getTestProperty(String key) {
         return propertiesManager.getProperty(key);
     }
 
@@ -88,15 +87,15 @@ public class TestManager {
         return testManager;
     }
 
-    public static void writeResult() {
+    public void writeResult() {
         testCaseInfo.writeResult(ParamsParser.getInstance().getPathToResultsFolder() + "/result.json");
     }
 
-    public static ParamsParser getParamsParser() {
+    public ParamsParser getParamsParser() {
         return paramsParser;
     }
 
-    public static PropertiesManager getPropertiesManager() {
+    public PropertiesManager getPropertiesManager() {
         return propertiesManager;
     }
 
@@ -166,8 +165,11 @@ public class TestManager {
         return purchasePass;
     }
 
-    public static void addStep(String s) {
-        testCaseInfo.addStep(s);
+    public void addStep(String step) {
+        iDevice.i("########################################################");
+        iDevice.i("STEP: " + step);
+        testCaseInfo.addStep(step);
+        iDevice.i("########################################################");
     }
 
     public String getSearchProduct() {

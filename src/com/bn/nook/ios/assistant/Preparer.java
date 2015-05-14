@@ -117,7 +117,7 @@ public class Preparer {
         nookUtil.waitForScreenModel(ScreenModel.PRODUCT_DETAILS, Constants.DEFAULT_TIMEOUT);
         baseScreen = nookUtil.getCurrentScreen(false);
         if(nookUtil.screenModel != ScreenModel.PRODUCT_DETAILS)
-            testManager.retest("Necessary screen is not found. Expected: " +
+            testManager.retest("Necessary product details screen is not found. Expected: " +
                     ScreenModel.PRODUCT_DETAILS.name() + ", actual : " +
                     nookUtil.screenModel.name());
         productDetailsScreen = ((ProductDetailsScreen) baseScreen);
@@ -127,7 +127,7 @@ public class Preparer {
         nookUtil.waitForScreenModel(ScreenModel.PROFILES, Constants.DEFAULT_TIMEOUT);
         baseScreen = nookUtil.getCurrentScreen(false);
         if(nookUtil.screenModel != ScreenModel.PROFILES)
-            testManager.retest("Necessary screen is not found. Expected: " +
+            testManager.retest("Necessary profile screen is not found. Expected: " +
                     ScreenModel.PROFILES.name() + ", actual : " + nookUtil.screenModel.name());
         profileScreen = ((ProfileScreen) baseScreen);
     }
@@ -162,7 +162,7 @@ public class Preparer {
             testManager.retest("Can not scrollable to product '" + productName + "'");
         }
 
-        TestManager.addStep("Long click on product '" + productName + "'");
+        testManager.addStep("Long click on product '" + productName + "'");
         clicker.longClickOnElement(product, 5);
 
         if(!nookUtil.waitForScreenModel(ScreenModel.PRODUCT_DETAILS, Constants.DEFAULT_TIMEOUT)){
@@ -188,7 +188,7 @@ public class Preparer {
         });
 
         if(!productDetailsScreen.pressOnManageItem(Constants.ProductDetails.ARCHIVE_BUTTON)) {
-            TestManager.addStep("Archive button doesn't exist");
+            testManager.addStep("Archive button doesn't exist");
             iDevice.takeScreenShot("product_details_not_archive_btn");
             productDetailsScreen.pressOnManageItem(Constants.ProductDetails.CANCEL_BUTTON);
             return;
@@ -239,7 +239,7 @@ public class Preparer {
             throw new TestException("Can not scrollable to product '" + productName + "'").retest();
         }
 
-        TestManager.addStep("Long click on product '" + productName + "'");
+        testManager.addStep("Long click on product '" + productName + "'");
         clicker.longClickOnElement(archiveProduct, 5);
 
         if(!nookUtil.waitForScreenModel(ScreenModel.PRODUCT_DETAILS, Constants.DEFAULT_TIMEOUT)){
@@ -274,7 +274,7 @@ public class Preparer {
 
         Element profile = profileScreen.getProfile(profileName);
         if(profile != null) {
-            TestManager.addStep("Profile '" + profileName + "' exists");
+            testManager.addStep("Profile '" + profileName + "' exists");
             return;
         }
 
@@ -345,7 +345,7 @@ public class Preparer {
         for (Element element : searchProducts) {
             if(element.getName().toLowerCase().contains(product.toLowerCase()) &&
                     !element.getName().toLowerCase().contains(Constants.Search.DOWNLOADING)) {
-                TestManager.addStep("Click to open on " + product);
+                testManager.addStep("Click to open on " + product);
                 clicker.clickOnElement(element);
                 if(!nookUtil.waitForScreenModel(productType, Constants.DEFAULT_TIMEOUT, false)) {
                     iDevice.i("CURRENT SCREEN MODEL: " + nookUtil.screenModel.name());
@@ -384,14 +384,14 @@ public class Preparer {
                 settingsScreen = (SettingsScreen) baseScreen;
                 Element doneBtn = getter.getElementByName(Constants.CommonElements.DONE_BTN, new IConfig().setMaxLevelOfElementsTree(3));
                 clicker.clickOnElement(doneBtn);
-                TestManager.addStep("Click on Done");
+                testManager.addStep("Click on Done");
                 break;
             case Constants.Screens.Classes.LIBRARY_SCREEN:
                 Element menu = waiter.waitForElementByNames(new IWaiterConfig()
                                 .setMaxLevelOfElementsTree(3).addMatcher(Matcher.ContainsIgnoreCase),
                         10000, Constants.CommonElements.MENU_BTN, new String[] {Constants.CommonElements.MENU_BTN_2});
                 if(menu != null) {
-                    TestManager.addStep("Click on menu button");
+                    testManager.addStep("Click on menu button");
                     clicker.clickByXY(menu.getX() + menu.getWidth()/2, menu.getY() + menu.getHeight()/2);
                     return;
                 }
@@ -400,13 +400,13 @@ public class Preparer {
             case Constants.Screens.Classes.SEARCH_SCREEN:
                 Element cancelBtn = getter.getElementByName(Constants.CommonElements.CANCEL_BTN, new IConfig().setMaxLevelOfElementsTree(3));
                 clicker.clickOnElement(cancelBtn);
-                TestManager.addStep("Click on Cancel");
+                testManager.addStep("Click on Cancel");
                 break;
             case Constants.Screens.Classes.DRP_READER_SCREEN:
                 drpReaderScreen = (DrpReaderScreen) baseScreen;
                 if (!drpReaderScreen.isReaderMenuOpened()){
                     clicker.clickOnScreenCenter(1);
-                    TestManager.addStep("Click on Center screen");
+                    testManager.addStep("Click on Center screen");
                 }
                 drpReaderScreen.openHamburgerMenu();
                 return;
@@ -418,7 +418,7 @@ public class Preparer {
                                 .setMaxLevelOfElementsTree(3).addMatcher(Matcher.ContainsIgnoreCase),
                         10000, Constants.CommonElements.MENU_BTN, new String[] {Constants.CommonElements.MENU_BTN_2});
                 if(menu != null) {
-                    TestManager.addStep("Click on menu button");
+                    testManager.addStep("Click on menu button");
                     clicker.clickByXY(menu.getX(), menu.getY());
                     return;
                 }
@@ -429,8 +429,7 @@ public class Preparer {
             testManager.retest("Menu button was not found");
         menuBtn = getter.getElementByName(Constants.CommonElements.MENU_BTN,
                 new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase));
-
-        TestManager.addStep("Click on menu button");
+        testManager.addStep("Click on menu button");
         clicker.clickOnElement(menuBtn);
     }
 

@@ -23,7 +23,7 @@ public class AlertManager {
     }
 
     public void renameAndDeleteShelfHandler() {
-        TestManager.setRandomShelfName(TestManager.getRandomString(5));
+        testManager.setRandomShelfName(TestManager.getRandomString(5));
         final IDevice iDevice = testManager.getIDevice(paramsParser.getDeviceUuid());
         final AlertHandler alertHandler = new AlertHandler();
         alertHandler.logMessage("alert appeared");
@@ -41,7 +41,7 @@ public class AlertManager {
                 alertHandler.createElementNotNullCondition(buttonOk, new AlertCondition.ConditionResults() {
                     @Override
                     public void positiveResult() {
-                        alertHandler.inputText(TestManager.getRandomShelfName());
+                        alertHandler.inputText(testManager.getRandomShelfName());
                         alertHandler.clickOnElement(buttonOk);
                         alertHandler.returnBoolean(true);
                     }
@@ -82,7 +82,7 @@ public class AlertManager {
     }
 
     public void createShelfHandler() {
-        TestManager.setRandomShelfName(TestManager.getRandomString(5));
+        testManager.setRandomShelfName(TestManager.getRandomString(5));
         final IDevice iDevice = testManager.getIDevice(paramsParser.getDeviceUuid());
         final AlertHandler alertHandler = new AlertHandler();
         alertHandler.logMessage("alert appeared");
@@ -97,7 +97,7 @@ public class AlertManager {
                 alertHandler.createElementNotNullCondition(buttonOk, new AlertCondition.ConditionResults() {
                     @Override
                     public void positiveResult() {
-                        alertHandler.inputText(TestManager.getRandomShelfName());
+                        alertHandler.inputText(testManager.getRandomShelfName());
                         alertHandler.clickOnElement(buttonOk);
                         alertHandler.returnBoolean(true);
                     }

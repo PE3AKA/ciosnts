@@ -23,6 +23,7 @@ public class TestCase {
     }
 
     public void start() throws TestException {
+        TestManager testManager = TestManager.getInstance();
         IDevice iDevice = TestManager.getInstance().getIDevice(ParamsParser.getInstance().getDeviceUuid());
         if(iDevice == null) {
 //            TestManager.getInstance().getTestCaseInfo().setMessage("device with uuid is not found");
@@ -34,10 +35,10 @@ public class TestCase {
 //            iDevice.installApplication(pathToBuild);
 //        }
 //        iDevice.launchApplication(pathToBuild);
-        TestManager.testCaseInfo.setStatusId(Status.FAILED);
+        testManager.testCaseInfo.setStatusId(Status.FAILED);
         testCaseConfig.mainLogic();
         iDevice.stopApplication();
-        TestManager.writeResult();
+        testManager.writeResult();
 //        TestManager.getInstance().getTestCaseInfo().writeResult(ParamsParser.getInstance().getPathToResultsFolder() + "/result.json");
     }
 }

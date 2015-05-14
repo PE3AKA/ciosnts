@@ -34,7 +34,7 @@ public class ProfileScreen extends BaseScreen {
                 testManager.retest("Can not click on " + label);
             else return false;
         }
-        TestManager.addStep("Press on button '" + label + "'");
+        testManager.addStep("Press on button '" + label + "'");
         if(!clicker.clickByXY(element.getX() + element.getWidth()/2, element.getY() + element.getHeight()/2)) {
             if(isStrict)
                 testManager.retest("Can not click on " + label);

@@ -31,7 +31,7 @@ public class MyShelvesScreen extends BaseLibraryScreen {
                 .addElement(UIAElementType.UIAButton, label));
         if(element == null)
             return false;
-        TestManager.addStep("Press on button '" + label + "'");
+        testManager.addStep("Press on button '" + label + "'");
         if(!clicker.clickOnElement(element)) {
             if(isStrict)
                 testManager.retest("Can not click on " + label);
@@ -47,7 +47,7 @@ public class MyShelvesScreen extends BaseLibraryScreen {
                 .addElement(UIAElementType.UIAButton, label));
         if(element == null)
             return false;
-        TestManager.addStep("Press on button '" + label + "'");
+        testManager.addStep("Press on button '" + label + "'");
         if(!clicker.clickOnElement(element)) {
             if(isStrict)
                 testManager.retest("Can not click on " + label);
@@ -90,7 +90,7 @@ public class MyShelvesScreen extends BaseLibraryScreen {
             else return false;
         }
 
-        TestManager.addStep("Press on '" + label + "'");
+        testManager.addStep("Press on '" + label + "'");
         if(!clicker.clickOnElement(element)) {
             if(isStrict)
                 testManager.retest("Can not click on " + label);
@@ -198,7 +198,7 @@ public class MyShelvesScreen extends BaseLibraryScreen {
         if(!scroller.scrollToVisible(newProduct))
             testManager.retest("Can not scrollable to book '" + newProduct.getName() + "'");
 
-        TestManager.addStep("Select book '" + newProduct.getName() + "'");
+        testManager.addStep("Select book '" + newProduct.getName() + "'");
         clicker.clickOnElement(newProduct);
 
         pressOnNavigationBarButton(Constants.My_Shelves.DONE_BUTTON, true);
@@ -261,7 +261,7 @@ public class MyShelvesScreen extends BaseLibraryScreen {
         if(alertState[0] == 0)
             testManager.retest("Alert '" + Constants.My_Shelves.ALERT_TITLE_RENAME_SHELF + "' was not found");
 
-        String newShelfName = TestManager.getRandomShelfName();
+        String newShelfName = testManager.getRandomShelfName();
         String currentShelfName = getShelfName();
 
         if(shelfName.equals(currentShelfName))

@@ -25,7 +25,7 @@ public class ProductDetailsScreen extends BaseScreen {
                 .addElement(UIAElementType.UIAButton, Constants.ProductDetails.BACK_BUTTON));
         if(element == null)
             return false;
-        TestManager.addStep("Press on button 'back'");
+        testManager.addStep("Press on button 'back'");
         return clicker.clickOnElement(element);
     }
 
@@ -36,7 +36,7 @@ public class ProductDetailsScreen extends BaseScreen {
                 .addElement(UIAElementType.UIAButton, Constants.ProductDetails.MANAGE_BUTTON));
         if(element == null)
             return false;
-        TestManager.addStep("Press on button 'Manage'");
+        testManager.addStep("Press on button 'Manage'");
         return clicker.clickOnElement(element);
     }
 
@@ -70,7 +70,7 @@ public class ProductDetailsScreen extends BaseScreen {
         if(element == null)
             return false;
 
-        TestManager.addStep("Press on '" + label + "'");
+        testManager.addStep("Press on '" + label + "'");
         return clicker.clickByXY(element.getX(), element.getY());
     }
 }

@@ -62,7 +62,7 @@ public abstract class ReaderScreen extends BaseScreen {
 
         double progressValue = Double.parseDouble(progress)/(double)100;
 
-        TestManager.addStep("drag to value: " + value);
+        testManager.addStep("drag to value: " + value);
         return drager.dragInsideElementWithOptions(slider, progressValue, 0.5, value, 0.5);
     }
 }
