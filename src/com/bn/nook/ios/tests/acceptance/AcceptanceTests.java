@@ -1668,12 +1668,40 @@ public class AcceptanceTests extends BaseTestRunner{
             testId = 436036,
             testTitle = "Deferred sign in: settings")
     public void testCase436036() throws TestException {
-        Preparer preparer = new Preparer(iDevice, nookUtil, paramsParser);
+        preparer = new Preparer(iDevice, nookUtil, paramsParser);
         preparer.openScreen(Constants.SideMenu.SETTINGS);
         if(!nookUtil.waitForScreenModel(ScreenModel.SETTINGS, Constants.DEFAULT_TIMEOUT))
             testManager.retest("Settings screen was not opened");
         settingsScreen = new SettingsScreen(testManager, testHelper, paramsParser, iDevice);
         settingsScreen.checkThatDeferredOptions();
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
+    }
+
+    /*
+    C436037	Deferred sign in:sign in
+     */
+    @PreCondition(preConditions = {Condition.DEFERRED_SIGN_IN},
+            testId = 436037,
+            testTitle = "Deferred sign in:sign in")
+    public void testCase436037() throws TestException {
+        initDeferredSignInScreen();
+        testManager.addStep("Check that \"Sign In\" button present");
+        Element signInBtn = deferredSignInScreen.getSignInBtn();
+        if(signInBtn == null)
+            testManager.failTest("Sign In button is not exists");
+        takeScreenShot("SignIn button present");
+//        clicker.clickOnElement(signInBtn);
+        clicker.clickByXY(signInBtn.getX() + signInBtn.getWidth()/2, signInBtn.getY() + signInBtn.getHeight()/2);
+        iDevice.sleep(5000);
+        testManager.addStep("Click on SignIn button");
+        OobeScreen oobeScreen = new OobeScreen(testManager, testHelper, paramsParser, iDevice);
+        if(!oobeScreen.inputCredentials())
+            testManager.retest("Error during enter credential");
+        clicker.clickOnElement(oobeScreen.waitForSignInButton(1000));
+        if(!oobeScreen.waitForLogin(Constants.DEFAULT_TIMEOUT * 3))
+            testManager.failTest("User not logged");
+        testManager.addStep("User logged");
+        takeScreenShot("User logged");
         testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 

@@ -9,6 +9,7 @@ import com.sofment.testhelper.TestHelper;
 import com.sofment.testhelper.driver.ios.config.IConfig;
 import com.sofment.testhelper.driver.ios.config.IWaiterConfig;
 import com.sofment.testhelper.driver.ios.elements.Element;
+import com.sofment.testhelper.driver.ios.elements.ElementQuery;
 import com.sofment.testhelper.driver.ios.enams.SearchCondition;
 import com.sofment.testhelper.driver.ios.enams.UIAElementType;
 import com.sofment.testhelper.driver.ios.helpers.*;
@@ -92,5 +93,18 @@ public class BaseScreen extends Base {
             testManager.failTest("UIACollection view is not found");
         }
         return collection;
+    }
+
+    public boolean waitForLogin(long timeout){
+        long startTime = System.currentTimeMillis();
+        while (true){
+            if (waiter.waitForElementByClassExists(UIAElementType.UIACollectionView, 1, new IConfig().setMaxLevelOfElementsTree(2))!= null &&
+                    waiter.waitForElement(1, new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIAButton, Constants.Settings.SIGN_IN)) == null){
+                return true;
+            }
+            if (System.currentTimeMillis() - startTime > timeout)
+                break;
+        }
+         return false;
     }
 }

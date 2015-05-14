@@ -65,10 +65,10 @@ public class SettingsScreen extends BaseScreen {
     }
 
     public void checkThatDeferredOptions() throws TestException {
-        testManager.addStep("Check that elements present:\n" +
-                "1. \"Done\" button\n" +
-                "2. \"Sign In\" Function\n" +
-                "3. \"Account Settings\"\n" +
+        testManager.addStep("Check that elements present: " +
+                "1. \"Done\" button" +
+                "2. \"Sign In\" Function" +
+                "3. \"Account Settings\"" +
                 "4. \"Support\"");
         if (waiter.waitForElementByNameVisible(Constants.Settings.DONE, 1, new IConfig().setMatcher(Matcher.ContainsIgnoreCase).setMaxLevelOfElementsTree(3)) == null)
             testManager.failTest("Done button was not found");

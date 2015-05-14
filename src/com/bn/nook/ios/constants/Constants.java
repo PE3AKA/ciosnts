@@ -93,7 +93,7 @@ public class Constants {
 
     public static class Screens {
         public static final String SETTINGS_SCREEN = "NOOK Settings";
-        public static final String OOBE_SCREEN = "Sign In";
+        public static final String OOBE_SCREEN_LOGO = "fed_login_nook_logo.png";
         public static final String SEARCH_SCREEN = "Cancel";
         public static final String LIBRARY_SCREEN = "Navigation Menu";
         public static final String LIBRARY_SCREEN2 = "com.bn hub hamburger menu";
