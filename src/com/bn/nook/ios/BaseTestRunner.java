@@ -183,7 +183,7 @@ public class BaseTestRunner extends Base{
                preparer.archiveProduct(nookUtil, testManager.getTestProperty(mPreCondition.productName().name()));
                break;
            case ADD_PROFILE:
-               preparer.addProfile(mPreCondition.profileName(), true);
+               preparer.addProfile(mPreCondition.profileName(), mPreCondition.isChildProfile());
                break;
            case REMOVE_BOOKMARKS:
                preparer.removeAllBookmarks(mPreCondition.productType());
@@ -248,6 +248,16 @@ public class BaseTestRunner extends Base{
         } else if(baseScreen instanceof DrpReaderScreen) {
             readerScreen = (DrpReaderScreen) baseScreen;
         }
+    }
+
+    public void initProfileScreen() throws TestException {
+        nookUtil.waitForScreenModel(ScreenModel.PROFILES, Constants.DEFAULT_TIMEOUT);
+        baseScreen = nookUtil.getCurrentScreen(false);
+        if(nookUtil.screenModel != ScreenModel.PROFILES) {
+            testManager.retest("Necessary screen is not found. Expected: " + ScreenModel.PROFILES.name() +
+                    ", actual : " + nookUtil.screenModel.name());
+        }
+        profileScreen = ((ProfileScreen) baseScreen);
     }
 
     public void initMyShelvesScreen() throws TestException {

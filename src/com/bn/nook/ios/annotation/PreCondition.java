@@ -36,6 +36,7 @@ public @interface PreCondition {
     String screenTitle() default Constants.Library.Menu.LIBRARY;
 
     String profileName() default "Child";
+    boolean isChildProfile() default false;
 
 //    String libreryCategoyOfProduct() default Constants.Library.Text.BOOKS;
 //    boolean isCloseTutorial() default false;

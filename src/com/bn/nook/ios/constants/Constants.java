@@ -37,7 +37,10 @@ public class Constants {
         public static final String DONE_BUTTON = "Done";
         public static final String FIRST_NAME_EDIT_TEXT = "Enter First Name";
         public static final String BACK_BUTTON = "Back";
-        public static final String PROFILE_NAME = "ChildProfile";
+        public static final String PROFILE_NAME = "Child user";
+        public static final String CHILD_BUTTON = "Child";
+        public static final String AGE_BUTTON = "Age";
+        public static final String SET_BUTTON = "Set";
     }
 
     public static class My_Shelves {
