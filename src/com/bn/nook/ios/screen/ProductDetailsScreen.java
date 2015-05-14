@@ -1,9 +1,11 @@
 package com.bn.nook.ios.screen;
 
 import com.bn.nook.ios.constants.Constants;
+import com.bn.nook.ios.exception.TestException;
 import com.bn.nook.ios.manager.TestManager;
 import com.bn.nook.ios.param.ParamsParser;
 import com.sofment.testhelper.TestHelper;
+import com.sofment.testhelper.driver.ios.config.IConfig;
 import com.sofment.testhelper.driver.ios.elements.Element;
 import com.sofment.testhelper.driver.ios.elements.ElementQuery;
 import com.sofment.testhelper.driver.ios.enams.UIAElementType;
@@ -72,5 +74,47 @@ public class ProductDetailsScreen extends BaseScreen {
 
         testManager.addStep("Press on '" + label + "'");
         return clicker.clickByXY(element.getX(), element.getY());
+    }
+
+    public boolean openProduct() throws TestException {
+        Element scrollView = waiter.waitForElementByClassVisible(UIAElementType.UIAScrollView, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        Element button = waiter.waitForElementByClassVisible(UIAElementType.UIAButton, 1, new IConfig().setMaxLevelOfElementsTree(2).setParentElement(scrollView));
+
+        if(button == null || button.getName() == null) return false;
+
+        switch (button.getName()) {
+            case Constants.ProductDetails.DOWNLOAD :
+            case Constants.ProductDetails.DOWNLOADING :
+                return false;
+            case Constants.ProductDetails.READ :
+                testManager.addStep("click on read button");
+                clicker.clickOnElement(button);
+                return true;
+        }
+        return true;
+    }
+
+    public boolean downloadProduct() {
+        Element scrollView = waiter.waitForElementByClassVisible(UIAElementType.UIAScrollView, 1, new IConfig().setMaxLevelOfElementsTree(2));
+        Element button = waiter.waitForElementByClassVisible(UIAElementType.UIAButton, 1, new IConfig().setMaxLevelOfElementsTree(2).setParentElement(scrollView));
+
+        if(button == null || button.getName() == null) return false;
+
+        switch (button.getName()) {
+            case Constants.ProductDetails.DOWNLOAD :
+                testManager.addStep("click on download button");
+                clicker.clickOnElement(button);
+                return waiter.waitForElementByNameVisible(Constants.ProductDetails.READ, Constants.DOWNLOAD_PRODUCT_TIMEOUT, new IConfig().setMaxLevelOfElementsTree(2).setParentElement(scrollView)) != null;
+
+            case Constants.ProductDetails.READ :
+                return true;
+            case Constants.ProductDetails.DOWNLOADING :
+                return waiter.waitForElementByNameVisible(Constants.ProductDetails.READ, Constants.DOWNLOAD_PRODUCT_TIMEOUT, new IConfig().setMaxLevelOfElementsTree(2).setParentElement(scrollView)) != null;
+        }
+        return true;
+    }
+
+    public boolean isDownloading() {
+        return waiter.waitForElementByNameVisible(Constants.ProductDetails.DOWNLOADING, 1, new IConfig().setMaxLevelOfElementsTree(3)) != null;
     }
 }

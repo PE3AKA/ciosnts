@@ -291,7 +291,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.retest("not downloaded product is not found");
         }
 
-        if(!searchScreen.downloadProduct(product)) {
+        if(!searchScreen.downloadProduct(product, testManager.getEpubProduct())) {
             testManager.failTest(testManager.getEpubProduct() + " product is not downloaded");
         }
 
@@ -322,7 +322,7 @@ public class AcceptanceTests extends BaseTestRunner{
                             new IConfig().setMatcher(Matcher.ContainsIgnoreCase).setParentElement(element).setMaxLevelOfElementsTree(2)) == null) {
 
                 if(element.getName().toLowerCase().contains(Constants.Search.NOT_DOWNLOADED.toLowerCase())) {
-                    if(!searchScreen.downloadProduct(element)) {
+                    if(!searchScreen.downloadProduct(element, testManager.getEpubProduct())) {
                         testManager.retest("can not download necessary product " + testManager.getEpubProduct());
                     }
                 } else if(element.getName().toLowerCase().contains(Constants.Search.DOWNLOADING.toLowerCase())) {
@@ -734,7 +734,7 @@ public class AcceptanceTests extends BaseTestRunner{
         iDevice.i("parent of sample button: " + parent.getName());
 
         initSearchScreen();
-        if(!searchScreen.downloadProduct(parent)) {
+        if(!searchScreen.downloadProduct(parent, null)) {
             testManager.failTest(String.format("the sample %s is not downloaded", parent.getName()));
         }
 
@@ -1263,7 +1263,7 @@ public class AcceptanceTests extends BaseTestRunner{
         if(product == null) {
             testManager.retest("not downloaded product is not found");
         }
-        if(!searchScreen.downloadProduct(product)) {
+        if(!searchScreen.downloadProduct(product, testManager.getDrpMagazine())) {
             testManager.failTest(testManager.getDrpMagazine() + " product is not downloaded");
         }
         testManager.testCaseInfo.setStatusId(Status.PASSED);
@@ -1673,7 +1673,7 @@ public class AcceptanceTests extends BaseTestRunner{
         Element product = searchScreen.findNotDownloadedProduct();
         if(product == null)
             testManager.retest("not downloaded product is not found");
-        if(!searchScreen.downloadProduct(product))
+        if(!searchScreen.downloadProduct(product, testManager.getDrpComics()))
             testManager.failTest(testManager.getDrpComics() + " product is not downloaded");
         testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
@@ -1746,7 +1746,7 @@ public class AcceptanceTests extends BaseTestRunner{
         if(!oobeScreen.inputCredentials())
             testManager.retest("Error during enter credential");
         clicker.clickOnElement(oobeScreen.waitForSignInButton(1000));
-        if(!oobeScreen.waitForLogin(Constants.DEFAULT_TIMEOUT * 3))
+        if (!oobeScreen.waitForLogin(Constants.DEFAULT_TIMEOUT * 3))
             testManager.failTest("User not logged");
         testManager.addStep("User logged");
         takeScreenShot("User logged");

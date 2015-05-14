@@ -295,6 +295,9 @@ public class Constants {
         public static final String DELETE_BUTTON = "Delete";
         public static final String ARCHIVE_TITLE = "Archive Title";
         public static final String BACK_BUTTON = "com.bn.NookApplication.btn bac";
+        public static final String DOWNLOADING = "Cancel";
+        public static final String DOWNLOAD = "Download";
+        public static final String READ = "Read";
     }
 
     public class Oobe {

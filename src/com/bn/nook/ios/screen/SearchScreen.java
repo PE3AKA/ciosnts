@@ -15,6 +15,8 @@ import com.sofment.testhelper.enums.Matcher;
 
 import java.util.ArrayList;
 
+import static com.bn.nook.ios.screen.SearchScreen.ProductState.*;
+
 /**
  * Created by avsupport on 5/5/15.
  */
@@ -67,29 +69,16 @@ public class SearchScreen extends BaseScreen {
         return getProducts(minSearchResultProducts, timeout);
     }
 
-    public boolean downloadProduct(Element product) throws TestException {
+    public boolean downloadProduct(Element product, String name) throws TestException {
         if(product == null) return false;
         Element button = waiter.waitForElementByClassExists(UIAElementType.UIAButton, 1, new IConfig().setMaxLevelOfElementsTree(2).setParentElement(product));
-        testManager.addStep("click on product " + product.getName() + " to download");
-        clicker.clickOnElement(button);
 
-        Element element = null;
-        if((element = waiter.waitForElementByNames(new IWaiterConfig()
-                .setOnlyVisible(true)
-                .setMaxLevelOfElementsTree(3)
-                .setParentElement(product)
-                .setSearchCondition(SearchCondition.NAME)
-                .addMatcher(Matcher.FullMatch).addInstance(0),
-                Constants.DOWNLOAD_PRODUCT_TIMEOUT,
-                Constants.Search.READ,
-                Constants.Search.SAMPLE)) == null) {
-//            testManager.retest("the book name: " + product.getName() + " is not found.");
-            return false;
-        }
+        if (button != null && button.getName() != null && button.getName().equals(Constants.Search.SAMPLE)) {
+            testManager.addStep("click on product " + product.getName() + " to download");
+            clicker.clickOnElement(button);
 
-        if(element.getName() != null && !element.getName().equals(Constants.Search.READ)) {
-            iDevice.sleep(2000);
-            if((element = waiter.waitForElementByNames(new IWaiterConfig()
+            Element element = null;
+            if ((element = waiter.waitForElementByNames(new IWaiterConfig()
                             .setOnlyVisible(true)
                             .setMaxLevelOfElementsTree(3)
                             .setParentElement(product)
@@ -98,29 +87,53 @@ public class SearchScreen extends BaseScreen {
                     Constants.DOWNLOAD_PRODUCT_TIMEOUT,
                     Constants.Search.READ,
                     Constants.Search.SAMPLE)) == null) {
-//                testManager.retest("the book name: " + product.getName() + " is not found.");
+//            testManager.retest("the book name: " + product.getName() + " is not found.");
                 return false;
             }
-            if(element.getName() != null && !element.getName().equals(Constants.Search.READ)) {
-                return false;
+            if (element.getName() != null && !element.getName().equals(Constants.Search.READ)) {
+                iDevice.sleep(2000);
+                if ((element = waiter.waitForElementByNames(new IWaiterConfig()
+                                .setOnlyVisible(true)
+                                .setMaxLevelOfElementsTree(3)
+                                .setParentElement(product)
+                                .setSearchCondition(SearchCondition.NAME)
+                                .addMatcher(Matcher.FullMatch).addInstance(0),
+                        Constants.DOWNLOAD_PRODUCT_TIMEOUT,
+                        Constants.Search.READ,
+                        Constants.Search.SAMPLE)) == null) {
+//                testManager.retest("the book name: " + product.getName() + " is not found.");
+                    return false;
+                }
+                if (element.getName() != null && !element.getName().equals(Constants.Search.READ)) {
+                    return false;
+                }
+            }
+        } else {
+            Element element = getProduct(name);
+            switch (getProductState(element)) {
+                case DOWNLOADED:
+                    return true;
+                case NOT_DOWNLOADED:
+                    testManager.addStep("click on product " + product.getName() + " to download");
+                    clicker.clickOnElement(element);
+                    return waitForDownloaded(name, Constants.DOWNLOAD_PRODUCT_TIMEOUT);
+                case DOWNLOADING:
+                    return waitForDownloaded(name, Constants.DOWNLOAD_PRODUCT_TIMEOUT);
             }
         }
-
         return true;
-
-//        int secure = 0;
-//        while (true) {
-//            if(waiter.waitForElementByNameGone(Constants.Search.DOWNLOADING, Constants.DOWNLOAD_PRODUCT_TIMEOUT, new IConfig().setMatcher(Matcher.ContainsIgnoreCase).setParentElement(product))) {
-//                secure ++;
-//                iDevice.sleep(1000);
-//            } else {
-//                return false;
-//            }
-//            if(secure >= 5) return true;
-//        }
     }
 
-    public enum ProductState{NOT_LOADED, LOADED, LOADING}
+    private boolean waitForDownloaded(String name, long timeout) throws TestException {
+        long startTime = System.currentTimeMillis();
+        while (true) {
+            Element element = getProduct(name);
+            if (getProductState(element) == DOWNLOADED) return true;
+            if (System.currentTimeMillis() - startTime > timeout) return false;
+        }
+    }
+
+    public enum ProductState{NOT_DOWNLOADED, DOWNLOADED, DOWNLOADING}
 
     public Element getProduct(String productName) throws TestException {
         Element collectionView = waiter.waitForElementByClassVisible(UIAElementType.UIACollectionView, 1000, new IConfig().setMaxLevelOfElementsTree(2));
@@ -137,14 +150,14 @@ public class SearchScreen extends BaseScreen {
         return null;
     }
 
-    public Enum getProductState(Element product) throws TestException {
+    public ProductState getProductState(Element product) throws TestException {
         if (product == null)
-            testManager.retest("Product is null");
+            testManager.retest("Product is not found");
         String state = product.getName();
         if(state.toLowerCase().contains("not downloaded"))
-            return ProductState.NOT_LOADED;
+            return NOT_DOWNLOADED;
         if (state.toLowerCase().contains("downloading"))
-            return ProductState.LOADING;
-        return ProductState.LOADED;
+            return DOWNLOADING;
+        return DOWNLOADED;
     }
 }

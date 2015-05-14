@@ -153,7 +153,8 @@ public class NookUtil {
             if(screenModel != ScreenModel.SEARCH
                     && screenModel != ScreenModel.EPUB_READER
                     && screenModel != ScreenModel.DRP_READER
-                    && screenModel != ScreenModel.READER) {
+                    && screenModel != ScreenModel.READER
+                    && screenModel != ScreenModel.PRODUCT_DETAILS) {
                 if(this.screenModel == ScreenModel.SEARCH) {
                     ((SearchScreen)baseScreen).closeSearch();
                 }
