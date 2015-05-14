@@ -119,4 +119,32 @@ public class SearchScreen extends BaseScreen {
 //            if(secure >= 5) return true;
 //        }
     }
+
+    public enum ProductState{NOT_LOADED, LOADED, LOADING}
+
+    public Element getProduct(String productName) throws TestException {
+        Element collectionView = waiter.waitForElementByClassVisible(UIAElementType.UIACollectionView, 1000, new IConfig().setMaxLevelOfElementsTree(2));
+        if(collectionView == null)
+            testManager.retest("collection view with search results is not found");
+        ArrayList<Element> products = getter.getElementChildrenByType(collectionView, UIAElementType.UIACollectionCell);
+        if (products.size() == 0)
+            testManager.retest("Product size 0");
+        for (Element element: products) {
+            if (element.getName().toLowerCase().contains(productName.toLowerCase())) {
+                return element;
+            }
+        }
+        return null;
+    }
+
+    public Enum getProductState(Element product) throws TestException {
+        if (product == null)
+            testManager.retest("Product is null");
+        String state = product.getName();
+        if(state.toLowerCase().contains("not downloaded"))
+            return ProductState.NOT_LOADED;
+        if (state.toLowerCase().contains("downloading"))
+            return ProductState.LOADING;
+        return ProductState.LOADED;
+    }
 }

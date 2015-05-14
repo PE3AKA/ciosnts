@@ -1734,19 +1734,23 @@ public class AcceptanceTests extends BaseTestRunner{
 
 
     @PreCondition(preConditions = {Condition.NONE},
-            productName = ConfigParam.DRP_MAGAZINE,
-            productType = ScreenModel.DRP_READER,
             testId = 123456,
             testTitle = "demo")
     public void testCase123456() throws TestException {
+        iDevice.i("#######START###########");
         iDevice.sleep(15000);
-        takeScreenShot("123");
-        iDevice.sleep(1000);
-        takeScreenShot("321");
-        iDevice.sleep(5000);
-        String image1 = ParamsParser.getInstance().getPathToResultsFolder() +"/123.png";
-        String image2 = ParamsParser.getInstance().getPathToResultsFolder() +"321.png";
-        testManager.compareTwoImages(image1, image2);
+//        new SearchScreen(testManager, testHelper, paramsParser, iDevice);
+        long startTime = System.currentTimeMillis();
+        initSearchScreen();
+        while (true) {
+            iDevice.i("#####STATUS#####");
+            Element element = searchScreen.getProduct("Who I am");
+            String status = searchScreen.getProductState(element).name();
+            iDevice.i(status);
+
+            if (System.currentTimeMillis() - startTime > 100000)
+                break;
+        }
         iDevice.i("#######FINISH###########");
     }
 }

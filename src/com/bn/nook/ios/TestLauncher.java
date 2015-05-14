@@ -290,16 +290,7 @@ public class TestLauncher {
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436022();
                 break;
-
-            case "123456":
-                alertManager.defaultHandler();
-                acceptanceTests = new AcceptanceTests();
-                testCaseInfo.setId(123456L);
-                testCaseInfo.setTitle("demo");
-                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
-                acceptanceTests.testCase123456();
-                break;
-            case "436002":
+                case "436002":
                 alertManager.defaultHandler();
                 acceptanceTests = new AcceptanceTests();
                 testCaseInfo.setId(436002L);
@@ -417,6 +408,16 @@ public class TestLauncher {
                 testCaseInfo.setTitle("Deferred sign in:sign in [bnauto]");
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436037();
+                break;
+
+
+            case "123456":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(123456L);
+                testCaseInfo.setTitle("demo");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase123456();
                 break;
         }
     }
