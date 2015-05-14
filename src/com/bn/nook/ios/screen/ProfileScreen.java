@@ -71,6 +71,22 @@ public class ProfileScreen extends BaseScreen {
         return element;
     }
 
+    public boolean selectSwitch(int instance, boolean isStrict) throws TestException {
+        Element element = getter.getElement(new ElementQuery().addElement(UIAElementType.UIAWindow, 0).addElement(UIAElementType.UIASwitch, instance));
+        if(element == null) {
+            if(isStrict)
+                testManager.retest("Switch was not found");
+            else return false;
+        }
+
+        if(!clicker.clickByXY(element.getX() + element.getWidth() / 2, element.getY() + element.getHeight() / 2)){
+            if(isStrict)
+                testManager.retest("");
+            else return false;
+        }
+        return true;
+    }
+
     public void inputTextToProfile(String profileName) throws TestException {
         Element element = getter.getElement(new ElementQuery()
                 .addElement(UIAElementType.UIAWindow, 0)
@@ -82,5 +98,30 @@ public class ProfileScreen extends BaseScreen {
         if(!inputText(profileName, element)) {
             testManager.retest("Can not enter text to '" +Constants.ProfileScreen.FIRST_NAME_EDIT_TEXT +"'");
         }
+    }
+
+    public boolean isProfileNameFromHamburgerMenu(String profileName) throws TestException {
+        Element profile = getter.getElementByName(Constants.ProfileScreen.PROFILE_LABEL,
+                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
+        if(profile == null)
+            testManager.retest("Profile was not found");
+
+        if(profile.getName() == null) {
+            iDevice.i("Profile name =" + profile.toString());
+            testManager.retest("Profile Name is null");
+        }
+
+        if(profile.getName().toLowerCase().contains(profileName.toLowerCase()))
+            return true;
+        return false;
+    }
+
+    public void openProfile() throws TestException {
+        Element profile = getter.getElementByName(Constants.ProfileScreen.PROFILE_LABEL,
+                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
+        if(profile == null)
+            testManager.retest("Profile was not found");
+
+        clicker.clickByXY(profile.getX() + profile.getWidth() / 2, profile.getY() + profile.getHeight() / 2);
     }
 }

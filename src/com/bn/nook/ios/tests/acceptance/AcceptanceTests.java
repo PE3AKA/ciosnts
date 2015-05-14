@@ -1078,9 +1078,35 @@ public class AcceptanceTests extends BaseTestRunner{
     @PreCondition(preConditions = {Condition.LOGIN, Condition.ADD_PROFILE},
             testId = 436030,
             profileName = Constants.ProfileScreen.PROFILE_NAME,
+            isChildProfile = false,
             testTitle = "Profiles - swap between profiles [bnauto]")
     public void testCase436030() throws TestException {
+        initProfileScreen();
+        String nameOfChildProfile = Constants.ProfileScreen.PROFILE_NAME;
 
+        //profile B
+        String oldNameOfProfile = preparer.changeProfile(nameOfChildProfile);
+
+        preparer.openHamburgerMenuFromAnyScreen();
+        if(!preparer.waitWhileHamburgerMenuOpened(Constants.DEFAULT_TIMEOUT))
+            testManager.retest("Hamburger menu not opened");
+
+        if(!profileScreen.isProfileNameFromHamburgerMenu(nameOfChildProfile)) {
+            testManager.failTest(nameOfChildProfile + " profile was not shown in hamburger menu");
+        }
+
+        //Main profile
+        preparer.changeProfile(oldNameOfProfile);
+
+        preparer.openHamburgerMenuFromAnyScreen();
+        if(!preparer.waitWhileHamburgerMenuOpened(Constants.DEFAULT_TIMEOUT))
+            testManager.retest("Hamburger menu not opened");
+
+        if(!profileScreen.isProfileNameFromHamburgerMenu(oldNameOfProfile)) {
+            testManager.failTest(oldNameOfProfile + " profile was not shown in hamburger menu");
+        }
+
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
     private void expectedResult435993() throws TestException {

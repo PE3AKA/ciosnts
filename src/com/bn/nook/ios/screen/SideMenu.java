@@ -50,16 +50,15 @@ public class SideMenu extends BaseScreen {
         testManager.retest(itemName + " item was not found in Side Menu");
     }
 
-    public void openProfile() throws TestException {
+    public String openProfile() throws TestException {
         if(!isHamburgerMenuOpened())
             testManager.retest("Menu not opened");
 
         Element profile = getter.getElementByName(Constants.ProfileScreen.PROFILE_LABEL, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
-//        Element profile = getter.getElement(new ElementQuery().addElement(UIAElementType.UIAWindow, 0)
-//                .addElement(UIAElementType.UIAStaticText, Constants.ProfileScreen.PROFILE_LABEL).setOnlyVisible(false));
         if(profile == null)
             testManager.retest("Profile was not found");
 
         clicker.clickByXY(profile.getX() + profile.getWidth() / 2, profile.getY() + profile.getHeight() / 2);
+        return profile.getName();
     }
 }

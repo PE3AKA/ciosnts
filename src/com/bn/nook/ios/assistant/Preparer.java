@@ -46,7 +46,7 @@ public class Preparer {
     protected ProductDetailsScreen productDetailsScreen;
     protected ProfileScreen profileScreen;
     protected ParamsParser paramsParser;
-    
+
     public Preparer(IDevice iDevice, NookUtil nookUtil, ParamsParser paramsParser) {
         this.testManager = TestManager.getInstance();
         this.iDevice = iDevice;
@@ -257,10 +257,6 @@ public class Preparer {
     }
 
     public void addProfile(String profileName, boolean isChild) throws TestException {
-//        if (nookUtil.waitForScreenModel(ScreenModel.LIBRARY, 1, false)) {
-//            iDevice.i(ScreenModel.LIBRARY.name() + " already opened");
-//            return;
-//        }
         openHamburgerMenuFromAnyScreen();
         if(!waitWhileHamburgerMenuOpened(Constants.DEFAULT_TIMEOUT))
             testManager.retest("Hamburger menu not opened");
@@ -287,6 +283,14 @@ public class Preparer {
 
         profileScreen.inputTextToProfile(profileName);
 
+        if(isChild) {
+            profileScreen.selectSwitch(0, true);
+
+            profileScreen.waitForElement(new ElementQuery()
+                    .addElement(UIAElementType.UIAWindow, 0)
+                    .addElement(UIAElementType.UIAButton, Constants.ProfileScreen.CHILD_BUTTON), Constants.DEFAULT_TIMEOUT, true);
+        }
+
         profileScreen.pressOnNavigationBarButton(Constants.ProfileScreen.DONE_BUTTON, true);
 
         profileScreen.waitForElement(new ElementQuery()
@@ -295,10 +299,62 @@ public class Preparer {
                 .addElement(UIAElementType.UIAStaticText, Constants.ProfileScreen.TITLE_SET_PROFILE), Constants.DEFAULT_TIMEOUT, true);
 
         profile = profileScreen.getProfile(profileName);
-        if(profile != null) {
+        if(profile == null) {
             testManager.retest("Profile '" + profileName + "' doesn't exists");
         }
 
+    }
+
+    /**
+     *
+     * @param profileName
+     * @return - old profile name
+     * @throws TestException
+     */
+    public String changeProfile(String profileName) throws TestException {
+        if(nookUtil.screenModel == ScreenModel.PROFILES) {
+            profileScreen.pressOnNavigationBarButton(Constants.ProfileScreen.BACK_BUTTON, true);
+            if(!nookUtil.waitForScreenModel(ScreenModel.SETTINGS, Constants.DEFAULT_TIMEOUT)) {
+                testManager.retest("Library screen was not loaded");
+            }
+            profileScreen.pressOnNavigationBarButton(Constants.ProfileScreen.DONE_BUTTON, true);
+            if(!nookUtil.waitForScreenModel(ScreenModel.LIBRARY, Constants.DEFAULT_TIMEOUT)) {
+                testManager.retest("Library screen was not loaded");
+            }
+            initLibraryScreen();
+        }
+        sideMenu = new SideMenu(testManager, testManager.getTestHelper(), paramsParser, iDevice);
+        if (!sideMenu.isHamburgerMenuOpened()) {
+            openHamburgerMenuFromAnyScreen();
+            if (!waitWhileHamburgerMenuOpened(Constants.DEFAULT_TIMEOUT))
+                testManager.retest("Hamburger menu not opened");
+        }
+
+        String currentProfileName = sideMenu.openProfile();
+
+        if (!nookUtil.waitForScreenModel(ScreenModel.PROFILES, Constants.DEFAULT_TIMEOUT)) {
+            testManager.retest("Profiles screen was not loaded");
+        }
+        initProfileScreen();
+        Element childProfile = profileScreen.getProfile(profileName);
+        if(childProfile == null)
+            testManager.retest("Can not find profile " + profileName);
+
+        clicker.clickByXY(childProfile.getX() + childProfile.getWidth() / 2, childProfile.getY() + childProfile.getHeight() / 2);
+
+        profileScreen.waitForElement(new ElementQuery()
+                .addElement(UIAElementType.UIAWindow, 0)
+                .addElement(UIAElementType.UIANavigationBar, 0)
+                .addElement(UIAElementType.UIAButton, Constants.ProfileScreen.SET_BUTTON), Constants.DEFAULT_TIMEOUT, true);
+
+        profileScreen.pressOnNavigationBarButton(Constants.ProfileScreen.SET_BUTTON, true);
+
+        if(!nookUtil.waitForScreenModel(ScreenModel.LIBRARY, Constants.DEFAULT_TIMEOUT)) {
+            testManager.retest("Library screen was not loaded");
+        }
+        initLibraryScreen();
+        currentProfileName = currentProfileName.replace("PROFILES: ", "");
+        return currentProfileName;
     }
 
     public void deferredSignIn()throws TestException{
@@ -424,11 +480,15 @@ public class Preparer {
                 }
                 break;
         }
-        if(waiter.waitForElementByNameExists(Constants.CommonElements.MENU_BTN, 10000,
-                new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase)) == null)
+        menuBtn = waiter.waitForElementByNames(new IWaiterConfig()
+                        .setMaxLevelOfElementsTree(3).addMatcher(Matcher.ContainsIgnoreCase),
+                10000, Constants.CommonElements.MENU_BTN, new String[] {Constants.CommonElements.MENU_BTN_2});
+
+        if(menuBtn == null) {
             testManager.retest("Menu button was not found");
-        menuBtn = getter.getElementByName(Constants.CommonElements.MENU_BTN,
-                new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase));
+        }
+//        menuBtn = getter.getElementByName(Constants.CommonElements.MENU_BTN,
+//                new IConfig().setMaxLevelOfElementsTree(3).setMatcher(Matcher.ContainsIgnoreCase));
         testManager.addStep("Click on menu button");
         clicker.clickOnElement(menuBtn);
     }
