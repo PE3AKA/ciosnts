@@ -386,6 +386,14 @@ public class TestLauncher {
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436024();
                 break;
+            case "436025":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(436025L);
+                testCaseInfo.setTitle("Comic book - zoom view [bnauto]");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase436025();
+                break;
         }
     }
 }

@@ -98,6 +98,13 @@ public class Preparer {
         libraryScreen = ((LibraryScreen) baseScreen);
     }
 
+    public void initDRPScreen() throws TestException {
+        nookUtil.waitForScreenModel(ScreenModel.DRP_READER, Constants.DEFAULT_TIMEOUT);
+        baseScreen = nookUtil.getCurrentScreen(false);
+        if(nookUtil.screenModel != ScreenModel.DRP_READER) testManager.retest("Necessary DRP_READER screen is not found. Expected: " + ScreenModel.DRP_READER.name() + ", actual : " + nookUtil.screenModel.name());
+        drpReaderScreen = ((DrpReaderScreen) baseScreen);
+    }
+
 
     public void initSearchScreen() throws TestException {
         nookUtil.waitForScreenModel(ScreenModel.SEARCH, Constants.DEFAULT_TIMEOUT);
@@ -344,8 +351,16 @@ public class Preparer {
                     iDevice.i("CURRENT SCREEN MODEL: " + nookUtil.screenModel.name());
                     testManager.retest("product " + product + " was not opened");
                 }
-                if (productType.equals(ScreenModel.DRP_READER)) {
-                    iDevice.sleep(5000);
+                if (productType.equals(ScreenModel.DRP_READER)){
+                    if (waiter.waitForElementByNameVisible(Constants.Reader.Drp.COMICS_TIP, 5000, new IConfig().setMaxLevelOfElementsTree(2))!= null){
+                        int[] screenSize = iDevice.getScreenSize();
+                        clicker.clickByXY(screenSize[0] / 2, screenSize[1] / 2);
+                        if (waiter.waitForElementByNameGone(Constants.Reader.Drp.COMICS_TIP, 5000,
+                                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)))
+                            testManager.retest("Comics tip was not gone");
+                        initDRPScreen();
+                        drpReaderScreen.hideReaderMenu();
+                    }
                 }
                 return;
             }

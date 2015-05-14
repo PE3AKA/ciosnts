@@ -242,6 +242,8 @@ public class Constants {
             public static final String ADD_BOOKMARK = "Add bookmark";
             public static final String BOOKMARKS_TAB = "Bookmarks tab";
             public static final String EMPTY_LIST = "Empty list";
+            public static final String COMICS_TIP = "Tip: Press the ZoomView button or double tap the screen to read this title. Turn on letterboxing in Settings.";
+            public static final String ZOOM_VIEW_BTN = "Zoom View";
 
         }
         public static class TextOptions{

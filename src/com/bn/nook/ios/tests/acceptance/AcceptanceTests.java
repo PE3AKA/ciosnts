@@ -1253,7 +1253,7 @@ public class AcceptanceTests extends BaseTestRunner{
     C436015	DRP: Article view
      */
     @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_PRODUCT},
-    productName = ConfigParam.DRP_MAGAZINE,
+            productName = ConfigParam.DRP_MAGAZINE,
             productType = ScreenModel.DRP_READER,
             testId = 436015,
             testTitle = "DRP: Article view")
@@ -1437,7 +1437,7 @@ public class AcceptanceTests extends BaseTestRunner{
         clicker.doubleClickByXY(screenSize[0] / 2, screenSize[1] / 2);
         TestManager.addStep("Double click");
         iDevice.sleep(2000);
-         String zoomOut = takeScreenShot("zoomed_out");
+        String zoomOut = takeScreenShot("zoomed_out");
         iDevice.sleep(3000);
         TestManager.addStep("Check if screen zommed out");
         if (testManager.compareTwoImages(zoomIn, zoomOut))
@@ -1533,8 +1533,8 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.retest("Reader menu opened");
         if(!drpReaderScreen.addBookmark())
             testManager.retest("Add bookmark failed");
-            takeScreenShot("Add bookmark clicked");
-            drpReaderScreen.swipePage(Constants.SwipeSide.LEFT);
+        takeScreenShot("Add bookmark clicked");
+        drpReaderScreen.swipePage(Constants.SwipeSide.LEFT);
         iDevice.sleep(1500);
         TestManager.addStep("Swipe forward");
         takeScreenShot(" after swipe forward");
@@ -1577,7 +1577,6 @@ public class AcceptanceTests extends BaseTestRunner{
             testTitle = "Comic book - download [bnauto]")
     public void testCase436024() throws TestException {
         initLibraryScreen();
-//        libraryScreen.changeFilter(LibraryScreen.FilterItems.ALL_ITEMS);
         libraryScreen.searchProduct(testManager.getDrpComics());
         nookUtil.waitForScreenModel(ScreenModel.SEARCH, Constants.DEFAULT_TIMEOUT);
         initSearchScreen();
@@ -1586,6 +1585,37 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.retest("not downloaded product is not found");
         if(!searchScreen.downloadProduct(product))
             testManager.failTest(testManager.getDrpComics() + " product is not downloaded");
+        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+    }
+
+    /*
+    C436025	Comic book - zoom view
+     */
+    @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_PRODUCT},
+            productName = ConfigParam.DRP_COMICS,
+            productType = ScreenModel.DRP_READER,
+            testId = 436025,
+            testTitle = "Comic book - zoom view")
+    public void testCase436025() throws TestException {
+        drpReaderScreen = new DrpReaderScreen(testManager, testHelper, paramsParser, iDevice);
+        String beforeZoom = takeScreenShot("zoom_view_before");
+        if(!drpReaderScreen.openReaderMenu())
+            testManager.retest("Reader menu was not opened");
+        Element zoomView = waiter.waitForElementByNameVisible(Constants.Reader.Drp.ZOOM_VIEW_BTN, Constants.DEFAULT_TIMEOUT,
+                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
+        if (zoomView == null)
+            testManager.failTest("Zoom View button was not found");
+        clicker.clickByXY(zoomView.getX() + zoomView.getWidth()/2, zoomView.getY() + zoomView.getHeight()/2);
+        TestManager.addStep("Click on Zoom View");
+        iDevice.sleep(2000);
+//        if (!waiter.waitForElementByNameGone(Constants.Reader.Drp.ZOOM_VIEW_BTN, 5000,
+//                new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)))
+        if(drpReaderScreen.isReaderMenuOpened())
+            testManager.retest("Zoom view button was not gone");
+        String afterZoom = takeScreenShot("zoom_view_after");
+        if (testManager.compareTwoImages(beforeZoom, afterZoom))
+            testManager.failTest("Comics zoom view was not activated");
+        TestManager.addStep("Zoom view activated");
         TestManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 
