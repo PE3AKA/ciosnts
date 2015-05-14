@@ -1160,11 +1160,10 @@ public class AcceptanceTests extends BaseTestRunner{
     }
 
     //C436012	DRP: download
-    @PreCondition(preConditions = {Condition.LOGIN},
+    @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_SCREEN},
             testId = 436012,
             testTitle = "DRP: download [bnauto]")
     public void testCase436012() throws TestException {
-        testCase435987();
         initLibraryScreen();
         libraryScreen.changeFilter(LibraryScreen.FilterItems.ALL_ITEMS);
         libraryScreen.searchProduct(testManager.getDrpMagazine());
@@ -1175,7 +1174,7 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.retest("not downloaded product is not found");
         }
         if(!searchScreen.downloadProduct(product)) {
-            testManager.failTest(testManager.getEpubProduct() + " product is not downloaded");
+            testManager.failTest(testManager.getDrpMagazine() + " product is not downloaded");
         }
         TestManager.testCaseInfo.setStatusId(Status.PASSED);
     }
@@ -1183,16 +1182,10 @@ public class AcceptanceTests extends BaseTestRunner{
     /*
     C436013	DRP:open
      */
-    @PreCondition(preConditions = {Condition.LOGIN},
+    @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_SCREEN},
             testId = 436013,
             testTitle = "DRP:open [bnauto]")
     public void testCase436013() throws TestException {
-        try {
-            testCase435987();
-        }catch (TestException e){
-            e.printStackTrace();
-            testManager.retest(Constants.Library.Menu.LIBRARY + "library screen is not loaded");
-        }
         initLibraryScreen();
         libraryScreen.changeFilter(LibraryScreen.FilterItems.ALL_ITEMS);
         libraryScreen.searchProduct(testManager.getDrpMagazine());
@@ -1575,6 +1568,24 @@ public class AcceptanceTests extends BaseTestRunner{
                 new IConfig().setMatcher(Matcher.ContainsIgnoreCase)) != null)
             testManager.failTest("Page was not scrolled");
         TestManager.addStep("Page scrolled");
+        TestManager.testCaseInfo.setStatusId(Status.PASSED);
+    }
+
+    //C436024	Comic book - download
+    @PreCondition(preConditions = {Condition.LOGIN, Condition.OPEN_SCREEN},
+            testId = 436024,
+            testTitle = "Comic book - download [bnauto]")
+    public void testCase436024() throws TestException {
+        initLibraryScreen();
+//        libraryScreen.changeFilter(LibraryScreen.FilterItems.ALL_ITEMS);
+        libraryScreen.searchProduct(testManager.getDrpComics());
+        nookUtil.waitForScreenModel(ScreenModel.SEARCH, Constants.DEFAULT_TIMEOUT);
+        initSearchScreen();
+        Element product = searchScreen.findNotDownloadedProduct();
+        if(product == null)
+            testManager.retest("not downloaded product is not found");
+        if(!searchScreen.downloadProduct(product))
+            testManager.failTest(testManager.getDrpComics() + " product is not downloaded");
         TestManager.testCaseInfo.setStatusId(Status.PASSED);
     }
 

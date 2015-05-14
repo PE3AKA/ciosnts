@@ -327,7 +327,7 @@ public class Preparer {
         if(!nookUtil.waitForScreenModel(ScreenModel.LIBRARY, Constants.DEFAULT_TIMEOUT))
             testManager.retest("Library not opened");
         libraryScreen = (LibraryScreen) nookUtil.getCurrentScreen(false);
-        libraryScreen.changeFilter(LibraryScreen.FilterItems.ALL_ITEMS);
+//        libraryScreen.changeFilter(LibraryScreen.FilterItems.ALL_ITEMS);
         libraryScreen.searchProduct(product);
         if(!nookUtil.waitForScreenModel(ScreenModel.SEARCH, Constants.DEFAULT_TIMEOUT))
             testManager.retest("Search not opened");

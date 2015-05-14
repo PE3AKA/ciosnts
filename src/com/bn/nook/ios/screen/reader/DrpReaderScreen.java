@@ -394,10 +394,12 @@ public class DrpReaderScreen extends ReaderScreen {
             testManager.retest("Element is null");
         switch(swipeSide){
             case LEFT:
-                scroller.scrollLeftInsideElement(element, 0.1, 1);
+                drager.dragInsideElementWithOptions(element, 0.1, 0.5, 0.9, 0.5);
+//                scroller.scrollLeftInsideElement(element, 0.1, 1);
                 break;
             case RIGHT:
-                scroller.scrollRightInsideElement(element, 0.1, 1);
+//                scroller.scrollRightInsideElement(element, 0.1, 1);
+                drager.dragInsideElementWithOptions(element, 0.9, 0.5, 0.1, 0.5);
                 break;
         }
     }
@@ -422,7 +424,7 @@ public class DrpReaderScreen extends ReaderScreen {
     }
 
     public boolean isBookmarkTableEmpty(){
-        return waiter.waitForElementByNameVisible(Constants.Reader.Drp.EMPTY_LIST, 1, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)) == null;
+        return waiter.waitForElementByNameVisible(Constants.Reader.Drp.EMPTY_LIST, 1, new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase)) != null;
     }
 
     @Override
