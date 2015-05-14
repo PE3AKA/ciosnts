@@ -1078,7 +1078,7 @@ public class AcceptanceTests extends BaseTestRunner{
     @PreCondition(preConditions = {Condition.LOGIN, Condition.ADD_PROFILE},
             testId = 436030,
             profileName = Constants.ProfileScreen.PROFILE_NAME,
-            isChildProfile = false,
+            isChildProfile = true,
             testTitle = "Profiles - swap between profiles [bnauto]")
     public void testCase436030() throws TestException {
         initProfileScreen();
@@ -1105,6 +1105,28 @@ public class AcceptanceTests extends BaseTestRunner{
         if(!profileScreen.isProfileNameFromHamburgerMenu(oldNameOfProfile)) {
             testManager.failTest(oldNameOfProfile + " profile was not shown in hamburger menu");
         }
+
+        testManager.testCaseInfo.setStatusId(Status.PASSED);
+    }
+
+    @PreCondition(preConditions = {Condition.LOGIN},
+            testId = 436031,
+            profileName = Constants.ProfileScreen.PROFILE_NAME,
+            isChildProfile = true,
+            testTitle = "Profiles - add/remove content from a profile [bnauto]")
+    public void testCase436031() throws TestException {
+        String nameOfChildProfile = Constants.ProfileScreen.PROFILE_NAME;
+        String oldNameProfile = preparer.changeProfile(nameOfChildProfile);
+
+        if(!nookUtil.waitForScreenModel(ScreenModel.LIBRARY, Constants.DEFAULT_TIMEOUT)) {
+            testManager.retest("Library screen was not loaded");
+        }
+        initLibraryScreen();
+        libraryScreen.changeFilter(LibraryScreen.FilterItems.ALL_ITEMS);
+        ArrayList<Element> allProfileProducts = libraryScreen.getProducts(1, 10000);
+        preparer.changeProfile(oldNameProfile);
+
+        Element newProduct = preparer.editAndSetProfile(nameOfChildProfile, allProfileProducts);
 
         testManager.testCaseInfo.setStatusId(Status.PASSED);
     }
@@ -1673,7 +1695,7 @@ public class AcceptanceTests extends BaseTestRunner{
                 new IConfig().setMaxLevelOfElementsTree(2).setMatcher(Matcher.ContainsIgnoreCase));
         if (zoomView == null)
             testManager.failTest("Zoom View button was not found");
-        clicker.clickByXY(zoomView.getX() + zoomView.getWidth()/2, zoomView.getY() + zoomView.getHeight()/2);
+        clicker.clickByXY(zoomView.getX() + zoomView.getWidth() / 2, zoomView.getY() + zoomView.getHeight() / 2);
         testManager.addStep("Click on Zoom View");
         iDevice.sleep(2000);
 //        if (!waiter.waitForElementByNameGone(Constants.Reader.Drp.ZOOM_VIEW_BTN, 5000,

@@ -43,6 +43,14 @@ public class ProfileScreen extends BaseScreen {
         return true;
     }
 
+    public Element getBtnProfile(Element profile, int instance) throws TestException {
+        ArrayList<Element> buttons = getter.getElementChildrenByType(profile, UIAElementType.UIAButton);
+        if(buttons.size() == 0 || buttons.size() <= instance)
+            testManager.retest("Profile Button was not found");
+
+        return buttons.get(instance);
+    }
+
     public ArrayList<Element> getProfiles() throws TestException {
         Element tableItems = waiter.waitForElementByClassVisible(UIAElementType.UIATableView, Constants.DEFAULT_TIMEOUT, new IConfig().setMaxLevelOfElementsTree(3));
         if (tableItems == null)

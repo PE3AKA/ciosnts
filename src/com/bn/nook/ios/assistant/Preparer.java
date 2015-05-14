@@ -302,15 +302,99 @@ public class Preparer {
         if(profile == null) {
             testManager.retest("Profile '" + profileName + "' doesn't exists");
         }
+    }
 
+    public Element editAndSetProfile(String profileName, ArrayList<Element> allProfileProducts) throws TestException {
+        if(nookUtil.screenModel == ScreenModel.PROFILES) {
+            profileScreen.pressOnNavigationBarButton(Constants.ProfileScreen.BACK_BUTTON, true);
+            if(!nookUtil.waitForScreenModel(ScreenModel.SETTINGS, Constants.DEFAULT_TIMEOUT)) {
+                testManager.retest("Library screen was not loaded");
+            }
+            profileScreen.pressOnNavigationBarButton(Constants.ProfileScreen.DONE_BUTTON, true);
+            if(!nookUtil.waitForScreenModel(ScreenModel.LIBRARY, Constants.DEFAULT_TIMEOUT)) {
+                testManager.retest("Library screen was not loaded");
+            }
+            initLibraryScreen();
+        }
+        sideMenu = new SideMenu(testManager, testManager.getTestHelper(), paramsParser, iDevice);
+        if (!sideMenu.isHamburgerMenuOpened()) {
+            openHamburgerMenuFromAnyScreen();
+            if (!waitWhileHamburgerMenuOpened(Constants.DEFAULT_TIMEOUT))
+                testManager.retest("Hamburger menu not opened");
+        }
+
+        sideMenu.openProfile();
+
+        if (!nookUtil.waitForScreenModel(ScreenModel.PROFILES, Constants.DEFAULT_TIMEOUT)) {
+            testManager.retest("Profiles screen was not loaded");
+        }
+        initProfileScreen();
+        Element childProfile = profileScreen.getProfile(profileName);
+        if(childProfile == null)
+            testManager.retest("Can not find profile " + profileName);
+
+        Element editButton = profileScreen.getBtnProfile(childProfile, 0);
+        clicker.clickByXY(editButton.getX()+editButton.getWidth()/2, editButton.getY()+editButton.getHeight()/2);
+        profileScreen.waitForElement(new ElementQuery()
+                .addElement(UIAElementType.UIAWindow, 0)
+                .addElement(UIAElementType.UIANavigationBar, 0)
+                .addElement(UIAElementType.UIAStaticText, Constants.ProfileScreen.TITLE_PROFILE_CONTENT), Constants.DEFAULT_TIMEOUT, true);
+        ArrayList<Element> allProducts = profileScreen.getProducts(1, 5000);
+        if(allProducts == null)
+            testManager.retest("Profile content was not found");
+
+        boolean isElementFound;
+        Element newProduct = null;
+        for(Element element : allProducts) {
+            isElementFound = false;
+            for(Element element1 : allProfileProducts) {
+                if(element.getName().equals(element1.getName())) {
+                   isElementFound = true;
+                }
+            }
+            if(!isElementFound){
+                newProduct = element;
+                break;
+            }
+        }
+        if(newProduct == null)
+            testManager.retest("New content was not found for profile " + profileName);
+
+        if(!scroller.scrollToVisible(newProduct)) {
+            testManager.retest("Can not scrollable to product '" + newProduct + "'");
+        }
+
+        clicker.clickOnElementWithOffset(newProduct, 0.5, 0.5);
+
+        profileScreen.pressOnNavigationBarButton(Constants.ProfileScreen.DONE_BUTTON, true);
+        if (!nookUtil.waitForScreenModel(ScreenModel.PROFILES, Constants.DEFAULT_TIMEOUT)) {
+            testManager.retest("Profiles screen was not loaded");
+        }
+
+        Element childProfile1 = profileScreen.getProfile(profileName);
+        if(childProfile1 == null)
+            testManager.retest("Can not find profile " + profileName);
+        clicker.clickByXY(childProfile1.getX() + childProfile1.getWidth() / 2, childProfile1.getY() + childProfile1.getHeight() / 2);
+
+        profileScreen.waitForElement(new ElementQuery()
+                .addElement(UIAElementType.UIAWindow, 0)
+                .addElement(UIAElementType.UIANavigationBar, 0)
+                .addElement(UIAElementType.UIAButton, Constants.ProfileScreen.SET_BUTTON), Constants.DEFAULT_TIMEOUT, true);
+
+        profileScreen.pressOnNavigationBarButton(Constants.ProfileScreen.SET_BUTTON, true);
+
+        if(!nookUtil.waitForScreenModel(ScreenModel.LIBRARY, Constants.DEFAULT_TIMEOUT)) {
+            testManager.retest("Library screen was not loaded");
+        }
+        return newProduct;
     }
 
     /**
-     *
-     * @param profileName
-     * @return - old profile name
-     * @throws TestException
-     */
+         *
+         * @param profileName
+         * @return - old profile name
+         * @throws TestException
+         */
     public String changeProfile(String profileName) throws TestException {
         if(nookUtil.screenModel == ScreenModel.PROFILES) {
             profileScreen.pressOnNavigationBarButton(Constants.ProfileScreen.BACK_BUTTON, true);

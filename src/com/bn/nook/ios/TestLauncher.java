@@ -202,6 +202,14 @@ public class TestLauncher {
                 TestManager.getInstance().setTestCaseInfo(testCaseInfo);
                 acceptanceTests.testCase436030();
                 break;
+            case "436031":
+                alertManager.defaultHandler();
+                acceptanceTests = new AcceptanceTests();
+                testCaseInfo.setId(436031L);
+                testCaseInfo.setTitle("Profiles - add/remove content from a profile [bnauto]");
+                TestManager.getInstance().setTestCaseInfo(testCaseInfo);
+                acceptanceTests.testCase436031();
+                break;
             case "436012":
                 alertManager.defaultHandler();
                 acceptanceTests = new AcceptanceTests();

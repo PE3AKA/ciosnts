@@ -31,6 +31,7 @@ public class Constants {
 
     public static class ProfileScreen {
         public static final String TITLE_SET_PROFILE = "Set Profile";
+        public static final String TITLE_PROFILE_CONTENT = "Profile Content";
         public static final String TITLE_NEW_PROFILE = "New Profile";
         public static final String PROFILE_LABEL = "PROFILES:";
         public static final String ADD_BUTTON = "Add";
