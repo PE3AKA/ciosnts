@@ -16,11 +16,10 @@ import com.sofment.testhelper.enums.Matcher;
 import java.util.ArrayList;
 
 /**
- * Created by avsupport on 4/24/15.
+ * Created by avsupport on 5/13/15.
  */
-public class LibraryScreen extends BaseScreen {
-
-    public LibraryScreen(TestManager testManager, TestHelper testHelper, ParamsParser paramsParser, IDevice iDevice) {
+public class BaseLibraryScreen extends BaseScreen {
+    public BaseLibraryScreen(TestManager testManager, TestHelper testHelper, ParamsParser paramsParser, IDevice iDevice) {
         super(testManager, testHelper, paramsParser, iDevice);
     }
 

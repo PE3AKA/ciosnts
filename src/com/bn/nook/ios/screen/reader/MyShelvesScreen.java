@@ -1,9 +1,11 @@
-package com.bn.nook.ios.screen;
+package com.bn.nook.ios.screen.reader;
 
 import com.bn.nook.ios.constants.Constants;
 import com.bn.nook.ios.exception.TestException;
 import com.bn.nook.ios.manager.TestManager;
 import com.bn.nook.ios.param.ParamsParser;
+import com.bn.nook.ios.screen.BaseLibraryScreen;
+import com.bn.nook.ios.screen.BaseScreen;
 import com.sofment.testhelper.TestHelper;
 import com.sofment.testhelper.driver.ios.elements.Element;
 import com.sofment.testhelper.driver.ios.elements.ElementQuery;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 /**
  * Created by automation on 5/11/15.
  */
-public class MyShelvesScreen extends BaseScreen {
+public class MyShelvesScreen extends BaseLibraryScreen {
 
     public MyShelvesScreen(TestManager testManager, TestHelper testHelper, ParamsParser paramsParser, IDevice iDevice) {
         super(testManager, testHelper, paramsParser, iDevice);

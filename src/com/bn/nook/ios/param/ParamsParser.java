@@ -37,6 +37,7 @@ public class ParamsParser {
         implementedTests.add("436027");
         implementedTests.add("436028");
         implementedTests.add("436029");
+        implementedTests.add("436030");
         implementedTests.add("435999");
         implementedTests.add("436012");
         implementedTests.add("436013");
@@ -58,6 +59,7 @@ public class ParamsParser {
         implementedTests.add("436008");
         implementedTests.add("436010");
         implementedTests.add("436032");
+        implementedTests.add("436034");
     }
 
     private String deviceUuid;

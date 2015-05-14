@@ -31,6 +31,7 @@ public class TestManager {
     private static PropertiesManager propertiesManager;
     private static ParamsParser paramsParser;
     private String searchProduct;
+    private String deferredSignInSearchProduct;
     private String epubProduct;
     private String drpMagazine;
     private static String randomShelfName = null;
@@ -55,6 +56,7 @@ public class TestManager {
         searchProduct = propertiesManager.getProperty("SEARCH_PRODUCT");
         epubProduct = propertiesManager.getProperty("EPUB_PRODUCT");
         drpMagazine = propertiesManager.getProperty("DRP_MAGAZINE");
+        deferredSignInSearchProduct = propertiesManager.getProperty("DEFERRED_SIGN_IN_SEARCH_PRODUCT");
     }
 
     public static String getRandomString(int length) {
@@ -176,6 +178,10 @@ public class TestManager {
 
     public String getDrpMagazine() {
         return drpMagazine;
+    }
+
+    public String getDeferredSignInSearchProduct() {
+        return deferredSignInSearchProduct;
     }
 
     /*** comparing 2 images

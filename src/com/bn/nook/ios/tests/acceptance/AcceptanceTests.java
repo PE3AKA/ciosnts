@@ -10,6 +10,7 @@ import com.bn.nook.ios.manager.TestManager;
 import com.bn.nook.ios.param.ConfigParam;
 import com.bn.nook.ios.param.ParamsParser;
 import com.bn.nook.ios.screen.*;
+import com.bn.nook.ios.screen.library.LibraryScreen;
 import com.bn.nook.ios.screen.reader.DrpReaderScreen;
 import com.bn.nook.ios.screen.reader.EpubReaderScreen;
 import com.sofment.testhelper.driver.ios.config.IConfig;
@@ -691,7 +692,6 @@ public class AcceptanceTests extends BaseTestRunner{
         TestManager.testCaseInfo.setStatusId(1);
     }
 
-
     @PreCondition(preConditions = {Condition.LOGIN},
             testId = 436032,
             testTitle = "Sign Out of Account [bnauto]")
@@ -701,6 +701,23 @@ public class AcceptanceTests extends BaseTestRunner{
             testManager.failTest("Oobe first screen is not appeared");
         }
         TestManager.testCaseInfo.setStatusId(1);
+    }
+
+    @PreCondition(preConditions = {Condition.DEFERRED_SIGN_IN},
+            testId = 436034,
+            testTitle = "Deferred sign in:library search [bnauto]")
+    public void testCase436034() throws TestException {
+        initDeferredSignInScreen();
+
+        deferredSignInScreen.searchProduct(testManager.getDeferredSignInSearchProduct());
+
+        initSearchScreen();
+
+        Element sample = searchScreen.findSample();
+        if(sample == null) {
+            testManager.failTest("sample is not found");
+        }
+        TestManager.testCaseInfo.setStatusId(Status.WORK_IN_PROGRESS);
     }
 
     private void checkSettingsScreen() throws TestException {
@@ -1014,6 +1031,14 @@ public class AcceptanceTests extends BaseTestRunner{
         myShelvesScreen.renameShelf(true);
         myShelvesScreen.removeShelf(true);
         TestManager.testCaseInfo.setStatusId(Status.PASSED);
+    }
+
+    @PreCondition(preConditions = {Condition.LOGIN, Condition.ADD_PROFILE},
+            testId = 436030,
+            profileName = Constants.ProfileScreen.PROFILE_NAME,
+            testTitle = "Profiles - swap between profiles [bnauto]")
+    public void testCase436030() throws TestException {
+
     }
 
     private void expectedResult435993() throws TestException {
